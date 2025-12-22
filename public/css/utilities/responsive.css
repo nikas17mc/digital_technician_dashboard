@@ -1,0 +1,877 @@
+/* ============================================
+   RESPONSIVE UTILITIES & MEDIA QUERIES
+   ============================================ */
+
+/* ===== MOBILE FIRST APPROACH ===== */
+
+/* Extra Small Devices (Phones, < 640px) */
+@media (max-width: 639px) {
+    /* Base Layout */
+    .app-container {
+        min-height: 100dvh;
+    }
+    
+    .app-main {
+        padding: var(--space-2);
+    }
+    
+    /* Header */
+    .app-header {
+        padding: var(--space-2);
+    }
+    
+    .header-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+    
+    .logo {
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .logo h1 {
+        font-size: var(--text-lg);
+    }
+    
+    .header-subtitle {
+        margin: 0;
+        text-align: center;
+        font-size: var(--text-xs);
+    }
+    
+    .header-actions,
+    .header-extra-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: var(--space-1);
+    }
+    
+    .header-actions .btn,
+    .header-extra-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* Dashboard */
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+        height: auto;
+    }
+    
+    .dashboard-container {
+        padding: 0;
+    }
+    
+    /* Cards */
+    .card {
+        padding: var(--space-3);
+        margin-bottom: var(--space-3);
+    }
+    
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-2);
+        margin-bottom: var(--space-3);
+    }
+    
+    /* Forms */
+    .filter-group {
+        grid: 'form-group-1' 'form-group-2' 'refresh-btn';
+        gap: var(--space-3);
+    }
+    
+    .date-input-group {
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+    
+    .form-group {
+        margin-bottom: var(--space-3);
+    }
+    
+    /* Buttons */
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .btn-large {
+        padding: var(--space-3) var(--space-4);
+        font-size: var(--text-base);
+    }
+    
+    /* Tabs */
+    .tabs {
+        flex-direction: column;
+        gap: var(--space-1);
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+    
+    .tab-btn {
+        width: 100%;
+        border-radius: var(--radius-md);
+        border-bottom: var(--border-thin) solid var(--border-light);
+    }
+    
+    /* Tables */
+    .table-container {
+        border-radius: var(--radius-md);
+        overflow-x: scroll;
+    }
+    
+    .data-table,
+    .imei-table {
+        min-width: 600px;
+    }
+    
+    .data-table th,
+    .data-table td,
+    .imei-table th,
+    .imei-table td {
+        padding: var(--space-2);
+        font-size: var(--text-xs);
+    }
+    
+    /* Technician Grid */
+    .technician-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-2);
+    }
+    
+    .technician-card {
+        padding: var(--space-3);
+    }
+    
+    .technician-card .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-2);
+    }
+    
+    .tech-stats {
+        align-self: stretch;
+        justify-content: center;
+    }
+    
+    .status-list {
+        gap: var(--space-2);
+    }
+    
+    .status-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-2);
+    }
+    
+    /* Footer */
+    .app-footer {
+        padding: var(--space-2);
+        position: relative;
+        inset-block-end: auto;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: var(--space-2);
+        text-align: center;
+    }
+    
+    /* Welcome Page */
+    .welcome-card {
+        padding: var(--space-4);
+    }
+    
+    .welcome-header h1 {
+        font-size: var(--text-2xl);
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+    
+    .quick-actions {
+        flex-direction: column;
+    }
+    
+    .welcome-stats {
+        grid-template-columns: 1fr;
+        gap: var(--space-2);
+    }
+    
+    /* Analysis Page */
+    .analysis-header {
+        flex-direction: column;
+        gap: var(--space-3);
+        text-align: center;
+    }
+    
+    .analysis-controls {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .analysis-controls select {
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .analysis-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .full-width {
+        grid-column: 1;
+    }
+    
+    .stats-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    /* IMEI Details */
+    .imei-header {
+        flex-direction: column;
+        gap: var(--space-3);
+        text-align: center;
+    }
+    
+    .header-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .list-controls {
+        flex-direction: column;
+        gap: var(--space-2);
+        align-items: stretch;
+    }
+    
+    .search-box {
+        width: 100%;
+    }
+    
+    .search-box input {
+        width: 100%;
+    }
+    
+    .filter-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    /* Settings */
+    .settings-content {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .settings-tabs .tab-buttons {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+        border-right: none;
+        border-bottom: var(--border-thin) solid var(--border);
+        padding: var(--space-2);
+    }
+    
+    .settings-tabs .tab-buttons .tab-btn {
+        white-space: nowrap;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+    }
+    
+    .settings-tabs .tab-buttons .tab-btn.active {
+        border-left-color: transparent;
+        border-bottom-color: var(--primary-500);
+    }
+    
+    .setting-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-2);
+    }
+    
+    .setting-item label:not(.checkbox-label) {
+        min-width: auto;
+        margin-bottom: var(--space-2);
+    }
+    
+    .theme-options,
+    .format-options {
+        justify-content: center;
+    }
+    
+    /* Modals */
+    .modal {
+        max-width: 95vw;
+        max-height: 90dvh;
+        margin: var(--space-2);
+    }
+    
+    .modal-body {
+        padding: var(--space-3);
+        max-height: calc(90dvh - 120px);
+    }
+    
+    .modal-footer {
+        flex-direction: column;
+    }
+    
+    .modal-footer .btn {
+        width: 100%;
+    }
+    
+    /* Tutorial Steps */
+    .tutorial-steps {
+        gap: var(--space-3);
+    }
+    
+    .step {
+        padding: var(--space-3);
+    }
+    
+    .step p {
+        padding-left: var(--space-3);
+    }
+    
+    /* Help */
+    .help-section {
+        padding: var(--space-3);
+    }
+    
+    .video-item {
+        flex-direction: column;
+    }
+    
+    .video-thumb {
+        width: 100%;
+        height: 150px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Notifications */
+    .notification {
+        bottom: var(--space-2);
+        right: var(--space-2);
+        left: var(--space-2);
+        max-width: none;
+    }
+    
+    /* Utility Classes */
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+    
+    .flex {
+        flex-direction: column;
+    }
+}
+
+/* Small Devices (Tablets, 640px - 767px) */
+@media (min-width: 640px) and (max-width: 767px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .technician-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .stats-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .settings-content {
+        flex-direction: column;
+    }
+    
+    .settings-tabs .tab-buttons {
+        flex-direction: row;
+        overflow-x: auto;
+        width: 100%;
+        border-right: none;
+        border-bottom: var(--border-thin) solid var(--border);
+    }
+    
+    .settings-tabs .tab-buttons .tab-btn {
+        white-space: nowrap;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+    }
+    
+    .settings-tabs .tab-buttons .tab-btn.active {
+        border-left-color: transparent;
+        border-bottom-color: var(--primary-500);
+    }
+    
+    .modal-large {
+        max-width: 95vw;
+    }
+}
+
+/* Medium Devices (Tablets Landscape, 768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .technician-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .analysis-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .chart-row,
+    .analysis-stats,
+    .validation-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .settings-tabs .tab-buttons {
+        width: 180px;
+    }
+    
+    .modal-large {
+        max-width: 90vw;
+    }
+}
+
+/* Large Devices (Desktops, 1024px - 1279px) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+    .dashboard-container,
+    .analysis-container,
+    .imei-details-container {
+        max-width: 100%;
+        padding: var(--space-4);
+    }
+    
+    .technician-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .settings-tabs .tab-buttons {
+        width: 200px;
+    }
+}
+
+/* Extra Large Devices (Large Desktops, 1280px and up) */
+@media (min-width: 1280px) {
+    /* Everything already optimized for this size */
+}
+
+/* ===== ORIENTATION SPECIFIC ===== */
+@media (orientation: portrait) {
+    .technician-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .chart-row {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+    .app-main {
+        padding: var(--space-2);
+    }
+    
+    .card {
+        padding: var(--space-3);
+        margin-bottom: var(--space-2);
+    }
+    
+    .card-header {
+        margin-bottom: var(--space-2);
+        padding-bottom: var(--space-2);
+    }
+    
+    .data-table th,
+    .data-table td,
+    .imei-table th,
+    .imei-table td {
+        padding: var(--space-2);
+    }
+}
+
+/* ===== TOUCH DEVICE OPTIMIZATIONS ===== */
+@media (hover: none) and (pointer: coarse) {
+    /* Larger touch targets */
+    .btn,
+    .tab-btn,
+    .date-day,
+    .checkbox-label,
+    .theme-option label,
+    .format-option label {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .btn-icon {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    /* Prevent accidental selections */
+    .data-table tbody tr {
+        cursor: default;
+    }
+    
+    /* Larger form elements */
+    select,
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="email"],
+    input[type="password"],
+    textarea {
+        font-size: 16px; /* Prevents iOS zoom */
+        min-height: 44px;
+    }
+    
+    /* Better spacing for touch */
+    .header-actions .btn,
+    .header-extra-actions .btn {
+        margin: var(--space-1) 0;
+    }
+    
+    /* Hide hover effects */
+    .btn:hover,
+    .tab-btn:hover,
+    .technician-card:hover,
+    .feature-card:hover,
+    .stat-card:hover {
+        transform: none;
+    }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .scanner-line {
+        animation: none;
+    }
+    
+    .error-icon {
+        animation: none;
+    }
+    
+    .btn:hover,
+    .technician-card:hover,
+    .feature-card:hover,
+    .stat-card:hover {
+        transform: none;
+    }
+    
+    .notification {
+        animation: none;
+    }
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+    :root {
+        --text: #FFFFFF;
+        --text-secondary: #E6E6E6;
+        --border: #FFFFFF;
+        --border-light: #CCCCCC;
+        --primary: #00FFFF;
+        --primary-dark: #00CCCC;
+        --success: #00FF00;
+        --danger: #FF0000;
+        --warning: #FFFF00;
+    }
+    
+    .btn,
+    .tab-btn {
+        border: 2px solid currentColor;
+    }
+    
+    .card,
+    .technician-card,
+    .feature-card,
+    .stat-card {
+        border: 2px solid var(--border);
+    }
+}
+
+/* ===== DARK MODE AUTO-DETECTION ===== */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        color-scheme: dark;
+    }
+}
+
+/* ===== PRINT OPTIMIZATIONS ===== */
+@media print {
+    /* Hide unnecessary elements */
+    .app-header,
+    .app-footer,
+    .header-actions,
+    .header-extra-actions,
+    .btn,
+    .modal-overlay,
+    .notification,
+    .tabs {
+        display: none !important;
+    }
+    
+    /* Optimize layout for print */
+    .app-main {
+        padding: 0;
+        margin: 0;
+    }
+    
+    .card {
+        border: 1px solid #000;
+        box-shadow: none;
+        page-break-inside: avoid;
+    }
+    
+    .dashboard-grid,
+    .technician-grid,
+    .analysis-grid {
+        display: block;
+    }
+    
+    /* Ensure tables print properly */
+    .data-table,
+    .imei-table {
+        page-break-inside: auto;
+    }
+    
+    .data-table tr,
+    .imei-table tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+    
+    /* Text colors for print */
+    body {
+        color: #000;
+        background: #fff;
+    }
+    
+    .text-primary,
+    .text-success,
+    .text-danger,
+    .text-warning {
+        color: #000 !important;
+    }
+    
+    /* Links */
+    a {
+        color: #000;
+        text-decoration: underline;
+    }
+    
+    a[href]::after {
+        content: " (" attr(href) ")";
+    }
+}
+
+/* ===== UTILITY CLASSES FOR RESPONSIVE DESIGN ===== */
+
+/* Hide/Show based on screen size */
+.mobile-only {
+    display: none;
+}
+
+.tablet-only {
+    display: none;
+}
+
+.desktop-only {
+    display: block;
+}
+
+@media (max-width: 767px) {
+    .mobile-only {
+        display: block;
+    }
+    
+    .tablet-only,
+    .desktop-only {
+        display: none;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .tablet-only {
+        display: block;
+    }
+    
+    .mobile-only,
+    .desktop-only {
+        display: none;
+    }
+}
+
+/* Responsive text alignment */
+.text-center-sm {
+    text-align: center;
+}
+
+.text-left-sm {
+    text-align: left;
+}
+
+.text-right-sm {
+    text-align: right;
+}
+
+@media (min-width: 768px) {
+    .text-center-md {
+        text-align: center;
+    }
+    
+    .text-left-md {
+        text-align: left;
+    }
+    
+    .text-right-md {
+        text-align: right;
+    }
+}
+
+/* Responsive spacing */
+.mobile-spacing {
+    margin: var(--space-2);
+    padding: var(--space-2);
+}
+
+@media (min-width: 768px) {
+    .mobile-spacing {
+        margin: var(--space-4);
+        padding: var(--space-4);
+    }
+}
+
+/* Responsive grid columns */
+.responsive-grid {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+    .responsive-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .responsive-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1280px) {
+    .responsive-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Responsive flex containers */
+.responsive-flex {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+    .responsive-flex {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+/* Responsive images */
+.responsive-image {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+}
+
+/* Safe area insets for modern devices */
+@supports (padding: max(0px)) {
+    .app-container {
+        padding-left: max(var(--space-4), env(safe-area-inset-left));
+        padding-right: max(var(--space-4), env(safe-area-inset-right));
+        padding-bottom: max(var(--space-4), env(safe-area-inset-bottom));
+    }
+    
+    .app-header,
+    .app-footer {
+        padding-left: max(var(--space-4), env(safe-area-inset-left));
+        padding-right: max(var(--space-4), env(safe-area-inset-right));
+    }
+}
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+
+/* Will-change hints for smooth scrolling */
+@media (prefers-reduced-motion: no-preference) {
+    .technician-overview,
+    .imei-container,
+    .modal-body,
+    .tab-content {
+        will-change: transform;
+    }
+}
+
+/* Content-visibility for long lists */
+@media (min-width: 768px) {
+    .imei-container,
+    .technician-column,
+    .status-list {
+        content-visibility: auto;
+        contain-intrinsic-size: 200px;
+    }
+}
+
+/* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+
+/* Focus indicators for keyboard navigation */
+@media (prefers-reduced-motion: no-preference) {
+    .btn:focus-visible,
+    .tab-btn:focus-visible,
+    input:focus-visible,
+    select:focus-visible {
+        outline: 3px solid var(--primary-aaa);
+        outline-offset: 2px;
+        border-radius: var(--radius-sm);
+    }
+}
+
+/* Increased tap targets for mobile */
+@media (max-width: 767px) {
+    .date-day,
+    .checkbox-custom {
+        min-height: 36px;
+        min-width: 36px;
+    }
+}

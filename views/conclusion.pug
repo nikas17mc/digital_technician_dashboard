@@ -1,0 +1,20 @@
+.card.card-summary
+    .card-header
+        i.fas.fa-chart-pie
+        h3 Zusammenfassung
+    #summaryContent
+        p 
+            i.fas.fa-database
+            | Gesamt: #{statistics.totalEntries} Einträge
+        p 
+            i.fas.fa-mobile-alt
+            | Geräte: #{statistics.totalDevices}
+        p 
+            i.fas.fa-barcode
+            | IMEIs: #{statistics.totalIMEIs}
+        p 
+            i.fas.fa-calendar-day
+            | Heute: #{Object.values(statistics.todaySummary).reduce((a, b) => a + b, 0)} Geräte
+        p 
+            i.fas.fa-check-circle
+            | Repariert: #{statistics.todaySummary['Repariert fertig'] || 0}

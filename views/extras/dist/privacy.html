@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - Techniker Dashboard</title>
+    <meta name="description" content="Performance Tracking &amp; Analytics für Techniker">
+    <meta name="keywords" content="Techniker, Dashboard, Analytics, IMEI, Performance">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js">
+    <link rel="stylesheet" href="/css/pages/privacy.css">
+  </head>
+  <body>
+    <div class="app-container">
+      <header class="app-header">
+        <div class="header-content"><a class="logo" href="/" aria-label="Zurück zum Dashboard">
+            <div class="logo-icon"><i class="fas fa-tools"></i></div>
+            <div class="logo-text">
+              <h1>Techniker Dashboard 2025</h1><span class="logo-tagline">Performance Tracking & Analytics</span>
+            </div></a>
+          <div class="header-actions">
+            <button class="header-btn header-btn-primary" onclick="generateReport()"><i class="fas fa-chart-bar"></i><span>Report erstellen</span></button>
+            <button class="header-btn header-btn-secondary" onclick="analyzeMismatches()"><i class="fas fa-search"></i><span>Mismatch Analyse</span></button>
+            <button class="header-btn header-btn-outline" onclick="importJSON()"><i class="fas fa-file-import"></i><span>JSON Import</span></button>
+            <div class="header-search"><i class="search-icon fas fa-search"></i>
+              <input class="search-input" type="text" placeholder="Suchen..." aria-label="Suche">
+            </div>
+          </div>
+          <div class="header-extra-actions">
+            <button class="header-btn header-btn-outline" onclick="openModal('settingsModal')"><i class="fas fa-cog"></i><span>Einstellungen</span></button>
+            <div class="user-menu">
+              <button class="user-btn" onclick="toggleUserMenu()">
+                <div class="user-avatar">TS</div>
+                <div class="user-info">
+                  <div class="user-name">Techniker Support</div>
+                  <div class="user-role">Administrator</div>
+                </div>
+              </button>
+            </div>
+            <div class="quick-actions-menu">
+              <button class="quick-action-btn" onclick="toggleTheme()" aria-label="Theme wechseln"><i class="fas fa-moon"></i></button>
+              <button class="quick-action-btn" onclick="toggleNotifications()" aria-label="Benachrichtigungen"><i class="fas fa-bell"></i></button>
+              <button class="quick-action-btn" onclick="toggleFullscreen()" aria-label="Vollbild"><i class="fas fa-expand"></i></button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="app-main">
+        <div class="privacy-container">
+          <div class="privacy-header">
+            <h1><i class="fas fa-shield-alt"></i>Datenschutzerklärung</h1>
+            <p class="subtitle">Gültig ab: 22.12.2025</p>
+          </div>
+          <div class="privacy-content">
+            <div class="privacy-card">
+              <h2> <i class="fas fa-info-circle"></i>1. Verantwortlicher</h2>
+              <p><strong>Verantwortlicher im Sinne der Datenschutzgesetze:</strong></p>
+              <div class="contact-details">
+                <p>Mustermann GmbH</p>
+                <p>Musterstraße 123</p>
+                <p>12345 Musterstadt</p>
+                <p>Deutschland</p>
+                <p><i class="fas fa-envelope"></i> datenschutz@techniker-dashboard.com</p>
+                <p><i class="fas fa-phone"></i> +49 123 456 789</p>
+              </div>
+            </div>
+            <div class="privacy-card">
+              <h2><i class="fas fa-database"></i>2. Erhebung und Speicherung personenbezogener Daten</h2>
+              <h3>a) Beim Besuch der Website</h3>
+              <p>Beim Aufrufen unserer Website werden durch den auf Ihrem Endgerät zum Einsatz kommenden Browser automatisch Informationen an den Server unserer Website gesendet.</p>
+              <ul>
+                <li>IP-Adresse des anfragenden Rechners</li>
+                <li>Datum und Uhrzeit des Zugriffs</li>
+                <li>Name und URL der abgerufenen Datei</li>
+                <li>Website, von der aus der Zugriff erfolgt (Referrer-URL)</li>
+                <li>Verwendeter Browser und ggf. das Betriebssystem Ihres Rechners</li>
+              </ul>
+              <h3>b) Bei Registrierung und Nutzung</h3>
+              <p>Bei der Nutzung unseres Dashboards erfassen wir:</p>
+              <ul>
+                <li>Name und Kontaktdaten</li>
+                <li>Techniker-Informationen</li>
+                <li>IMEI-Nummern und Gerätedaten</li>
+                <li>Reparaturverlauf und Statusinformationen</li>
+              </ul>
+            </div>
+            <div class="privacy-card">
+              <h2><i class="fas fa-cookie"></i>3. Cookies</h2>
+              <p>Wir verwenden Cookies, um:</p>
+              <ul>
+                <li>Die Anmeldesitzung zu verwalten</li>
+                <li>Präferenzen der Nutzer zu speichern</li>
+                <li>Die Sicherheit zu gewährleisten</li>
+                <li>Die Benutzerfreundlichkeit zu verbessern</li>
+              </ul>
+              <p>Sie können Cookies in Ihren Browsereinstellungen deaktivieren.</p>
+            </div>
+            <div class="privacy-card">
+              <h2><i class="fas fa-chart-bar"></i>4. Analyse-Tools</h2>
+              <p>Wir verwenden folgende Analyse-Tools:</p>
+              <table class="analytics-table">
+                <thead>
+                  <tr>
+                    <th>Tool</th>
+                    <th>Anbieter</th>
+                    <th>Zweck</th>
+                    <th>Datenschutz</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Google Analytics</td>
+                    <td>Google LLC</td>
+                    <td>Website-Analyse</td>
+                    <td><a href="https://policies.google.com/privacy">Datenschutzerklärung</a></td>
+                  </tr>
+                  <tr>
+                    <td>Matomo</td>
+                    <td>InnoCraft Ltd.</td>
+                    <td>Nutzungsanalyse</td>
+                    <td><a href="https://matomo.org/privacy-policy/">Datenschutzerklärung</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="privacy-card">
+              <h2><i class="fas fa-share-alt"></i>5. Weitergabe von Daten</h2>
+              <p>Wir geben Ihre Daten nur weiter an:</p>
+              <ul>
+                <li>Dienstleister zur technischen Abwicklung</li>
+                <li>Behörden bei gesetzlicher Verpflichtung</li>
+                <li>Unternehmen unserer Unternehmensgruppe</li>
+              </ul>
+            </div>
+            <div class="privacy-card">
+              <h2><i class="fas fa-lock"></i>6. Datensicherheit</h2>
+              <p>Wir setzen folgende Sicherheitsmaßnahmen ein:</p>
+              <div class="security-features">
+                <div class="feature"><i class="fas fa-shield-alt"></i>
+                  <h5>SSL-Verschlüsselung</h5>
+                  <p>Alle Datenübertragungen sind verschlüsselt</p>
+                </div>
+                <div class="feature"><i class="fas fa-server"></i>
+                  <h5>Sichere Server</h5>
+                  <p>Hosting in deutschen Rechenzentren</p>
+                </div>
+                <div class="feature"><i class="fas fa-user-shield"></i>
+                  <h5>Zugriffskontrolle</h5>
+                  <p>Strikte Berechtigungskonzepte</p>
+                </div>
+                <div class="feature"><i class="fas fa-history"></i>
+                  <h5>Regelmäßige Backups</h5>
+                  <p>Tägliche Sicherungen aller Daten</p>
+                </div>
+              </div>
+            </div>
+            <div class="privacy-card">
+              <h2><i class="fas fa-user-check"></i>7. Ihre Rechte</h2>
+              <p>Sie haben folgende Rechte:</p>
+              <div class="rights-grid">
+                <div class="right"><i class="fas fa-eye"></i>
+                  <h5>Auskunftsrecht</h5>
+                  <p>Recht auf Auskunft über gespeicherte Daten</p>
+                </div>
+                <div class="right"><i class="fas fa-edit"></i>
+                  <h5>Berichtigungsrecht</h5>
+                  <p>Recht auf Berichtigung unrichtiger Daten</p>
+                </div>
+                <div class="right"><i class="fas fa-trash-alt"></i>
+                  <h5>Löschungsrecht</h5>
+                  <p>Recht auf Löschung Ihrer Daten</p>
+                </div>
+                <div class="right"><i class="fas fa-ban"></i>
+                  <h5>Widerspruchsrecht</h5>
+                  <p>Recht auf Widerspruch gegen die Verarbeitung</p>
+                </div>
+                <div class="right"><i class="fas fa-file-export"></i>
+                  <h5>Datenübertragbarkeit</h5>
+                  <p>Recht auf Datenübertragung</p>
+                </div>
+                <div class="right"><i class="fas fa-gavel"></i>
+                  <h5>Beschwerderecht</h5>
+                  <p>Recht auf Beschwerde bei Aufsichtsbehörden</p>
+                </div>
+              </div>
+            </div>
+            <div class="privacy-card">
+              <h2><i class="fas fa-clock"></i>8. Speicherdauer</h2>
+              <p>Wir speichern Ihre Daten nur so lange wie nötig:</p>
+              <table class="storage-table">
+                <thead>
+                  <tr>
+                    <th>Datentyp</th>
+                    <th>Speicherdauer</th>
+                    <th>Löschung</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Nutzerdaten</td>
+                    <td>Bis zur Kontolöschung</td>
+                    <td>Automatisch nach 2 Jahren Inaktivität</td>
+                  </tr>
+                  <tr>
+                    <td>IMEI-Daten</td>
+                    <td>10 Jahre</td>
+                    <td>Gemäß gesetzlicher Aufbewahrungspflicht</td>
+                  </tr>
+                  <tr>
+                    <td>Log-Daten</td>
+                    <td>6 Monate</td>
+                    <td>Automatische Rotation</td>
+                  </tr>
+                  <tr>
+                    <td>Backup-Daten</td>
+                    <td>1 Jahr</td>
+                    <td>Regelmäßige Bereinigung</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="privacy-card">
+              <h2><i class="fas fa-envelope"></i>9. Kontakt</h2>
+              <p>Für Datenschutzanfragen kontaktieren Sie bitte:</p>
+              <div class="privacy-contact">
+                <p><strong>Datenschutzbeauftragter:</strong></p>
+                <p>Max Mustermann</p>
+                <p><i class="fas fa-envelope"></i> datenschutz@techniker-dashboard.com</p>
+                <p><i class="fas fa-phone"></i> +49 123 456 789-1</p>
+              </div>
+            </div>
+          </div>
+          <div class="privacy-footer">
+            <p> <i class="fas fa-exclamation-circle"></i> Diese Datenschutzerklärung kann sich ändern. Bitte besuchen Sie diese Seite regelmäßig, um über Aktualisierungen informiert zu bleiben.</p>
+          </div>
+        </div>
+      </main>
+      <footer class="app-footer">
+        <div class="footer-content">
+          <div class="footer-left">
+            <div class="footer-status">
+              <div class="status-indicator online"></div><span id="statusLabel">System bereit</span>
+            </div>
+            <div class="footer-version">v2.5.1</div>
+          </div>
+          <div class="footer-center">
+            <div class="footer-links"><a class="footer-link" href="/documentation"><i class="fas fa-book"></i><span>Dokumentation</span></a><a class="footer-link" href="/privacy"><i class="fas fa-shield-alt"></i><span>Datenschutz</span></a><a class="footer-link" href="/terms"><i class="fas fa-file-contract"></i><span>AGB</span></a><a class="footer-link" href="/imprint"><i class="fas fa-building"></i><span>Impressum</span></a></div>
+          </div>
+          <div class="footer-right">
+            <div class="footer-actions">
+              <button class="footer-btn" onclick="openModal('helpModal')" aria-label="Hilfe"><i class="fas fa-question-circle"></i></button>
+              <button class="footer-btn" onclick="toggleSound()" aria-label="Sound"><i class="fas fa-volume-up"></i></button>
+              <button class="footer-btn" onclick="printPage()" aria-label="Drucken"><i class="fas fa-print"></i></button>
+            </div>
+            <div class="footer-social"><a class="social-link github" href="https://github.com" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a><a class="social-link twitter" href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a><a class="social-link discord" href="https://discord.com" target="_blank" rel="noopener" aria-label="Discord"><i class="fab fa-discord"></i></a></div>
+          </div>
+        </div>
+        <div class="footer-copyright">&copy; 2025 Techniker Dashboard. <a href="/">Alle Rechte vorbehalten.</a> <span class="footer-badges"><span class="footer-badge"><i class="fas fa-shield-alt"></i><span>SSL gesichert</span></span><span class="footer-badge"><i class="fas fa-bolt"></i><span>Realtime</span></span></span></div>
+      </footer>
+      <div class="modal-overlay" id="settingsModal" style="display: none;">
+        <div class="modal modal-large">
+          <div class="modal-header">
+            <h3><i class="fas fa-cog"></i>Einstellungen</h3>
+            <button class="btn-close" type="button" onclick="closeModal('settingsModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="settings-tabs">
+              <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="general"><i class="fas fa-sliders-h"></i>Allgemein</button>
+                <button class="tab-btn" data-tab="appearance"><i class="fas fa-palette"></i>Erscheinungsbild</button>
+                <button class="tab-btn" data-tab="data"><i class="fas fa-database"></i>Daten</button>
+                <button class="tab-btn" data-tab="export"><i class="fas fa-file-export"></i>Export</button>
+                <button class="tab-btn" data-tab="advanced"><i class="fas fa-code"></i>Erweitert</button>
+              </div>
+            </div>
+            <div class="settings-content">
+              <div class="tab-content">
+                <div class="tab-pane active" id="generalTab">
+                  <div class="settings-group">
+                    <h4><i class="fas fa-save"></i>Auto-Save</h4>
+                    <div class="setting-item">
+                      <label class="checkbox-label">
+                        <input id="autoSave" type="checkbox" checked><span class="checkbox-custom"></span><span>Automatisches Speichern aktivieren</span>
+                      </label>
+                    </div>
+                    <div class="setting-item">
+                      <label>Speicherintervall (Minuten):</label>
+                      <input id="saveInterval" type="number" min="1" max="60" value="5">
+                    </div>
+                  </div>
+                  <div class="settings-group">
+                    <h4><i class="fas fa-bell"></i>Benachrichtigungen</h4>
+                    <div class="setting-item">
+                      <label class="checkbox-label">
+                        <input id="notifications" type="checkbox" checked><span class="checkbox-custom"></span><span>Benachrichtigungen anzeigen</span>
+                      </label>
+                    </div>
+                    <div class="setting-item">
+                      <label>Sound bei Benachrichtigung:</label>
+                      <select id="notificationSound">
+                        <option value="default">Standard</option>
+                        <option value="soft">Leise</option>
+                        <option value="none">Kein Sound</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="appearanceTab">
+                  <div class="settings-group">
+                    <h4><i class="fas fa-moon"></i>Theme</h4>
+                    <div class="theme-options">
+                      <div class="theme-option">
+                        <input id="themeDark" type="radio" name="theme" value="dark" checked>
+                        <label for="themeDark">
+                          <div class="theme-preview dark">
+                            <div class="preview-header"></div>
+                            <div class="preview-content"></div>
+                          </div><span>Dark Mode</span>
+                        </label>
+                      </div>
+                      <div class="theme-option">
+                        <input id="themeLight" type="radio" name="theme" value="light">
+                        <label for="themeLight">
+                          <div class="theme-preview light">
+                            <div class="preview-header"></div>
+                            <div class="preview-content"></div>
+                          </div><span>Light Mode</span>
+                        </label>
+                      </div>
+                      <div class="theme-option">
+                        <input id="themeAuto" type="radio" name="theme" value="auto">
+                        <label for="themeAuto">
+                          <div class="theme-preview auto"><i class="fas fa-adjust"></i></div><span>Automatisch</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="settings-group">
+                    <h4><i class="fas fa-eye"></i>Anzeige</h4>
+                    <div class="setting-item">
+                      <label>Schriftgröße:</label>
+                      <select id="fontSize">
+                        <option value="small">Klein</option>
+                        <option value="normal" selected>Normal</option>
+                        <option value="large">Groß</option>
+                        <option value="xlarge">Sehr groß</option>
+                      </select>
+                    </div>
+                    <div class="setting-item">
+                      <label class="checkbox-label">
+                        <input id="compactMode" type="checkbox"><span class="checkbox-custom"></span><span>Kompakter Modus</span>
+                      </label>
+                    </div>
+                    <div class="setting-item">
+                      <label class="checkbox-label">
+                        <input id="animations" type="checkbox" checked><span class="checkbox-custom"></span><span>Animationen aktivieren</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="dataTab">
+                  <div class="settings-group">
+                    <h4><i class="fas fa-database"></i>Datenverwaltung</h4>
+                    <div class="setting-item">
+                      <label class="checkbox-label">
+                        <input id="backupAuto" type="checkbox" checked><span class="checkbox-custom"></span><span>Automatische Backups</span>
+                      </label>
+                    </div>
+                    <div class="setting-item">
+                      <label>Backup-Intervall:</label>
+                      <select id="backupInterval">
+                        <option value="daily">Täglich</option>
+                        <option value="weekly" selected>Wöchentlich</option>
+                        <option value="monthly">Monatlich</option>
+                      </select>
+                    </div>
+                    <div class="setting-item">
+                      <label>Maximale Backups behalten:</label>
+                      <input id="maxBackups" type="number" min="1" max="100" value="10">
+                    </div>
+                  </div>
+                  <div class="settings-group">
+                    <h4><i class="fas fa-trash-alt"></i>Datenbereinigung</h4>
+                    <div class="setting-item">
+                      <label>Einträge älter als (Tage) automatisch löschen:</label>
+                      <input id="autoCleanDays" type="number" min="0" max="365" value="0"><small class="text-muted">0 = nie löschen</small>
+                    </div>
+                    <div class="setting-item">
+                      <button class="btn btn-danger" onclick="clearAllData()"><i class="fas fa-trash"></i>Alle Daten löschen</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="exportTab">
+                  <div class="settings-group">
+                    <h4><i class="fas fa-file-excel"></i>Excel Export</h4>
+                    <div class="setting-item">
+                      <label class="checkbox-label">
+                        <input id="exportIMEI" type="checkbox" checked><span class="checkbox-custom"></span><span>IMEI-Daten exportieren</span>
+                      </label>
+                    </div>
+                    <div class="setting-item">
+                      <label class="checkbox-label">
+                        <input id="exportStats" type="checkbox" checked><span class="checkbox-custom"></span><span>Statistiken exportieren</span>
+                      </label>
+                    </div>
+                    <div class="setting-item">
+                      <label class="checkbox-label">
+                        <input id="exportCharts" type="checkbox"><span class="checkbox-custom"></span><span>Charts als Bilder exportieren</span>
+                      </label>
+                    </div>
+                    <div class="setting-item">
+                      <label class="checkbox-label">
+                        <input id="autoOpenExport" type="checkbox" checked><span class="checkbox-custom"></span><span>Export automatisch öffnen</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="settings-group">
+                    <h4><i class="fas fa-file-pdf"></i>PDF Export</h4>
+                    <div class="setting-item">
+                      <label>Papierformat:</label>
+                      <select id="paperFormat">
+                        <option value="A4">A4</option>
+                        <option value="A3">A3</option>
+                        <option value="letter">Letter</option>
+                      </select>
+                    </div>
+                    <div class="setting-item">
+                      <label class="checkbox-label">
+                        <input id="exportHeader" type="checkbox" checked><span class="checkbox-custom"></span><span>Kopfzeile mit Logo</span>
+                      </label>
+                    </div>
+                    <div class="setting-item">
+                      <label class="checkbox-label">
+                        <input id="exportFooter" type="checkbox" checked><span class="checkbox-custom"></span><span>Fußzeile mit Seitenzahlen</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="advancedTab">
+                  <div class="settings-group">
+                    <h4><i class="fas fa-tachometer-alt"></i>Leistung</h4>
+                    <div class="setting-item">
+                      <label>Cache-Dauer (Sekunden):</label>
+                      <input id="cacheDuration" type="number" min="0" max="3600" value="300">
+                    </div>
+                    <div class="setting-item">
+                      <label class="checkbox-label">
+                        <input id="lazyLoading" type="checkbox" checked><span class="checkbox-custom"></span><span>Lazy Loading für große Tabellen</span>
+                      </label>
+                    </div>
+                    <div class="setting-item">
+                      <label>Max. Einträge pro Seite:</label>
+                      <input id="pageSize" type="number" min="10" max="1000" value="50">
+                    </div>
+                  </div>
+                  <div class="settings-group">
+                    <h4><i class="fas fa-bug"></i>Debugging</h4>
+                    <div class="setting-item">
+                      <label class="checkbox-label">
+                        <input id="debugMode" type="checkbox"><span class="checkbox-custom"></span><span>Debug-Modus aktivieren</span>
+                      </label>
+                    </div>
+                    <div class="setting-item">
+                      <label class="checkbox-label">
+                        <input id="logErrors" type="checkbox" checked><span class="checkbox-custom"></span><span>Fehler loggen</span>
+                      </label>
+                    </div>
+                    <div class="setting-item">
+                      <button class="btn btn-warning" onclick="exportLogs()"><i class="fas fa-download"></i>Logs exportieren</button>
+                    </div>
+                  </div>
+                  <div class="settings-group">
+                    <h4><i class="fas fa-code"></i>API</h4>
+                    <div class="setting-item">
+                      <label>API-Version:</label>
+                      <select id="apiVersion">
+                        <option value="v1">v1</option>
+                        <option value="v2" selected>v2</option>
+                      </select><small class="text-muted">Aktuelle Version: v2</small>
+                    </div>
+                    <div class="setting-item">
+                      <button class="btn btn-info" onclick="showApiDocs()"><i class="fas fa-book"></i>API Dokumentation</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal('settingsModal')">Abbrechen</button>
+            <button class="btn btn-success" onclick="saveSettings()"><i class="fas fa-save"></i>Einstellungen speichern</button>
+            <button class="btn btn-primary" onclick="resetSettings()"><i class="fas fa-undo"></i>Auf Standard zurücksetzen</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-overlay" id="helpModal" style="display: none;">
+        <div class="modal modal-large">
+          <div class="modal-header">
+            <h3><i class="fas fa-question-circle"></i>Hilfe & Support</h3>
+            <button class="btn-close" type="button" onclick="closeModal('helpModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="help-sections">
+              <div class="help-section">
+                <h4><i class="fas fa-play-circle"></i>Video-Tutorials</h4>
+                <div class="video-list">
+                  <div class="video-item">
+                    <div class="video-thumb"><i class="fas fa-play"></i></div>
+                    <div class="video-info">
+                      <h5>Dashboard Einführung</h5>
+                      <p>Lernen Sie die Grundfunktionen in 5 Minuten kennen.</p>
+                      <button class="btn btn-small btn-primary"><i class="fas fa-play"></i>Abspielen</button>
+                    </div>
+                  </div>
+                  <div class="video-item">
+                    <div class="video-thumb"><i class="fas fa-play"></i></div>
+                    <div class="video-info">
+                      <h5>IMEI Analyse</h5>
+                      <p>So verwenden Sie die erweiterte IMEI-Validierung.</p>
+                      <button class="btn btn-small btn-primary"><i class="fas fa-play"></i>Abspielen</button>
+                    </div>
+                  </div>
+                  <div class="video-item">
+                    <div class="video-thumb"><i class="fas fa-play"></i></div>
+                    <div class="video-info">
+                      <h5>Excel Export</h5>
+                      <p>Erstellen Sie professionelle Reports.</p>
+                      <button class="btn btn-small btn-primary"><i class="fas fa-play"></i>Abspielen</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="help-section">
+                <h4><i class="fas fa-book"></i>Dokumentation</h4>
+                <div class="doc-links"><a class="doc-link" href="#"><i class="fas fa-file-pdf"></i><span>Benutzerhandbuch (PDF)</span></a><a class="doc-link" href="#"><i class="fas fa-code"></i><span>API Dokumentation</span></a><a class="doc-link" href="#"><i class="fas fa-download"></i><span>Schnellstart-Anleitung</span></a><a class="doc-link" href="#"><i class="fas fa-chart-bar"></i><span>Analyse Guide</span></a></div>
+              </div>
+              <div class="help-section">
+                <h4><i class="fas fa-headset"></i>Kontakt</h4>
+                <div class="contact-info">
+                  <div class="contact-item"><i class="fas fa-envelope"></i>
+                    <div>
+                      <h6>E-Mail Support</h6>
+                      <p>support@techniker-dashboard.com</p>
+                    </div>
+                  </div>
+                  <div class="contact-item"><i class="fas fa-phone"></i>
+                    <div>
+                      <h6>Telefon</h6>
+                      <p>+49 123 456 789</p>
+                    </div>
+                  </div>
+                  <div class="contact-item"><i class="fas fa-clock"></i>
+                    <div>
+                      <h6>Support-Zeiten</h6>
+                      <p>Mo-Fr: 9:00-18:00 Uhr</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" onclick="closeModal('helpModal')">Schließen</button>
+            <button class="btn btn-success" onclick="openModal('ticketModal')"><i class="fas fa-ticket-alt"></i>Support-Ticket erstellen</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-overlay" id="ticketModal" style="display: none;">
+        <div class="modal">
+          <div class="modal-header">
+            <h3><i class="fas fa-ticket-alt"></i>Support-Ticket erstellen</h3>
+            <button class="btn-close" type="button" onclick="closeModal('ticketModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form id="ticketForm">
+              <div class="form-group">
+                <label for="ticketSubject">Betreff:</label>
+                <input id="ticketSubject" type="text" placeholder="Kurze Beschreibung des Problems" required>
+              </div>
+              <div class="form-group">
+                <label for="ticketCategory">Kategorie:</label>
+                <select id="ticketCategory" required>
+                  <option value="">-- Bitte wählen --</option>
+                  <option value="bug">Fehler/Bug</option>
+                  <option value="feature">Feature-Anfrage</option>
+                  <option value="question">Frage</option>
+                  <option value="other">Sonstiges</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="ticketPriority">Priorität:</label>
+                <select id="ticketPriority">
+                  <option value="low">Niedrig</option>
+                  <option value="medium" selected>Mittel</option>
+                  <option value="high">Hoch</option>
+                  <option value="critical">Kritisch</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="ticketDescription">Beschreibung:</label>
+                <textarea id="ticketDescription" rows="6" placeholder="Bitte beschreiben Sie Ihr Problem detailliert..." required></textarea>
+              </div>
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input id="attachLogs" type="checkbox"><span class="checkbox-custom"></span><span>Diagnose-Logs anhängen</span>
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="ticketEmail">E-Mail für Rückmeldung:</label>
+                <input id="ticketEmail" type="email" placeholder="ihre.email@example.com" required>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" onclick="closeModal('ticketModal')">Abbrechen</button>
+            <button class="btn btn-success" type="submit" form="ticketForm"><i class="fas fa-paper-plane"></i>Ticket senden</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-overlay" id="datePickerModal" style="display: none;">
+        <div class="modal">
+          <div class="modal-header">
+            <h3><i class="fas fa-calendar-alt"></i>Datum auswählen</h3>
+            <button class="btn-close" type="button" onclick="closeModal('datePickerModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="date-picker-container">
+              <div class="date-header">
+                <button class="btn btn-icon" type="button" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                <h4 id="currentMonth">April 2024</h4>
+                <button class="btn btn-icon" type="button" onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+              </div>
+              <div class="date-grid">
+                <div class="date-weekdays"><span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span></div>
+                <div class="date-days" id="dateDays"></div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="setToday()"><i class="fas fa-calendar-day"></i>Heute</button>
+            <button class="btn btn-primary" onclick="applyDate()"><i class="fas fa-check"></i>Übernehmen</button>
+            <button class="btn btn-danger" onclick="closeModal('datePickerModal')">Abbrechen</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-overlay" id="imeiScannerModal" style="display: none;">
+        <div class="modal modal-large">
+          <div class="modal-header">
+            <h3><i class="fas fa-barcode"></i>IMEI Scanner</h3>
+            <button class="btn-close" type="button" onclick="closeModal('imeiScannerModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="scanner-container">
+              <div class="scanner-preview" id="scannerPreview">
+                <div class="scanner-overlay">
+                  <div class="scanner-frame"></div>
+                  <div class="scanner-line"></div>
+                </div>
+                <video id="scannerVideo" style="display: none;"></video>
+                <canvas id="scannerCanvas" style="display: none;"></canvas>
+              </div>
+              <div class="scanner-controls">
+                <button class="btn btn-primary" onclick="startScanner()"><i class="fas fa-play"></i>Scanner starten</button>
+                <button class="btn btn-warning" onclick="stopScanner()" disabled><i class="fas fa-stop"></i>Scanner stoppen</button>
+                <button class="btn btn-success" onclick="captureIMEI()" disabled><i class="fas fa-camera"></i>IMEI erfassen</button>
+              </div>
+              <div class="scanner-results">
+                <h5>Erfasste IMEIs:</h5>
+                <div class="imei-list" id="scannedIMEIs"></div>
+              </div>
+              <div class="scanner-manual">
+                <h5>Manuelle Eingabe:</h5>
+                <div class="input-group">
+                  <input id="manualIMEI" type="text" placeholder="IMEI eingeben...">
+                  <button class="btn btn-secondary" onclick="addManualIMEI()"><i class="fas fa-plus"></i>Hinzufügen</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-success" onclick="useScannedIMEIs()"><i class="fas fa-check"></i>IMEIs übernehmen</button>
+            <button class="btn btn-secondary" onclick="closeModal('imeiScannerModal')">Abbrechen</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-overlay" id="importModal" style="display: none;">
+        <div class="modal modal-large">
+          <div class="modal-header">
+            <h3><i class="fas fa-file-import"></i>Daten importieren</h3>
+            <button class="btn-close" type="button" onclick="closeModal('importModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="import-tabs">
+              <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="json"><i class="fas fa-file-code"></i>JSON Import</button>
+                <button class="tab-btn" data-tab="excel"><i class="fas fa-file-excel"></i>Excel Import</button>
+                <button class="tab-btn" data-tab="csv"><i class="fas fa-file-csv"></i>CSV Import</button>
+              </div>
+              <div class="tab-content">
+                <div class="tab-pane active" id="jsonTab">
+                  <div class="import-instructions">
+                    <p><i class="fas fa-info-circle"></i>Laden Sie eine JSON-Datei im erwarteten Format hoch.</p>
+                    <div class="import-format">
+                      <h6>Erwartetes Format:</h6>
+                      <pre>[
+    {
+        "technic": "Shady",
+        "date": "15.01.2024",
+        "event": "Repariert fertig",
+        "count": 5,
+        "imei": ["123456789012345", "234567890123456"]
+    }
+]
+</pre>
+                    </div>
+                  </div>
+                  <div class="import-dropzone" id="jsonDropzone"><i class="fas fa-cloud-upload-alt"></i>
+                    <p>Datei hier ablegen oder</p>
+                    <input id="jsonFileInput" type="file" accept=".json" style="display: none;">
+                    <button class="btn btn-primary" onclick="document.getElementById('jsonFileInput').click()">Datei auswählen</button>
+                  </div>
+                  <div class="import-options">
+                    <label class="checkbox-label">
+                      <input id="jsonMerge" type="checkbox"><span class="checkbox-custom"></span><span>Mit vorhandenen Daten mergen</span>
+                    </label>
+                    <label class="checkbox-label">
+                      <input id="jsonValidate" type="checkbox" checked><span class="checkbox-custom"></span><span>Daten vor Import validieren</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="tab-pane" id="excelTab">
+                  <div class="import-instructions">
+                    <p><i class="fas fa-info-circle"></i>Importieren Sie Daten aus einer Excel-Datei.</p>
+                    <div class="import-template">
+                      <h6>Excel-Vorlage herunterladen:</h6><a class="btn btn-small btn-success" href="/templates/import_template.xlsx" download><i class="fas fa-download"></i>Vorlage herunterladen</a>
+                    </div>
+                  </div>
+                  <div class="import-dropzone" id="excelDropzone"><i class="fas fa-file-excel"></i>
+                    <p>Excel-Datei hier ablegen oder</p>
+                    <input id="excelFileInput" type="file" accept=".xlsx,.xls" style="display: none;">
+                    <button class="btn btn-primary" onclick="document.getElementById('excelFileInput').click()">Datei auswählen</button>
+                  </div>
+                  <div class="import-mapping">
+                    <h6>Spalten-Zuordnung:</h6>
+                    <div class="mapping-table">
+                      <div class="mapping-row"><span>Quell-Spalte</span><span>Ziel-Feld</span><span>Beispiel</span></div>
+                      <div class="mapping-row">
+                        <select>
+                          <option>A (Techniker)</option>
+                        </select>
+                        <select>
+                          <option>technic</option>
+                        </select><span>Shady, Abdul, ...</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="csvTab">
+                  <div class="import-instructions">
+                    <p><i class="fas fa-info-circle"></i>Importieren Sie Daten aus einer CSV-Datei.</p>
+                  </div>
+                  <div class="import-dropzone" id="csvDropzone"><i class="fas fa-file-csv"></i>
+                    <p>CSV-Datei hier ablegen oder</p>
+                    <input id="csvFileInput" type="file" accept=".csv,.txt" style="display: none;">
+                    <button class="btn btn-primary" onclick="document.getElementById('csvFileInput').click()">Datei auswählen</button>
+                  </div>
+                  <div class="csv-options">
+                    <div class="form-group">
+                      <label>Trennzeichen:</label>
+                      <select id="csvDelimiter">
+                        <option value="," selected>Komma (,)</option>
+                        <option value=";">Semikolon (;)</option>
+                        <option value="	">Tabulator</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="checkbox-label">
+                        <input id="csvHeader" type="checkbox" checked><span class="checkbox-custom"></span><span>Erste Zeile enthält Überschriften</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal('importModal')">Abbrechen</button>
+            <button class="btn btn-success" onclick="startImport()"><i class="fas fa-upload"></i>Import starten</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-overlay" id="exportModal" style="display: none;">
+        <div class="modal modal-large">
+          <div class="modal-header">
+            <h3><i class="fas fa-file-export"></i>Daten exportieren</h3>
+            <button class="btn-close" type="button" onclick="closeModal('exportModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="export-options">
+              <div class="export-format">
+                <h4>Export-Format:</h4>
+                <div class="format-options">
+                  <div class="format-option">
+                    <input id="formatExcel" type="radio" name="exportFormat" value="excel" checked>
+                    <label for="formatExcel"><i class="fas fa-file-excel"></i><span>Excel (.xlsx)</span></label>
+                  </div>
+                  <div class="format-option">
+                    <input id="formatPDF" type="radio" name="exportFormat" value="pdf">
+                    <label for="formatPDF"><i class="fas fa-file-pdf"></i><span>PDF (.pdf)</span></label>
+                  </div>
+                  <div class="format-option">
+                    <input id="formatJSON" type="radio" name="exportFormat" value="json">
+                    <label for="formatJSON"><i class="fas fa-file-code"></i><span>JSON (.json)</span></label>
+                  </div>
+                  <div class="format-option">
+                    <input id="formatCSV" type="radio" name="exportFormat" value="csv">
+                    <label for="formatCSV"><i class="fas fa-file-csv"></i><span>CSV (.csv)</span></label>
+                  </div>
+                </div>
+              </div>
+              <div class="export-content">
+                <h4>Inhalt:</h4>
+                <div class="content-options">
+                  <label class="checkbox-label">
+                    <input id="exportData" type="checkbox" checked><span class="checkbox-custom"></span><span>Dateneinträge</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input id="exportSummary" type="checkbox" checked><span class="checkbox-custom"></span><span>Zusammenfassung</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input id="exportCharts" type="checkbox"><span class="checkbox-custom"></span><span>Charts/Grafiken</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input id="exportIMEI" type="checkbox" checked><span class="checkbox-custom"></span><span>IMEI-Daten</span>
+                  </label>
+                </div>
+              </div>
+              <div class="export-range">
+                <h4>Zeitraum:</h4>
+                <div class="range-options">
+                  <div class="form-group">
+                    <label>Von:</label>
+                    <input id="exportFrom" type="text" placeholder="TT.MM.JJJJ">
+                  </div>
+                  <div class="form-group">
+                    <label>Bis:</label>
+                    <input id="exportTo" type="text" placeholder="TT.MM.JJJJ">
+                  </div>
+                  <div class="quick-ranges">
+                    <button class="btn btn-small btn-secondary" onclick="setExportRange('today')">Heute</button>
+                    <button class="btn btn-small btn-secondary" onclick="setExportRange('week')">Diese Woche</button>
+                    <button class="btn btn-small btn-secondary" onclick="setExportRange('month')">Dieser Monat</button>
+                    <button class="btn btn-small btn-secondary" onclick="setExportRange('all')">Alle</button>
+                  </div>
+                </div>
+              </div>
+              <div class="export-advanced">
+                <h4>Erweiterte Optionen:</h4>
+                <div class="advanced-options">
+                  <div class="form-group">
+                    <label>Dateiname:</label>
+                    <input id="exportFilename" type="text" placeholder="techniker_report">
+                  </div>
+                  <div class="form-group">
+                    <label class="checkbox-label">
+                      <input id="exportCompress" type="checkbox"><span class="checkbox-custom"></span><span>Komprimieren (ZIP)</span>
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label class="checkbox-label">
+                      <input id="exportPassword" type="checkbox"><span class="checkbox-custom"></span><span>Passwortschutz</span>
+                    </label>
+                  </div>
+                  <div class="form-group" id="passwordField" style="display: none;">
+                    <label>Passwort:</label>
+                    <input id="exportPasswordValue" type="password">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal('exportModal')">Abbrechen</button>
+            <button class="btn btn-success" onclick="startExport()"><i class="fas fa-download"></i>Export starten</button>
+            <button class="btn btn-primary" onclick="previewExport()"><i class="fas fa-eye"></i>Vorschau</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-overlay" id="confirmModal" style="display: none;">
+        <div class="modal modal-small">
+          <div class="modal-header">
+            <h3 id="confirmTitle">Bestätigung</h3>
+            <button class="btn-close" type="button" onclick="closeModal('confirmModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p id="confirmMessage">Möchten Sie diese Aktion wirklich ausführen?</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal('confirmModal')">Abbrechen</button>
+            <button class="btn btn-danger" id="confirmButton">Bestätigen</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-overlay" id="progressModal" style="display: none;">
+        <div class="modal modal-small">
+          <div class="modal-header">
+            <h3><i class="fas fa-spinner fa-spin"></i><span id="progressTitle">Wird verarbeitet...</span></h3>
+            <button class="btn-close" type="button" onclick="cancelProgress()">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+              </div>
+              <div class="progress-text"><span id="progressText">0%</span><span id="progressDetail"></span></div>
+            </div>
+            <div class="progress-log" id="progressLog"></div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-danger" onclick="cancelProgress()"><i class="fas fa-times"></i>Abbrechen</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-overlay" id="notificationModal" style="display: none;">
+        <div class="modal modal-small">
+          <div class="modal-header">
+            <h3 id="notificationTitle"><i class="fas fa-bell"></i>Benachrichtigung</h3>
+            <button class="btn-close" type="button" onclick="closeModal('notificationModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="notification-icon"><i class="fas fa-info-circle" id="notificationIcon"></i></div>
+            <p id="notificationMessage"></p>
+            <div class="notification-details" id="notificationDetails"></div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" onclick="closeModal('notificationModal')">OK</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-overlay" id="loginModal" style="display: none;">
+        <div class="modal">
+          <div class="modal-header">
+            <h3><i class="fas fa-sign-in-alt"></i>Anmeldung</h3>
+            <button class="btn-close" type="button" onclick="closeModal('loginModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form id="loginForm">
+              <div class="form-group">
+                <label for="loginUsername">Benutzername:</label>
+                <input id="loginUsername" type="text" placeholder="Benutzername" required>
+              </div>
+              <div class="form-group">
+                <label for="loginPassword">Passwort:</label>
+                <input id="loginPassword" type="password" placeholder="Passwort" required>
+              </div>
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input id="rememberMe" type="checkbox"><span class="checkbox-custom"></span><span>Angemeldet bleiben</span>
+                </label>
+              </div>
+              <div class="form-group"><a href="#" onclick="showForgotPassword()">Passwort vergessen?</a></div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal('loginModal')">Abbrechen</button>
+            <button class="btn btn-success" type="submit" form="loginForm"><i class="fas fa-sign-in-alt"></i>Anmelden</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/js/dashboard.js"></script>
+    <script>
+      // Load theme from localStorage
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      
+      // Initialize app
+      document.addEventListener('DOMContentLoaded', () => {
+          document.querySelector('.app-container').classList.add('loaded');
+          
+          // Update status
+          updateSystemStatus();
+          
+          // Initialize tooltips
+          initializeTooltips();
+      });
+      
+      function updateSystemStatus() {
+          const statusLabel = document.getElementById('statusLabel');
+          const indicator = document.querySelector('.status-indicator');
+          
+          // Simulate status check
+          fetch('/api/status')
+              .then(response => {
+                  if (response.ok) {
+                      statusLabel.textContent = 'System bereit';
+                      indicator.className = 'status-indicator online';
+                  } else {
+                      statusLabel.textContent = 'System gestört';
+                      indicator.className = 'status-indicator warning';
+                  }
+              })
+              .catch(() => {
+                  statusLabel.textContent = 'Offline';
+                  indicator.className = 'status-indicator offline';
+              });
+      }
+      
+      function toggleTheme() {
+          const currentTheme = document.documentElement.getAttribute('data-theme');
+          const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+      }
+      
+      function toggleFullscreen() {
+          if (!document.fullscreenElement) {
+              document.documentElement.requestFullscreen().catch(err => {
+                  console.log(`Error attempting to enable fullscreen: ${err.message}`);
+              });
+          } else {
+              if (document.exitFullscreen) {
+                  document.exitFullscreen();
+              }
+          }
+      }
+      
+      function toggleSound() {
+          const soundEnabled = localStorage.getItem('sound') !== 'false';
+          localStorage.setItem('sound', !soundEnabled);
+          
+          const button = document.querySelector('[aria-label="Sound"] i');
+          button.className = soundEnabled ? 'fas fa-volume-mute' : 'fas fa-volume-up';
+      }
+      
+      function printPage() {
+          window.print();
+      }
+      
+      function initializeTooltips() {
+          // Initialize tooltips for elements with data-tooltip attribute
+          const tooltipElements = document.querySelectorAll('[data-tooltip]');
+          tooltipElements.forEach(el => {
+              el.addEventListener('mouseenter', showTooltip);
+              el.addEventListener('mouseleave', hideTooltip);
+          });
+      }
+      
+      function showTooltip(e) {
+          const tooltip = document.createElement('div');
+          tooltip.className = 'tooltip';
+          tooltip.textContent = e.target.dataset.tooltip;
+          document.body.appendChild(tooltip);
+          
+          const rect = e.target.getBoundingClientRect();
+          tooltip.style.left = `${rect.left + rect.width / 2}px`;
+          tooltip.style.top = `${rect.top - 10}px`;
+          tooltip.style.transform = 'translateX(-50%)';
+          
+          e.target.tooltipElement = tooltip;
+      }
+      
+      function hideTooltip(e) {
+          if (e.target.tooltipElement) {
+              e.target.tooltipElement.remove();
+              e.target.tooltipElement = null;
+          }
+      }
+      
+    </script>
+  </body>
+</html>

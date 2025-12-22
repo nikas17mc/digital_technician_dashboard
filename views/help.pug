@@ -1,0 +1,141 @@
+extends layout.pug
+
+block content
+    .help-container
+        .help-header
+            h1
+                i.fas.fa-question-circle
+                | Hilfe & Support Center
+            p Hier finden Sie Antworten auf häufig gestellte Fragen und Kontaktmöglichkeiten.
+        
+        .help-content
+            .help-sections
+                .help-section
+                    h2
+                        i.fas.fa-book
+                        | Dokumentation
+                    .help-articles
+                        .article
+                            h3 Erste Schritte
+                            p So starten Sie mit dem Techniker Dashboard.
+                            a.btn.btn-small.btn-primary(href="#") Lesen
+                        .article
+                            h3 Daten importieren
+                            p Anleitung zum Import von JSON-Daten.
+                            a.btn.btn-small.btn-primary(href="#") Lesen
+                        .article
+                            h3 Reports erstellen
+                            p So generieren Sie Excel-Reports.
+                            a.btn.btn-small.btn-primary(href="#") Lesen
+                
+                .help-section
+                    h2
+                        i.fas.fa-video
+                        | Video-Tutorials
+                    .video-grid
+                        .video-item
+                            .video-thumb
+                                i.fas.fa-play-circle
+                            h3 Dashboard Einführung
+                            p 5-minütige Übersicht aller Funktionen.
+                        .video-item
+                            .video-thumb
+                                i.fas.fa-play-circle
+                            h3 IMEI Analyse
+                            p So verwenden Sie die IMEI-Validierung.
+                        .video-item
+                            .video-thumb
+                                i.fas.fa-play-circle
+                            h3 Export-Funktionen
+                            p Komplette Anleitung zum Datenexport.
+                
+                .help-section
+                    h2
+                        i.fas.fa-headset
+                        | Kontakt & Support
+                    .contact-options
+                        .contact-option
+                            i.fas.fa-envelope
+                            h3 E-Mail Support
+                            p support@techniker-dashboard.com
+                            small Antwort innerhalb von 24 Stunden
+                        .contact-option
+                            i.fas.fa-phone
+                            h3 Telefon Support
+                            p +49 123 456 789
+                            small Mo-Fr: 9:00-18:00 Uhr
+                        .contact-option
+                            i.fas.fa-comments
+                            h3 Live Chat
+                            p Verfügbar während der Geschäftszeiten
+                            button.btn.btn-small.btn-primary Chat starten
+            
+            .help-sidebar
+                .sidebar-card
+                    h3
+                        i.fas.fa-download
+                        | Schnellzugriff
+                    ul.quick-links
+                        li
+                            a(href="/dashboard")
+                                i.fas.fa-tachometer-alt
+                                | Dashboard
+                        li
+                            a(href="/technicians")
+                                i.fas.fa-users
+                                | Techniker Übersicht
+                        li
+                            a(href="/analysis")
+                                i.fas.fa-chart-bar
+                                | Analyse
+                        li
+                            a(href="/data/export/excel")
+                                i.fas.fa-file-excel
+                                | Excel Export
+                
+                .sidebar-card
+                    h3
+                        i.fas.fa-info-circle
+                        | System-Info
+                    .system-info
+                        .info-item
+                            span.label App Version:
+                            span.value 1.0.0
+                        .info-item
+                            span.label Letztes Update:
+                            span.value 01.01.2024
+                        .info-item
+                            span.label Datenbank:
+                            span.value #{dataManager.data.length} Einträge
+                        .info-item
+                            span.label Status:
+                            span.status.status-online Online
+        
+        .help-footer
+            h4 Können Sie nicht finden, was Sie suchen?
+            p
+                | Durchsuchen Sie unser 
+                a(href="#") FAQ
+                |  oder 
+                a(href="#") erstellen Sie ein Support-Ticket
+                | .
+            button.btn.btn-large.btn-primary
+                i.fas.fa-ticket-alt
+                | Ticket erstellen
+
+block scripts
+    script.
+        // Chat-Funktionalität
+        function startChat() {
+            alert('Chat-Funktion wird in Kürze verfügbar sein.');
+        }
+        
+        // Quick Links
+        document.querySelectorAll('.quick-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === '#') {
+                    e.preventDefault();
+                    alert('Diese Funktion ist noch in Entwicklung.');
+                }
+            });
+        });

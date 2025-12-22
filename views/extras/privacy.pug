@@ -1,0 +1,230 @@
+extends ../layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/pages/privacy.css")
+
+block content
+    .privacy-container
+        .privacy-header
+            h1
+                i.fas.fa-shield-alt
+                | Datenschutzerklärung
+            p.subtitle Gültig ab: #{new Date().toLocaleDateString('de-DE')}
+        
+        .privacy-content
+            .privacy-card
+                h2 
+                    i.fas.fa-info-circle
+                    | 1. Verantwortlicher
+                
+                p
+                    strong Verantwortlicher im Sinne der Datenschutzgesetze:
+                
+                .contact-details
+                    p Mustermann GmbH
+                    p Musterstraße 123
+                    p 12345 Musterstadt
+                    p Deutschland
+                    p
+                        i.fas.fa-envelope
+                        |  datenschutz@techniker-dashboard.com
+                    p
+                        i.fas.fa-phone
+                        |  +49 123 456 789
+            
+            .privacy-card
+                h2
+                    i.fas.fa-database
+                    | 2. Erhebung und Speicherung personenbezogener Daten
+                
+                h3 a) Beim Besuch der Website
+                p Beim Aufrufen unserer Website werden durch den auf Ihrem Endgerät zum Einsatz kommenden Browser automatisch Informationen an den Server unserer Website gesendet.
+                
+                ul
+                    li IP-Adresse des anfragenden Rechners
+                    li Datum und Uhrzeit des Zugriffs
+                    li Name und URL der abgerufenen Datei
+                    li Website, von der aus der Zugriff erfolgt (Referrer-URL)
+                    li Verwendeter Browser und ggf. das Betriebssystem Ihres Rechners
+                
+                h3 b) Bei Registrierung und Nutzung
+                p Bei der Nutzung unseres Dashboards erfassen wir:
+                
+                ul
+                    li Name und Kontaktdaten
+                    li Techniker-Informationen
+                    li IMEI-Nummern und Gerätedaten
+                    li Reparaturverlauf und Statusinformationen
+            
+            .privacy-card
+                h2
+                    i.fas.fa-cookie
+                    | 3. Cookies
+                
+                p Wir verwenden Cookies, um:
+                
+                ul
+                    li Die Anmeldesitzung zu verwalten
+                    li Präferenzen der Nutzer zu speichern
+                    li Die Sicherheit zu gewährleisten
+                    li Die Benutzerfreundlichkeit zu verbessern
+                
+                p Sie können Cookies in Ihren Browsereinstellungen deaktivieren.
+            
+            .privacy-card
+                h2
+                    i.fas.fa-chart-bar
+                    | 4. Analyse-Tools
+                
+                p Wir verwenden folgende Analyse-Tools:
+                
+                table.analytics-table
+                    thead
+                        tr
+                            th Tool
+                            th Anbieter
+                            th Zweck
+                            th Datenschutz
+                    tbody
+                        tr
+                            td Google Analytics
+                            td Google LLC
+                            td Website-Analyse
+                            td: a(href="https://policies.google.com/privacy") Datenschutzerklärung
+                        tr
+                            td Matomo
+                            td InnoCraft Ltd.
+                            td Nutzungsanalyse
+                            td: a(href="https://matomo.org/privacy-policy/") Datenschutzerklärung
+            
+            .privacy-card
+                h2
+                    i.fas.fa-share-alt
+                    | 5. Weitergabe von Daten
+                
+                p Wir geben Ihre Daten nur weiter an:
+                
+                ul
+                    li Dienstleister zur technischen Abwicklung
+                    li Behörden bei gesetzlicher Verpflichtung
+                    li Unternehmen unserer Unternehmensgruppe
+            
+            .privacy-card
+                h2
+                    i.fas.fa-lock
+                    | 6. Datensicherheit
+                
+                p Wir setzen folgende Sicherheitsmaßnahmen ein:
+                
+                .security-features
+                    .feature
+                        i.fas.fa-shield-alt
+                        h5 SSL-Verschlüsselung
+                        p Alle Datenübertragungen sind verschlüsselt
+                    
+                    .feature
+                        i.fas.fa-server
+                        h5 Sichere Server
+                        p Hosting in deutschen Rechenzentren
+                    
+                    .feature
+                        i.fas.fa-user-shield
+                        h5 Zugriffskontrolle
+                        p Strikte Berechtigungskonzepte
+                    
+                    .feature
+                        i.fas.fa-history
+                        h5 Regelmäßige Backups
+                        p Tägliche Sicherungen aller Daten
+            
+            .privacy-card
+                h2
+                    i.fas.fa-user-check
+                    | 7. Ihre Rechte
+                
+                p Sie haben folgende Rechte:
+                
+                .rights-grid
+                    .right
+                        i.fas.fa-eye
+                        h5 Auskunftsrecht
+                        p Recht auf Auskunft über gespeicherte Daten
+                    
+                    .right
+                        i.fas.fa-edit
+                        h5 Berichtigungsrecht
+                        p Recht auf Berichtigung unrichtiger Daten
+                    
+                    .right
+                        i.fas.fa-trash-alt
+                        h5 Löschungsrecht
+                        p Recht auf Löschung Ihrer Daten
+                    
+                    .right
+                        i.fas.fa-ban
+                        h5 Widerspruchsrecht
+                        p Recht auf Widerspruch gegen die Verarbeitung
+                    
+                    .right
+                        i.fas.fa-file-export
+                        h5 Datenübertragbarkeit
+                        p Recht auf Datenübertragung
+                    
+                    .right
+                        i.fas.fa-gavel
+                        h5 Beschwerderecht
+                        p Recht auf Beschwerde bei Aufsichtsbehörden
+            
+            .privacy-card
+                h2
+                    i.fas.fa-clock
+                    | 8. Speicherdauer
+                
+                p Wir speichern Ihre Daten nur so lange wie nötig:
+                
+                table.storage-table
+                    thead
+                        tr
+                            th Datentyp
+                            th Speicherdauer
+                            th Löschung
+                    tbody
+                        tr
+                            td Nutzerdaten
+                            td Bis zur Kontolöschung
+                            td Automatisch nach 2 Jahren Inaktivität
+                        tr
+                            td IMEI-Daten
+                            td 10 Jahre
+                            td Gemäß gesetzlicher Aufbewahrungspflicht
+                        tr
+                            td Log-Daten
+                            td 6 Monate
+                            td Automatische Rotation
+                        tr
+                            td Backup-Daten
+                            td 1 Jahr
+                            td Regelmäßige Bereinigung
+            
+            .privacy-card
+                h2
+                    i.fas.fa-envelope
+                    | 9. Kontakt
+                
+                p Für Datenschutzanfragen kontaktieren Sie bitte:
+                
+                .privacy-contact
+                    p
+                        strong Datenschutzbeauftragter:
+                    p Max Mustermann
+                    p
+                        i.fas.fa-envelope
+                        |  datenschutz@techniker-dashboard.com
+                    p
+                        i.fas.fa-phone
+                        |  +49 123 456 789-1
+        
+        .privacy-footer
+            p 
+                i.fas.fa-exclamation-circle
+                |  Diese Datenschutzerklärung kann sich ändern. Bitte besuchen Sie diese Seite regelmäßig, um über Aktualisierungen informiert zu bleiben.

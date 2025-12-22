@@ -1,0 +1,27 @@
+/* main.css - Import all other CSS files */
+@import 'base/variables.css';
+@import 'base/reset.css';
+@import 'layout/header.css';
+@import 'layout/footer.css';
+@import 'layout/layout.css';
+@import 'components/buttons.css';
+@import 'components/cards.css';
+@import 'components/forms.css';
+@import 'components/tabs.css';
+@import 'components/tables.css';
+@import 'components/modals.css';
+@import 'features/imei-manager.css';
+@import 'features/technician-grid.css';
+@import 'features/scanner.css';
+@import 'features/progress.css';
+@import 'pages/welcome.css';
+@import 'pages/analysis.css';
+@import 'pages/dashboard.css';
+@import 'pages/imei-details.css';
+@import 'pages/error.css';
+@import 'utilities/settings.css';
+@import 'utilities/help.css';
+@import 'utilities/date-picker.css';
+@import 'utilities/notifications.css';
+@import 'utilities/utilities.css';
+@import 'utilities/responsive.css';

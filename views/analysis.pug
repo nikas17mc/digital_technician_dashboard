@@ -1,0 +1,179 @@
+extends layout.pug
+
+block content
+    .analysis-container
+        .analysis-header
+            h1
+                i.fas.fa-chart-bar
+                | Erweiterte Analyse
+            .analysis-controls
+                select#timeRange(onchange="updateAnalysis()")
+                    option(value="7") Letzte 7 Tage
+                    option(value="30") Letzte 30 Tage
+                    option(value="90") Letzte 90 Tage
+                    option(value="365") Letztes Jahr
+                    option(value="all") Alle Daten
+                button.btn.btn-primary(onclick="refreshAnalysis()")
+                    i.fas.fa-sync
+                    | Aktualisieren
+        
+        .analysis-grid
+            //- Statistik Karten
+            .stats-cards
+                .stat-card
+                    .stat-icon
+                        i.fas.fa-database
+                    .stat-content
+                        h3 Gesamte Einträge
+                        .stat-value#totalEntries 0
+                .stat-card
+                    .stat-icon
+                        i.fas.fa-mobile-alt
+                    .stat-content
+                        h3 Bearbeitete Geräte
+                        .stat-value#totalDevices 0
+                .stat-card
+                    .stat-icon
+                        i.fas.fa-barcode
+                    .stat-content
+                        h3 IMEI-Nummern
+                        .stat-value#totalIMEIs 0
+                .stat-card
+                    .stat-icon
+                        i.fas.fa-percentage
+                    .stat-content
+                        h3 IMEI-Abdeckung
+                        .stat-value#imeiCoverage 0%
+            
+            //- Charts
+            .chart-container
+                .card
+                    .card-header
+                        h3 Techniker Leistung
+                    .chart-wrapper
+                        canvas#techPerformanceChart
+        
+            .chart-container
+                .card
+                    .card-header
+                        h3 Status Verteilung
+                    .chart-wrapper
+                        canvas#statusDistributionChart
+            
+            //- Techniker Vergleich
+            .full-width
+                .card
+                    .card-header
+                        h3 Techniker Vergleich
+                    .comparison-table
+                        table
+                            thead
+                                tr
+                                    th Techniker
+                                    th Gesamt
+                                    th Repariert
+                                    th In Arbeit
+                                    th Qualitätskontrolle
+                                    th IMEI Abdeckung
+                                    th Effizienz
+                            tbody#techComparisonBody
+            
+            //- Detaillierte Analyse
+            .analysis-details
+                .card
+                    .card-header
+                        h3 Detaillierte Analyse
+                        .header-actions
+                            button.btn.btn-small.btn-primary(onclick="exportAnalysisData()")
+                                i.fas.fa-download
+                                | Daten exportieren
+                    .analysis-tabs
+                        .tab-buttons
+                            button.tab-btn.active(data-tab="trends") Trends
+                            button.tab-btn(data-tab="efficiency") Effizienz
+                            button.tab-btn(data-tab="quality") Qualität
+                            button.tab-btn(data-tab="imei") IMEI Analyse
+                        
+                        .tab-content
+                            #trendsTab.tab-pane.active
+                                .trend-analysis
+                                    h4 Tägliche Aktivität
+                                    .trend-chart
+                                        canvas#dailyActivityChart
+                                    .trend-metrics
+                                        .metric
+                                            h5 Höchster Tag
+                                            p#highestDay -
+                                        .metric
+                                            h5 Durchschnitt/Tag
+                                            p#averageDaily -
+                                        .metric
+                                            h5 Trend
+                                            p#trendDirection -
+                            
+                            #efficiencyTab.tab-pane
+                                .efficiency-analysis
+                                    h4 Reparatureffizienz
+                                    .efficiency-chart
+                                        canvas#efficiencyChart
+                                    .efficiency-stats
+                                        .stat
+                                            h5 Schnellster Techniker
+                                            p#fastestTech -
+                                        .stat
+                                            h5 Durchschnittszeit
+                                            p#averageTime -
+                                        .stat
+                                            h5 Erfolgsrate
+                                            p#successRate -
+                            
+                            #qualityTab.tab-pane
+                                .quality-analysis
+                                    h4 Qualitätskontrolle
+                                    .quality-chart
+                                        canvas#qualityChart
+                                    .quality-metrics
+                                        .metric
+                                            h5 Beste Qualität
+                                            p#bestQualityTech -
+                                        .metric
+                                            h5 Wiederholungsrate
+                                            p#repeatRate -
+                                        .metric
+                                            h5 Kundenzufriedenheit
+                                            p#customerSatisfaction -
+                            
+                            #imeiTab.tab-pane
+                                .imei-analysis
+                                    h4 IMEI Analyse
+                                    .imei-stats-grid
+                                        .stat-box
+                                            h6 Valide IMEIs
+                                            .stat-number#validIMEIs 0
+                                        .stat-box
+                                            h6 Invalide IMEIs
+                                            .stat-number#invalidIMEIs 0
+                                        .stat-box
+                                            h6 Durchschn. Score
+                                            .stat-number#averageScore 0
+                                        .stat-box
+                                            h6 Beste Qualität
+                                            .stat-number#bestQualityScore 0
+                                    .imei-patterns
+                                        h6 Häufigste Muster:
+                                        #commonPatterns.patterns-list
+        
+        .analysis-actions
+            button.btn.btn-success(onclick="generateFullReport()")
+                i.fas.fa-file-excel
+                | Vollständigen Report erstellen
+            button.btn.btn-warning(onclick="runMismatchAnalysis()")
+                i.fas.fa-search
+                | Mismatch Analyse starten
+            button.btn.btn-danger(onclick="clearAnalysisCache()")
+                i.fas.fa-trash
+                | Cache löschen
+
+block scripts
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
+    script(src="./public/js/analysis.js") 

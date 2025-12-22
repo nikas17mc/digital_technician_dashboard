@@ -1,0 +1,240 @@
+extends ../layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/pages/imprint.css")
+
+block content
+    .imprint-container
+        .imprint-header
+            h1
+                i.fas.fa-building
+                | Impressum
+            p.subtitle Angaben gemäß § 5 TMG
+        
+        .imprint-content
+            //- Company Information
+            .imprint-section
+                h2 
+                    i.fas.fa-info-circle
+                    | Unternehmensinformationen
+                
+                .company-card
+                    .company-logo
+                        i.fas.fa-tools
+                    
+                    .company-details
+                        h3 Mustermann GmbH
+                        
+                        .contact-grid
+                            .contact-item
+                                i.fas.fa-map-marker-alt
+                                div
+                                    h5 Adresse
+                                    p Musterstraße 123
+                                    p 12345 Musterstadt
+                                    p Deutschland
+                            
+                            .contact-item
+                                i.fas.fa-phone
+                                div
+                                    h5 Telefon
+                                    p +49 123 456 789
+                                    p Mo-Fr: 9:00-18:00 Uhr
+                            
+                            .contact-item
+                                i.fas.fa-fax
+                                div
+                                    h5 Fax
+                                    p +49 123 456 789-9
+                            
+                            .contact-item
+                                i.fas.fa-envelope
+                                div
+                                    h5 E-Mail
+                                    p info@techniker-dashboard.com
+                                    p support@techniker-dashboard.com
+            
+            //- Legal Information
+            .imprint-section
+                h2
+                    i.fas.fa-gavel
+                    | Rechtliche Informationen
+                
+                .legal-grid
+                    .legal-card
+                        i.fas.fa-balance-scale
+                        h5 Handelsregister
+                        p Amtsgericht Musterstadt
+                        p HRB 12345
+            
+                    .legal-card
+                        i.fas.fa-id-card
+                        h5 Umsatzsteuer-ID
+                        p DE123456789
+            
+                    .legal-card
+                        i.fas.fa-user-tie
+                        h5 Geschäftsführung
+                        p Max Mustermann
+                        p Muster Mustermann
+            
+                    .legal-card
+                        i.fas.fa-shield-alt
+                        h5 Aufsichtsbehörde
+                        p Industrie- und Handelskammer Musterstadt
+            
+            //- Professional Information
+            .imprint-section
+                h2
+                    i.fas.fa-briefcase
+                    | Berufsrechtliche Angaben
+                
+                .professional-info
+                    p 
+                        strong Zuständige Kammer:
+                        |  Handwerkskammer Musterstadt
+                    
+                    p 
+                        strong Verliehen durch:
+                        |  Landkreis Musterstadt
+                    
+                    p 
+                        strong Berufsbezeichnung:
+                        |  Informationstechniker
+                    
+                    p 
+                        strong Geltungsbereich:
+                        |  Bundesrepublik Deutschland
+            
+            //- EU Dispute Resolution
+            .imprint-section
+                h2
+                    i.fas.fa-flag-europe
+                    | EU-Streitschlichtung
+                
+                .eu-card
+                    p Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
+                    
+                    .eu-links
+                        a.eu-link(href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener")
+                            i.fas.fa-external-link-alt
+                            span Online-Streitbeilegungsplattform
+                    
+                    p Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+            
+            //- Disclaimer
+            .imprint-section
+                h2
+                    i.fas.fa-exclamation-triangle
+                    | Haftungsausschluss
+                
+                .disclaimer-card
+                    .disclaimer-item
+                        i.fas.fa-file-alt
+                        div
+                            h5 Inhaltliche Verantwortung
+                            p Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.
+                    
+                    .disclaimer-item
+                        i.fas.fa-link
+                        div
+                            h5 Externe Links
+                            p Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
+                    
+                    .disclaimer-item
+                        i.fas.fa-copyright
+                        div
+                            h5 Urheberrecht
+                            p Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+            
+            //- Development & Design
+            .imprint-section
+                h2
+                    i.fas.fa-code
+                    | Entwicklung & Design
+                
+                .development-info
+                    .dev-item
+                        i.fas.fa-laptop-code
+                        div
+                            h5 Entwicklung
+                            p Techniker Dashboard v2.5.1
+                            p.node
+                                i.fab.fa-node-js
+                                | Node.js & Express
+                    
+                    .dev-item
+                        i.fas.fa-palette
+                        div
+                            h5 Design
+                            p Modern Business Dashboard
+                            p.tech
+                                i.fab.fa-css3-alt
+                                | CSS3 & PUG
+            
+            //- Bank Information
+            .imprint-section
+                h2
+                    i.fas.fa-university
+                    | Bankverbindung
+                
+                .bank-card
+                    .bank-item
+                        i.fas.fa-landmark
+                        div
+                            h5 Bank
+                            p Musterbank AG
+                    
+                    .bank-item
+                        i.fas.fa-credit-card
+                        div
+                            h5 IBAN
+                            p DE12 3456 7890 1234 5678 90
+                    
+                    .bank-item
+                        i.fas.fa-barcode
+                        div
+                            h5 BIC
+                            p MUSTERDEMMXXX
+        
+        .imprint-footer
+            .update-info
+                p
+                    i.fas.fa-history
+                    | Letzte Aktualisierung: #{new Date().toLocaleDateString('de-DE')}
+            
+            .legal-links
+                a.btn.btn-outline(href="/privacy") Datenschutz
+                a.btn.btn-outline(href="/terms") AGB
+                a.btn.btn-outline(href="/documentation") Dokumentation
+
+block scripts
+    script.
+        // Copy contact information to clipboard
+        document.querySelectorAll('.contact-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const text = this.innerText.replace(/\s+/g, ' ').trim();
+                
+                navigator.clipboard.writeText(text)
+                    .then(() => {
+                        const originalHTML = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i><div><h5>Kopiert!</h5><p>In Zwischenablage</p></div>';
+                        
+                        setTimeout(() => {
+                            this.innerHTML = originalHTML;
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        console.error('Fehler beim Kopieren:', err);
+                    });
+            });
+        });
+        
+        // Print functionality
+        document.querySelector('.imprint-footer').addEventListener('click', function(e) {
+            if (e.target.closest('.btn')) {
+                if (e.target.closest('.btn').innerText.includes('Drucken')) {
+                    window.print();
+                }
+            }
+        });

@@ -1,0 +1,33 @@
+.documentation-container {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+    padding: var(--space-6);
+}
+
+.documentation-header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+}
+
+.documentation-content {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: var(--space-6);
+}
+
+.documentation-nav {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.nav-section {
+    margin-bottom: var(--space-4);
+}
+
+.doc-card {
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+}

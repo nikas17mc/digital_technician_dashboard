@@ -1,0 +1,104 @@
+.technician-overview
+    .filter-controls
+        span Filter:
+            select#techFilter(onchange="filterTechnicians(this.value)")
+                option(value="7") Letzte 7 Tage
+                option(value="1") Heute
+                option(value="30") Letzte 30 Tage
+                option(value="Alle") Alle
+
+.technician-grid
+    //- Linke Spalte
+    .technician-column
+        each tech, index in technicians
+            if index % 2 === 0
+                .technician-card(data-technician=tech)
+                    .card-header
+                        .tech-info
+                            i.fas.fa-user
+                            h4= tech
+                        .tech-stats
+                            i.fas.fa-mobile-alt
+                            span.tech-count(id=`techCount-${tech}`) 0
+
+                    .status-list
+                        each status in statusTypes
+                            .status-item
+                                .status-info
+                                    i.fas.fa-circle
+                                    span= status
+                                    span.status-count(id=`${tech}-${status}`) 0
+                                button.btn.btn-small.btn-imei(onclick=`showIMEIDetails('${tech}', '${status}')`)
+                                    i.fas.fa-barcode
+                                    | IMEIs
+
+    //- Rechte Spalte
+    .technician-column
+        each tech, index in technicians
+            if index % 2 === 1
+                .technician-card(data-technician=tech)
+                    .card-header
+                        .tech-info
+                            i.fas.fa-user
+                            h4= tech
+                        .tech-stats
+                            i.fas.fa-mobile-alt
+                            span.tech-count(id=`techCount-${tech}`) 0
+
+                    .status-list
+                        each status in statusTypes
+                            .status-item
+                                .status-info
+                                    i.fas.fa-circle
+                                    span= status
+                                    span.status-count(id=`${tech}-${status}`) 0
+                                button.btn.btn-small.btn-imei(onclick=`showIMEIDetails('${tech}', '${status}')`)
+                                    i.fas.fa-barcode
+                                    | IMEIs
+
+script.
+    async function filterTechnicians(days) {
+        try {
+            const response = await fetch(`/technicians?days=${days}`);
+            if (response.ok) {
+                const html = await response.text();
+                document.querySelector('.technician-overview').innerHTML = html;
+            }
+        } catch (error) {
+            console.error('Fehler beim Filtern:', error);
+        }
+    }
+
+    // Techniker Statistiken aktualisieren
+    function updateTechnicianStats() {
+        // Hier würden die Statistiken von der API geladen werden
+        // Vereinfacht für das Beispiel
+        const technicians = !{JSON.stringify(technicians)};
+        const statusTypes = !{JSON.stringify(statusTypes)};
+
+        document.querySelectorAll('.technician-card').forEach(card => {
+            const tech = card.dataset.technician;
+            // Simulierte Daten
+            const total = Math.floor(Math.random() * 100) + 20;
+            const countElement = document.getElementById(`techCount-${tech}`);
+            if (countElement) {
+                countElement.textContent = total;
+            }
+
+            // Status Counts
+            statusTypes.forEach(status => {
+                const count = Math.floor(Math.random() * (total / 4));
+                const element = document.getElementById(`${tech}-${status}`);
+                if (element) {
+                    element.textContent = count;
+                }
+            });
+        });
+    }
+
+    function showIMEIDetails(technician, status) {
+        console.log(technician, status)
+        window.location.href = `/imei-details/${encodeURIComponent(technician)}/${encodeURIComponent(status)}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', updateTechnicianStats);

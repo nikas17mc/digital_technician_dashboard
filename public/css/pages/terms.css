@@ -1,0 +1,12 @@
+.terms-container {
+    max-width: var(--container-lg);
+    margin: 0 auto;
+    padding: var(--space-6);
+}
+
+.terms-card {
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+}

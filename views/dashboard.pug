@@ -1,0 +1,678 @@
+extends layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/pages/dashboard.css")
+    link(rel="stylesheet", href="/css/components/forms.css")
+    link(rel="stylesheet", href="/css/components/tables.css")
+    link(rel="stylesheet", href="/css/features/imei-manager.css")
+    style.
+        /* Custom dashboard styles */
+        .dashboard-grid-custom {
+            display: grid;
+            grid-template-columns: minmax(400px, 1fr) minmax(600px, 2fr);
+            gap: var(--space-6);
+            margin-bottom: var(--space-6);
+        }
+        
+        @media (max-width: 1200px) {
+            .dashboard-grid-custom {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .dashboard-stats-overview {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+        
+        .dashboard-actions-panel {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+        
+        .imei-entry-panel {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .imei-entry-panel .dashboard-card-body {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .data-table-container {
+            height: 400px;
+            overflow-y: auto;
+        }
+
+block content
+    .dashboard-container
+        .dashboard-stats-overview
+            .dashboard-stat-card
+                .stat-icon-container
+                    i.fas.fa-users
+                .stat-content
+                    h3 Aktive Techniker
+                    .stat-value #{technicians.length}
+                    .stat-trend.trend-up
+                        i.fas.fa-arrow-up
+                        span 12% mehr als gestern
+            
+            .dashboard-stat-card
+                .stat-icon-container
+                    i.fas.fa-mobile-alt
+                .stat-content
+                    h3 Geräte heute
+                    .stat-value #{todayDevices || 0}
+                    .stat-trend.trend-up
+                        i.fas.fa-arrow-up
+                        span #{todayGrowth || 0}%
+            
+            .dashboard-stat-card
+                .stat-icon-container
+                    i.fas.fa-check-circle
+                .stat-content
+                    h3 Reparaturquote
+                    .stat-value #{repairRate || "95"}%
+                    .stat-trend.trend-neutral
+                        i.fas.fa-minus
+                        span stabil
+            
+            .dashboard-stat-card
+                .stat-icon-container
+                    i.fas.fa-clock
+                .stat-content
+                    h3 Durchschnittszeit
+                    .stat-value #{avgTime || "45"}min
+                    .stat-trend.trend-down
+                        i.fas.fa-arrow-down
+                        span schneller
+        
+        .dashboard-grid.dashboard-grid-custom
+            //- Linke Spalte: Dateneingabe
+            .dashboard-card.imei-entry-panel
+                .dashboard-card-header
+                    .dashboard-card-title
+                        i.fas.fa-edit
+                        h3 Neuen Eintrag erfassen
+                
+                .dashboard-card-body
+                    form#entryForm.dashboard-form
+                        .form-group
+                            label(for="technician")
+                                i.fas.fa-user
+                                span Techniker:
+                            select#technician.form-control(name="technician")
+                                option(value="" disabled selected) Techniker auswählen
+                                each tech in technicians
+                                    option(value=tech)= tech
+                        
+                        .form-group
+                            label(for="date")
+                                i.fas.fa-calendar
+                                span Datum:
+                            .date-input-group
+                                input#date.form-control(type="text" name="date", value=currentDate, readonly)
+                                button.btn.btn-icon.btn-secondary(type="button" onclick="showDatePicker()", aria-label="Datum auswählen")
+                                    i.fas.fa-calendar-alt
+                        
+                        .form-group
+                            label(for="status")
+                                i.fas.fa-tasks
+                                span Ereignis:
+                            select#status.form-control(name="status")
+                                option(value="" disabled selected) Ereignis auswählen
+                                each status in statusTypes
+                                    option(value=status)= status
+                        
+                        .form-group
+                            label(for="count")
+                                i.fas.fa-hashtag
+                                span Anzahl:
+                            input#count.form-control(type="number" name="count" value="1" min="1" max="100")
+                        
+                        .imei-section
+                            .section-header
+                                i.fas.fa-mobile-alt
+                                h4 IMEI-Nummern
+                                span.section-badge #{imeiCount || 0}
+                            
+                            #imeiContainer.imei-container
+                                .imei-row
+                                    .imei-label IMEI 1:
+                                    input.imei-input(type="text" placeholder="IMEI eingeben..." data-index="1")
+                                    button.btn.btn-icon.btn-danger(type="button" onclick="removeIMEIRow(this)", aria-label="IMEI entfernen")
+                                        i.fas.fa-times
+                            
+                            .imei-actions
+                                button.btn.btn-primary(type="button" onclick="addIMEIRow()")
+                                    i.fas.fa-plus
+                                    span IMEI hinzufügen
+                                button.btn.btn-danger(type="button" onclick="clearIMEI()")
+                                    i.fas.fa-trash
+                                    span Alle löschen
+                
+                .dashboard-card-footer
+                    button.btn.btn-success.btn-large(type="button" onclick="saveEntry()")
+                        i.fas.fa-save
+                        span Eintrag speichern
+                    button.btn.btn-outline-secondary(type="button" onclick="resetForm()")
+                        i.fas.fa-redo
+                        span Zurücksetzen
+            
+            //- Rechte Spalte: Datenübersicht
+            .dashboard-content
+                .dashboard-card
+                    .dashboard-card-header
+                        .dashboard-card-title
+                            i.fas.fa-filter
+                            h3 Datenfilter
+                        .dashboard-card-actions
+                            button.btn.btn-icon.btn-primary(onclick="refreshData()", aria-label="Daten aktualisieren")
+                                i.fas.fa-sync
+                    
+                    .dashboard-card-body
+                        .filter-group-horizontal
+                            .filter-item
+                                label(for="startDate") Von:
+                                input#startDate.form-control(type="text" placeholder="TT.MM.JJJJ")
+                            
+                            .filter-item
+                                label(for="endDate") Bis:
+                                input#endDate.form-control(type="text" placeholder="TT.MM.JJJJ")
+                            
+                            .filter-item
+                                label(for="technicianFilter") Techniker:
+                                select#technicianFilter.form-control
+                                    option(value="") Alle Techniker
+                                    each tech in technicians
+                                        option(value=tech)= tech
+                        
+                        .filter-actions
+                            button.btn.btn-primary(onclick="applyFilters()")
+                                i.fas.fa-filter
+                                span Filter anwenden
+                            button.btn.btn-secondary(onclick="resetFilters()")
+                                i.fas.fa-times
+                                span Filter zurücksetzen
+                
+                .dashboard-card
+                    .dashboard-card-header
+                        .dashboard-card-title
+                            i.fas.fa-table
+                            h3 Dateneinträge
+                        .dashboard-card-actions
+                            .tabs
+                                button.tab-btn.active(data-tab="data") 📊 Daten
+                                button.tab-btn(data-tab="technicians") 👨‍🔧 Techniker
+                                button.tab-btn(data-tab="conclusion") 📒 Zusammenfassung
+                    
+                    .dashboard-card-body
+                        .tab-content
+                            #dataTab.tab-pane.active
+                                .data-table-container
+                                    table.data-table
+                                        thead
+                                            tr
+                                                th ID
+                                                th Techniker
+                                                th Datum
+                                                th Ereignis
+                                                th Anzahl
+                                                th IMEI
+                                                th Zeit
+                                                th Aktionen
+                                        tbody#dataTable
+                                            each entry in data
+                                                tr(data-entry-id=entry.id)
+                                                    td= entry.id
+                                                    td= entry.technic
+                                                    td= entry.date
+                                                    td= entry.event
+                                                    td= entry.total_count
+                                                    td= entry.imei.filter(i => i).length
+                                                    td= new Date(entry.timestamp).toLocaleTimeString('de-DE')
+                                                    td
+                                                        button.btn.btn-icon.btn-sm.btn-info(onclick=`showIMEIDetails(${entry.id})`, aria-label="IMEI Details")
+                                                            i.fas.fa-eye
+                                                        button.btn.btn-icon.btn-sm.btn-warning(onclick=`editEntry(${entry.id})`, aria-label="Eintrag bearbeiten")
+                                                            i.fas.fa-edit
+                                                        button.btn.btn-icon.btn-sm.btn-danger(onclick=`deleteEntry(${entry.id})`, aria-label="Eintrag löschen")
+                                                            i.fas.fa-trash
+                            
+                            #techniciansTab.tab-pane
+                                .technician-overview-panel
+                                    include technician.pug
+                            
+                            #conclusionTab.tab-pane
+                                .conclusion-panel
+                                    include conclusion.pug
+                    
+                    .dashboard-card-footer
+                        .export-actions
+                            button.btn.btn-success(onclick="exportExcel()")
+                                i.fas.fa-file-excel
+                                span Excel Export
+                            button.btn.btn-accent(onclick="exportPDF()")
+                                i.fas.fa-file-pdf
+                                span PDF Bericht
+                            button.btn.btn-secondary(onclick="exportCSV()")
+                                i.fas.fa-file-csv
+                                span CSV Export
+        
+        //- Quick Actions Panel
+        .quick-actions-panel
+            h4 Schnellaktionen
+            .quick-actions-grid
+                .quick-action(onclick="openModal('imeiScannerModal')")
+                    i.fas.fa-qrcode
+                    span IMEI scannen
+                .quick-action(onclick="quickReport()")
+                    i.fas.fa-chart-pie
+                    span Schnellreport
+                .quick-action(onclick="openModal('importModal')")
+                    i.fas.fa-file-import
+                    span Schnellimport
+                .quick-action(onclick="quickExport()")
+                    i.fas.fa-file-export
+                    span Schnellexport
+                .quick-action(onclick="openModal('settingsModal')")
+                    i.fas.fa-cog
+                    span Einstellungen
+                .quick-action(onclick="openModal('helpModal')")
+                    i.fas.fa-question-circle
+                    span Hilfe
+        
+        //- Recent Activity
+        .recent-activity-dashboard
+            .dashboard-card-header
+                .dashboard-card-title
+                    i.fas.fa-history
+                    h3 Letzte Aktivitäten
+                .dashboard-card-actions
+                    button.btn.btn-icon.btn-sm(onclick="loadMoreActivities()", aria-label="Meere Aktivitäten laden")
+                        i.fas.fa-ellipsis-h
+            
+            .dashboard-card-body
+                .activity-list-dashboard
+                    each activity in recentActivities || []
+                        .activity-item-dashboard
+                            .activity-icon-dashboard
+                                i.fas(class=activity.icon || "fa-check")
+                            .activity-content-dashboard
+                                .activity-title-dashboard= activity.title
+                                .activity-time-dashboard= activity.time
+
+block scripts
+    script.
+        // Dashboard Initialisierung
+        document.addEventListener('DOMContentLoaded', function() {
+            initDashboard();
+            refreshData();
+        });
+        
+        function initDashboard() {
+            // Setze heutiges Datum
+            const today = new Date().toLocaleDateString('de-DE');
+            document.getElementById('date').value = today;
+            
+            // Tab Navigation
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabName = this.dataset.tab;
+                    
+                    // Aktiven Tab entfernen
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+                    
+                    // Neuen Tab aktivieren
+                    this.classList.add('active');
+                    document.getElementById(tabName + 'Tab').classList.add('active');
+                });
+            });
+            
+            // Datumspicker Initialisierung
+            initDatePickers();
+        }
+        
+        function initDatePickers() {
+            // Start-Datum: Erster Tag des aktuellen Monats
+            const firstDay = new Date();
+            firstDay.setDate(1);
+            document.getElementById('startDate').value = firstDay.toLocaleDateString('de-DE');
+            
+            // End-Datum: Heute
+            document.getElementById('endDate').value = new Date().toLocaleDateString('de-DE');
+            
+            // Datepicker für Formularfelder
+            const dateFields = ['#date', '#startDate', '#endDate'];
+            dateFields.forEach(selector => {
+                const field = document.querySelector(selector);
+                if (field) {
+                    field.addEventListener('click', function() {
+                        showDatePicker(this.id);
+                    });
+                }
+            });
+        }
+        
+        // IMEI Management
+        let imeiCounter = 1;
+        
+        function addIMEIRow() {
+            imeiCounter++;
+            const container = document.getElementById('imeiContainer');
+            const row = document.createElement('div');
+            row.className = 'imei-row';
+            row.innerHTML = `
+                <div class="imei-label">IMEI ${imeiCounter}:</div>
+                <input class="imei-input" type="text" placeholder="IMEI eingeben..." data-index="${imeiCounter}">
+                <button class="btn btn-icon btn-danger" type="button" onclick="removeIMEIRow(this)" aria-label="IMEI entfernen">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            container.appendChild(row);
+            row.querySelector('.imei-input').focus();
+            updateIMEICount();
+        }
+        
+        function removeIMEIRow(btn) {
+            const rows = document.querySelectorAll('.imei-row');
+            if (rows.length > 1) {
+                btn.closest('.imei-row').remove();
+                updateIMELabels();
+                updateIMEICount();
+            } else {
+                showNotification('Mindestens eine IMEI-Zeile muss vorhanden sein.', 'warning');
+            }
+        }
+        
+        function updateIMELabels() {
+            document.querySelectorAll('.imei-row').forEach((row, index) => {
+                row.querySelector('.imei-label').textContent = `IMEI ${index + 1}:`;
+            });
+        }
+        
+        function updateIMEICount() {
+            const count = document.querySelectorAll('.imei-row').length;
+            const badge = document.querySelector('.section-badge');
+            if (badge) {
+                badge.textContent = count;
+            }
+        }
+        
+        function clearIMEI() {
+            if (confirm('Möchten Sie wirklich alle IMEI-Einträge löschen?')) {
+                const container = document.getElementById('imeiContainer');
+                container.innerHTML = '';
+                imeiCounter = 0;
+                addIMEIRow();
+                updateIMEICount();
+            }
+        }
+        
+        // Formular-Funktionen
+        function resetForm() {
+            document.getElementById('entryForm').reset();
+            document.getElementById('date').value = new Date().toLocaleDateString('de-DE');
+            document.getElementById('count').value = '1';
+            clearIMEI();
+            showNotification('Formular wurde zurückgesetzt.', 'info');
+        }
+        
+        async function saveEntry() {
+            const formData = {
+                technician: document.getElementById('technician').value,
+                date: document.getElementById('date').value,
+                status: document.getElementById('status').value,
+                count: document.getElementById('count').value,
+                imei: Array.from(document.querySelectorAll('.imei-input'))
+                    .map(input => input.value.trim())
+                    .filter(value => value)
+            };
+            
+            // Validierung
+            if (!formData.technician || !formData.date || !formData.status) {
+                showNotification('Bitte füllen Sie alle Pflichtfelder aus.', 'error');
+                return;
+            }
+            
+            if (formData.imei.length === 0) {
+                showNotification('Bitte geben Sie mindestens eine IMEI-Nummer ein.', 'warning');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/data/add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showNotification('✅ Eintrag erfolgreich gespeichert!', 'success');
+                    resetForm();
+                    refreshData();
+                    
+                    // Aktualisiere Statistiken
+                    updateDashboardStats();
+                } else {
+                    throw new Error(result.message || 'Unbekannter Fehler');
+                }
+            } catch (error) {
+                showNotification('❌ Fehler beim Speichern: ' + error.message, 'error');
+                console.error('Save error:', error);
+            }
+        }
+        
+        // Daten-Management
+        async function refreshData() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const technicianFilter = document.getElementById('technicianFilter').value;
+            
+            try {
+                const url = new URL('/data/filter', window.location.origin);
+                if (startDate) url.searchParams.append('startDate', startDate);
+                if (endDate) url.searchParams.append('endDate', endDate);
+                if (technicianFilter) url.searchParams.append('technician', technicianFilter);
+                
+                const response = await fetch(url);
+                const result = await response.json();
+                
+                if (result.success) {
+                    updateDataTable(result.data);
+                    updateSummary(result.statistics);
+                    updateDashboardStats();
+                } else {
+                    throw new Error(result.message || 'Fehler beim Laden der Daten');
+                }
+            } catch (error) {
+                showNotification('❌ Fehler beim Aktualisieren: ' + error.message, 'error');
+                console.error('Refresh error:', error);
+            }
+        }
+        
+        function applyFilters() {
+            refreshData();
+            showNotification('Filter wurden angewendet.', 'success');
+        }
+        
+        function resetFilters() {
+            initDatePickers();
+            document.getElementById('technicianFilter').value = '';
+            refreshData();
+            showNotification('Filter wurden zurückgesetzt.', 'info');
+        }
+        
+        function updateDataTable(data) {
+            const tbody = document.getElementById('dataTable');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            if (data.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            <i class="fas fa-inbox"></i>
+                            <p>Keine Daten gefunden</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            data.forEach(entry => {
+                const row = document.createElement('tr');
+                row.dataset.entryId = entry.id;
+                row.innerHTML = `
+                    <td>${entry.id}</td>
+                    <td>${entry.technic}</td>
+                    <td>${entry.date}</td>
+                    <td>${entry.event}</td>
+                    <td>${entry.total_count}</td>
+                    <td>${entry.imei.filter(i => i).length}</td>
+                    <td>${new Date(entry.timestamp).toLocaleTimeString('de-DE')}</td>
+                    <td>
+                        <button class="btn btn-icon btn-sm btn-info" onclick="showIMEIDetails(${entry.id})" aria-label="IMEI Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-icon btn-sm btn-warning" onclick="editEntry(${entry.id})" aria-label="Eintrag bearbeiten">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-icon btn-sm btn-danger" onclick="deleteEntry(${entry.id})" aria-label="Eintrag löschen">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        function updateDashboardStats() {
+            // Hier könnten wir die Dashboard-Statistiken live aktualisieren
+            // Beispiel: Aktualisiere die Zahlen in den Stat-Cards
+            const statCards = document.querySelectorAll('.stat-value');
+            // Hier würden wir die echten Daten einfügen
+        }
+        
+        // Eintrag-Funktionen
+        function editEntry(entryId) {
+            // Hier würde die Bearbeitungslogik implementiert werden
+            showNotification(`Bearbeiten von Eintrag ${entryId} wird vorbereitet...`, 'info');
+            // window.location.href = `/edit/${entryId}`;
+        }
+        
+        async function deleteEntry(entryId) {
+            if (!confirm(`Möchten Sie Eintrag ${entryId} wirklich löschen?`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/data/delete/${entryId}`, {
+                    method: 'DELETE'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showNotification('✅ Eintrag erfolgreich gelöscht!', 'success');
+                    refreshData();
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                showNotification('❌ Fehler beim Löschen: ' + error.message, 'error');
+            }
+        }
+        
+        function showIMEIDetails(entryId) {
+            window.location.href = `/imei-details/${entryId}`;
+        }
+        
+        // Export-Funktionen
+        function exportExcel() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const technician = document.getElementById('technicianFilter').value;
+            
+            let url = '/import-export/excel-export';
+            const params = [];
+            if (startDate) params.push(`startDate=${encodeURIComponent(startDate)}`);
+            if (endDate) params.push(`endDate=${encodeURIComponent(endDate)}`);
+            if (technician) params.push(`technician=${encodeURIComponent(technician)}`);
+            
+            if (params.length > 0) {
+                url += '?' + params.join('&');
+            }
+            
+            window.location.href = url;
+            showNotification('Excel-Export wird vorbereitet...', 'info');
+        }
+        
+        function exportPDF() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            // Hier würde die PDF-Generierung implementiert werden
+            showNotification('PDF-Export wird in Kürze verfügbar sein.', 'info');
+        }
+        
+        function exportCSV() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const technician = document.getElementById('technicianFilter').value;
+            
+            let url = '/import-export/csv-export';
+            const params = [];
+            if (startDate) params.push(`startDate=${encodeURIComponent(startDate)}`);
+            if (endDate) params.push(`endDate=${encodeURIComponent(endDate)}`);
+            if (technician) params.push(`technician=${encodeURIComponent(technician)}`);
+            
+            if (params.length > 0) {
+                url += '?' + params.join('&');
+            }
+            
+            window.location.href = url;
+            showNotification('CSV-Export wird vorbereitet...', 'info');
+        }
+        
+        function quickReport() {
+            generateReport();
+        }
+        
+        function quickExport() {
+            exportExcel();
+        }
+        
+        // Hilfsfunktionen
+        function showNotification(message, type) {
+            // Hier würde die Notification-Komponente verwendet werden
+            console.log(`${type.toUpperCase()}: ${message}`);
+            // In der Praxis würde hier eine richtige Notification-Komponente angesprochen werden
+        }
+        
+        function loadMoreActivities() {
+            // Hier würde das Laden weiterer Aktivitäten implementiert werden
+            showNotification('Weitere Aktivitäten werden geladen...', 'info');
+        }
+        
+        function showDatePicker(fieldId) {
+            // Hier würde der Datepicker geöffnet werden
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.type = 'date';
+                field.showPicker();
+                setTimeout(() => {
+                    field.type = 'text';
+                }, 100);
+            }
+        }

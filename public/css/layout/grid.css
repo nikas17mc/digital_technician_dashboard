@@ -1,0 +1,396 @@
+/* ============================================
+   GRID LAYOUT SYSTEM MIT DESIGN-SYSTEM
+   ============================================ */
+
+/* Main Content Grid */
+.app-main {
+    flex: 1;
+    padding: var(--space-6);
+    background: var(--background);
+    min-height: calc(100vh - var(--header-height) - var(--footer-height));
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    max-width: var(--container-2xl);
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    height: calc(100vh - 200px);
+    min-height: 600px;
+}
+
+/* Responsive Grid Layouts */
+.grid-responsive {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+}
+
+.grid-2 {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-4 {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* Grid Areas */
+.grid-layout {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-areas: 
+        "header header"
+        "sidebar main"
+        "footer footer";
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+.grid-header { grid-area: header; }
+.grid-sidebar { grid-area: sidebar; }
+.grid-main { grid-area: main; }
+.grid-footer { grid-area: footer; }
+
+/* Masonry Grid */
+.grid-masonry {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-auto-rows: 200px;
+    grid-auto-flow: dense;
+}
+
+.grid-item-tall {
+    grid-row: span 2;
+}
+
+.grid-item-wide {
+    grid-column: span 2;
+}
+
+/* Split Layout */
+.grid-split-70-30 {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 70% 30%;
+}
+
+.grid-split-60-40 {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 60% 40%;
+}
+
+.grid-split-30-70 {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 30% 70%;
+}
+
+/* Analysis Grid */
+.analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.stats-cards {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+    gap: var(--space-4);
+}
+
+/* IMEI Grid */
+.imei-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--space-4);
+}
+
+/* Technician Grid */
+.technician-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: var(--space-4);
+    height: 100%;
+}
+
+.technician-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    overflow-y: auto;
+    padding-right: var(--space-2);
+}
+
+/* Chart Grid */
+.chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+}
+
+.chart-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+}
+
+/* Form Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.filter-group {
+    display: grid;
+    grid-template-areas: 
+        'group1 group2'
+        'refresh refresh';
+    gap: var(--space-4);
+}
+
+.form-group-1 { grid-area: group1; }
+.form-group-2 { grid-area: group2; }
+.filter-btn { grid-area: refresh; }
+
+/* Card Grid */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: var(--space-4);
+}
+
+/* Table Grid */
+.table-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
+    gap: var(--space-4);
+}
+
+/* Responsive Grid Utilities */
+.grid-auto-fit {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--auto-fit-min, 250px)), 1fr));
+    gap: var(--space-4);
+}
+
+.grid-auto-fill {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--auto-fill-min, 200px)), 1fr));
+    gap: var(--space-3);
+}
+
+/* Grid Gaps */
+.gap-xs { gap: var(--space-1); }
+.gap-sm { gap: var(--space-2); }
+.gap-md { gap: var(--space-4); }
+.gap-lg { gap: var(--space-6); }
+.gap-xl { gap: var(--space-8); }
+
+/* Grid Alignment */
+.grid-center {
+    display: grid;
+    place-items: center;
+}
+
+.grid-start {
+    display: grid;
+    align-items: start;
+}
+
+.grid-end {
+    display: grid;
+    align-items: end;
+}
+
+.grid-stretch {
+    display: grid;
+    align-items: stretch;
+}
+
+/* Grid Template Rows */
+.grid-rows-2 {
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.grid-rows-3 {
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.grid-rows-auto {
+    grid-auto-rows: minmax(100px, auto);
+}
+
+/* Responsive Grid Breakpoints */
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        height: auto;
+        min-height: 400px;
+    }
+    
+    .grid-split-70-30,
+    .grid-split-60-40,
+    .grid-split-30-70 {
+        grid-template-columns: 1fr;
+    }
+    
+    .grid-layout {
+        grid-template-areas: 
+            "header"
+            "main"
+            "footer";
+        grid-template-columns: 1fr;
+    }
+    
+    .grid-sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 1024px) {
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .chart-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-main {
+        padding: var(--space-4);
+    }
+    
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+    
+    .grid-masonry {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+    }
+    
+    .grid-item-wide {
+        grid-column: span 1;
+    }
+    
+    .filter-group {
+        grid-template-areas: 
+            'group1'
+            'group2'
+            'refresh';
+        grid-template-columns: 1fr;
+    }
+    
+    .technician-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-main {
+        padding: var(--space-3);
+    }
+    
+    .dashboard-grid {
+        gap: var(--space-3);
+    }
+    
+    .imei-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Print Grid Adjustments */
+@media print {
+    .dashboard-grid,
+    .analysis-grid,
+    .chart-grid {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    
+    .grid-item-tall,
+    .grid-item-wide {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}
+
+/* Grid Animations */
+.grid-item {
+    animation: fadeInUp var(--duration-300) var(--ease-out) backwards;
+}
+
+.grid-item:nth-child(1) { animation-delay: 0.1s; }
+.grid-item:nth-child(2) { animation-delay: 0.2s; }
+.grid-item:nth-child(3) { animation-delay: 0.3s; }
+.grid-item:nth-child(4) { animation-delay: 0.4s; }
+.grid-item:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Grid Debug */
+.grid-debug * {
+    outline: 1px solid rgba(255, 0, 0, 0.2);
+    background: rgba(0, 255, 0, 0.05);
+}
+
+/* Theme Adjustments */
+[data-theme="light"] .app-main {
+    background: var(--neutral-50);
+}
+
+[data-theme="light"] .grid-masonry .grid-item {
+    background: var(--neutral-100);
+    border: var(--border-thin) solid var(--neutral-300);
+}
+
+/* Performance Optimizations */
+.grid-will-change {
+    will-change: transform;
+    transform: translateZ(0);
+}

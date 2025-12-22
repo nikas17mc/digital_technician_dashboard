@@ -1,0 +1,386 @@
+:root {
+    /* ===== FARBPALETTE ===== */
+    /* Primäre Farben */
+    --primary-50: #E6F7FF;
+    --primary-100: #B3E6FF;
+    --primary-200: #80D4FF;
+    --primary-300: #4DC3FF;
+    --primary-400: #1AB1FF;
+    --primary-500: #00B4D8;  /* Base Primary */
+    --primary-600: #0093B8;
+    --primary-700: #007399;
+    --primary-800: #005279;
+    --primary-900: #00324A;
+    
+    /* Sekundäre Farben */
+    --secondary-50: #E6F2FF;
+    --secondary-100: #B3D9FF;
+    --secondary-200: #80C1FF;
+    --secondary-300: #4DA8FF;
+    --secondary-400: #1A90FF;
+    --secondary-500: #0077B6;  /* Base Secondary */
+    --secondary-600: #00609C;
+    --secondary-700: #004A83;
+    --secondary-800: #003369;
+    --secondary-900: #001D50;
+    
+    /* Akzentfarben */
+    --accent-50: #FFF3E6;
+    --accent-100: #FFE0B3;
+    --accent-200: #FFCC80;
+    --accent-300: #FFB84D;
+    --accent-400: #FFA41A;
+    --accent-500: #FF9E00;  /* Base Accent */
+    --accent-600: #E68A00;
+    --accent-700: #CC7700;
+    --accent-800: #B36300;
+    --accent-900: #995000;
+    
+    /* Erfolgsfarben */
+    --success-50: #E6FFF7;
+    --success-100: #B3FFE8;
+    --success-200: #80FFDA;
+    --success-300: #4DFFCB;
+    --success-400: #1AFFBD;
+    --success-500: #00D4AA;  /* Base Success */
+    --success-600: #00B38F;
+    --success-700: #009375;
+    --success-800: #00725A;
+    --success-900: #005240;
+    
+    /* Warnfarben */
+    --warning-50: #FFF9E6;
+    --warning-100: #FFEDB3;
+    --warning-200: #FFE080;
+    --warning-300: #FFD44D;
+    --warning-400: #FFC71A;
+    --warning-500: #FFB347;  /* Base Warning */
+    --warning-600: #E69A00;
+    --warning-700: #CC8800;
+    --warning-800: #B37600;
+    --warning-900: #996300;
+    
+    /* Fehlerfarben */
+    --danger-50: #FFE6E6;
+    --danger-100: #FFB3B3;
+    --danger-200: #FF8080;
+    --danger-300: #FF4D4D;
+    --danger-400: #FF1A1A;
+    --danger-500: #FF6B6B;  /* Base Danger */
+    --danger-600: #E64A4A;
+    --danger-700: #CC2A2A;
+    --danger-800: #B30A0A;
+    --danger-900: #990000;
+    
+    /* Neutrale Farben */
+    --neutral-50: #F8FAFC;
+    --neutral-100: #F1F5F9;
+    --neutral-200: #E2E8F0;
+    --neutral-300: #CBD5E1;
+    --neutral-400: #94A3B8;
+    --neutral-500: #64748B;
+    --neutral-600: #475569;
+    --neutral-700: #334155;
+    --neutral-800: #1E293B;
+    --neutral-900: #0F172A;
+    
+    /* Dark Theme Varianten */
+    --dark-50: #112240;
+    --dark-100: #0D1A33;
+    --dark-200: #0A162F;
+    --dark-300: #081229;
+    --dark-400: #060F23;
+    --dark-500: #050C1D;
+    --dark-600: #040917;
+    --dark-700: #030611;
+    --dark-800: #02040B;
+    --dark-900: #010205;
+    
+    /* ===== AAA KONTRASTFARBEN (WCAG 3:1) ===== */
+    /* Für Text auf dunklem Hintergrund */
+    --text-aaa-light: #FFFFFF;        /* 21:1 Kontrast auf #0A192F */
+    --text-aaa-light-secondary: #E2E8F0; /* 15:1 Kontrast */
+    --text-aaa-light-disabled: #94A3B8;  /* 7:1 Kontrast */
+    
+    /* Für Text auf hellem Hintergrund */
+    --text-aaa-dark: #0F172A;         /* 21:1 Kontrast auf #FFFFFF */
+    --text-aaa-dark-secondary: #334155; /* 12:1 Kontrast */
+    --text-aaa-dark-disabled: #64748B;  /* 7:1 Kontrast */
+    
+    /* Primäre AAA Farben für interaktive Elemente */
+    --primary-aaa: #00C8FF;           /* 7.5:1 Kontrast auf #0A192F */
+    --primary-aaa-hover: #00A3CC;     /* 9:1 Kontrast */
+    --primary-aaa-active: #0088AA;    /* 11:1 Kontrast */
+    
+    /* Erfolg AAA Farben */
+    --success-aaa: #00FFC3;           /* 8:1 Kontrast auf #0A192F */
+    --success-aaa-hover: #00D4AA;     /* 10:1 Kontrast */
+    
+    /* Fehler AAA Farben */
+    --danger-aaa: #FF4444;            /* 7.2:1 Kontrast auf #0A192F */
+    --danger-aaa-hover: #FF2222;      /* 9:1 Kontrast */
+    
+    /* ===== TYPOGRAPHIE ===== */
+    /* Schriftfamilien */
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    --font-secondary: 'JetBrains Mono', 'Consolas', 'Monaco', 'Courier New', monospace;
+    --font-display: 'Poppins', var(--font-primary);
+    
+    /* Schriftgrößen - Modular Scale (1.25) */
+    --text-xs: 0.75rem;      /* 12px */
+    --text-sm: 0.875rem;     /* 14px */
+    --text-base: 1rem;       /* 16px */
+    --text-lg: 1.125rem;     /* 18px */
+    --text-xl: 1.25rem;      /* 20px */
+    --text-2xl: 1.5rem;      /* 24px */
+    --text-3xl: 1.875rem;    /* 30px */
+    --text-4xl: 2.25rem;     /* 36px */
+    --text-5xl: 3rem;        /* 48px */
+    --text-6xl: 3.75rem;     /* 60px */
+    
+    /* Zeilenhöhen */
+    --leading-tight: 1.25;
+    --leading-snug: 1.375;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.625;
+    --leading-loose: 2;
+    
+    /* Schriftgewichte */
+    --font-thin: 100;
+    --font-extralight: 200;
+    --font-light: 300;
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+    --font-extrabold: 800;
+    --font-black: 900;
+    
+    /* ===== ABSTÄNDE & GRÖSSEN ===== */
+    /* Spacing Scale (0.25rem increments) */
+    --space-0: 0;
+    --space-1: 0.25rem;     /* 4px */
+    --space-2: 0.5rem;      /* 8px */
+    --space-3: 0.75rem;     /* 12px */
+    --space-4: 1rem;        /* 16px */
+    --space-5: 1.25rem;     /* 20px */
+    --space-6: 1.5rem;      /* 24px */
+    --space-8: 2rem;        /* 32px */
+    --space-10: 2.5rem;     /* 40px */
+    --space-12: 3rem;       /* 48px */
+    --space-16: 4rem;       /* 64px */
+    --space-20: 5rem;       /* 80px */
+    --space-24: 6rem;       /* 96px */
+    
+    /* Border Radius */
+    --radius-none: 0;
+    --radius-sm: 0.125rem;   /* 2px */
+    --radius-base: 0.25rem;  /* 4px */
+    --radius-md: 0.375rem;   /* 6px */
+    --radius-lg: 0.5rem;     /* 8px */
+    --radius-xl: 0.75rem;    /* 12px */
+    --radius-2xl: 1rem;      /* 16px */
+    --radius-3xl: 1.5rem;    /* 24px */
+    --radius-full: 9999px;
+    
+    /* Border Widths */
+    --border-none: 0;
+    --border-thin: 1px;
+    --border-medium: 2px;
+    --border-thick: 3px;
+    --border-heavy: 4px;
+    
+    /* Schatten */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    
+    /* ===== LAYOUT ===== */
+    /* Container Widths */
+    --container-sm: 640px;
+    --container-md: 768px;
+    --container-lg: 1024px;
+    --container-xl: 1280px;
+    --container-2xl: 1536px;
+    
+    /* Z-Index Layers */
+    --z-0: 0;
+    --z-10: 10;
+    --z-20: 20;
+    --z-30: 30;
+    --z-40: 40;
+    --z-50: 50;
+    --z-auto: auto;
+    
+    /* Breakpoints */
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+    --breakpoint-2xl: 1536px;
+    
+    /* ===== ANIMATION ===== */
+    /* Transition Durations */
+    --duration-75: 75ms;
+    --duration-100: 100ms;
+    --duration-150: 150ms;
+    --duration-200: 200ms;
+    --duration-300: 300ms;
+    --duration-500: 500ms;
+    --duration-700: 700ms;
+    --duration-1000: 1000ms;
+    
+    /* Transition Timing Functions */
+    --ease-linear: linear;
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* ===== KOMPONENTENSPEZIFISCHE VARIABLEN ===== */
+    /* Header */
+    --header-height: 4rem;
+    --header-padding-x: var(--space-6);
+    --header-padding-y: var(--space-4);
+    
+    /* Footer */
+    --footer-height: 3.5rem;
+    --footer-padding-x: var(--space-6);
+    --footer-padding-y: var(--space-3);
+    
+    /* Sidebar */
+    --sidebar-width: 16rem;
+    --sidebar-collapsed-width: 4rem;
+    
+    /* Cards */
+    --card-padding: var(--space-6);
+    --card-radius: var(--radius-xl);
+    --card-border: var(--border-thin);
+    
+    /* Buttons */
+    --btn-padding-x: var(--space-4);
+    --btn-padding-y: var(--space-2);
+    --btn-radius: var(--radius-lg);
+    --btn-font-size: var(--text-base);
+    --btn-font-weight: var(--font-semibold);
+    
+    /* Forms */
+    --input-padding-x: var(--space-3);
+    --input-padding-y: var(--space-2);
+    --input-radius: var(--radius-lg);
+    --input-border: var(--border-thin);
+    
+    /* Tables */
+    --table-cell-padding: var(--space-3);
+    --table-header-padding: var(--space-4);
+    --table-radius: var(--radius-lg);
+    
+    /* Modals */
+    --modal-padding: var(--space-6);
+    --modal-radius: var(--radius-2xl);
+    --modal-backdrop-blur: 8px;
+    
+    /* ===== THEME VARIABLEN (Kompatibilität) ===== */
+    /* Primary Colors */
+    --primary: var(--primary-500);
+    --primary-dark: var(--primary-700);
+    --secondary: var(--secondary-500);
+    --accent: var(--accent-500);
+    --accent-light: var(--accent-300);
+    
+    /* Status Colors */
+    --success: var(--success-500);
+    --success-dark: var(--success-700);
+    --warning: var(--warning-500);
+    --danger: var(--danger-500);
+    --danger-dark: var(--danger-700);
+    
+    /* Dark Theme */
+    --dark: var(--dark-300);
+    --dark-light: var(--dark-50);
+    --light: #CCD6F6;
+    --lighter: #E6F1FF;
+    --background: var(--dark-300);
+    --card: var(--dark-50);
+    --card-light: #1E2A47;
+    --card-dark: var(--dark-100);
+    
+    /* Text Colors */
+    --text: var(--text-aaa-light);
+    --text-secondary: var(--text-aaa-light-secondary);
+    --border: #2D3A5F;
+    --border-light: #4A5778;
+    
+    /* Special */
+    --highlight: #64DFDF;
+    --highlight-dark: #4AC9C9;
+    --disabled: #4A5778;
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+[data-theme="light"] {
+    --background: #FFFFFF;
+    --card: #F8FAFC;
+    --card-light: #F1F5F9;
+    --card-dark: #E2E8F0;
+    
+    --text: var(--text-aaa-dark);
+    --text-secondary: var(--text-aaa-dark-secondary);
+    
+    --border: #E2E8F0;
+    --border-light: #CBD5E1;
+    
+    /* Adjust primary colors for better contrast on light background */
+    --primary: var(--primary-600);
+    --primary-dark: var(--primary-700);
+    --success: var(--success-600);
+    --danger: var(--danger-600);
+    
+    /* AAA Contrast adjustments for light mode */
+    --primary-aaa: var(--primary-700);
+    --primary-aaa-hover: var(--primary-800);
+    --success-aaa: var(--success-700);
+    --danger-aaa: var(--danger-700);
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+    :root {
+        --text: #FFFFFF;
+        --text-secondary: #E6E6E6;
+        --border: #FFFFFF;
+        --border-light: #CCCCCC;
+        
+        --primary: #00FFFF;
+        --primary-dark: #00CCCC;
+        --success: #00FF00;
+        --danger: #FF0000;
+        --warning: #FFFF00;
+    }
+}
+
+/* ===== DARK MODE MEDIA QUERY FALLBACK ===== */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --background: var(--dark-300);
+        --card: var(--dark-50);
+        --text: var(--text-aaa-light);
+        --text-secondary: var(--text-aaa-light-secondary);
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    :root {
+        --background: #FFFFFF;
+        --text: #000000;
+        --text-secondary: #333333;
+        --border: #000000;
+        --primary: #000000;
+        --shadow-sm: none;
+        --shadow-base: none;
+    }
+}

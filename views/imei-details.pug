@@ -1,0 +1,596 @@
+extends layout.pug
+
+block content
+    .imei-details-container
+        .imei-header
+            .header-info
+                h1
+                    i.fas.fa-barcode
+                    | IMEI Details
+                .header-subtitle
+                    span.badge.badge-primary #{technician}
+                    span.badge.badge-secondary #{status}
+                    span.badge.badge-info #{totalIMEIs} IMEIs
+            
+            .header-actions
+                button.btn.btn-primary(onclick="exportIMEIData()")
+                    i.fas.fa-file-excel
+                    | Als Excel exportieren
+                button.btn.btn-secondary(onclick="printIMEIList()")
+                    i.fas.fa-print
+                    | Drucken
+                button.btn.btn-danger(onclick="window.history.back()")
+                    i.fas.fa-arrow-left
+                    | Zurück
+        
+        .imei-stats-summary
+            .stat-card
+                .stat-icon.success
+                    i.fas.fa-check-circle
+                .stat-content
+                    h3 Valide IMEIs
+                    .stat-value #{validIMEIs}
+            .stat-card
+                .stat-icon.warning
+                    i.fas.fa-exclamation-triangle
+                .stat-content
+                    h3 Invalide IMEIs
+                    .stat-value #{totalIMEIs - validIMEIs}
+            .stat-card
+                .stat-icon.info
+                    i.fas.fa-chart-line
+                .stat-content
+                    h3 Durchschn. Score
+                    .stat-value#averageScore 0
+            .stat-card
+                .stat-icon.primary
+                    i.fas.fa-star
+                .stat-content
+                    h3 Beste Qualität
+                    .stat-value#bestScore 0
+        
+        .imei-content
+            .imei-tabs
+                .tab-buttons
+                    button.tab-btn.active(data-tab="list")
+                        i.fas.fa-list
+                        | IMEI Liste
+                    button.tab-btn(data-tab="analysis")
+                        i.fas.fa-chart-bar
+                        | Analyse
+                    button.tab-btn(data-tab="validation")
+                        i.fas.fa-check-double
+                        | Validierung
+                    button.tab-btn(data-tab="patterns")
+                        i.fas.fa-project-diagram
+                        | Muster
+                
+                .tab-content
+                    #listTab.tab-pane.active
+                        .imei-list-container
+                            .list-controls
+                                .search-box
+                                    i.fas.fa-search
+                                    input(type="text", placeholder="IMEI suchen...", onkeyup="filterIMEIList(this.value)")
+                                .filter-buttons
+                                    button.btn.btn-small.btn-success(onclick="filterByStatus('valid')")
+                                        i.fas.fa-check
+                                        | Nur valide
+                                    button.btn.btn-small.btn-danger(onclick="filterByStatus('invalid')")
+                                        i.fas.fa-times
+                                        | Nur invalide
+                                    button.btn.btn-small.btn-secondary(onclick="filterByStatus('all')")
+                                        i.fas.fa-list
+                                        | Alle anzeigen
+                            
+                            .imei-table-container
+                                table.imei-table
+                                    thead
+                                        tr
+                                            th IMEI
+                                            th Status
+                                            th Qualität
+                                            th Hersteller
+                                            th Typ
+                                            th TAC
+                                            th Länge
+                                            th Muster
+                                            th Aktionen
+                                    tbody#imeiTableBody
+                                        each item in imeiList
+                                            tr(class=item.isValid ? 'valid' : 'invalid')
+                                                td
+                                                    code.imei-number #{item.imei}
+                                                td
+                                                    if item.isValid
+                                                        span.badge.badge-success
+                                                            i.fas.fa-check
+                                                            | Valide
+                                                    else
+                                                        span.badge.badge-danger
+                                                            i.fas.fa-times
+                                                            | Invalide
+                                                td
+                                                    .quality-meter
+                                                        .quality-fill(style=`width: ${item.qualityScore}%`)
+                                                        span.quality-text #{item.qualityScore}/100
+                                                td= item.manufacturer
+                                                td= item.deviceType
+                                                td= item.tac
+                                                td= item.length
+                                                td
+                                                    .patterns-tags
+                                                        each pattern in item.patterns.slice(0, 2)
+                                                            span.pattern-tag #{pattern}
+                                                        if item.patterns.length > 2
+                                                            span.pattern-tag +#{item.patterns.length - 2}
+                                                td
+                                                    button.btn.btn-small.btn-info(onclick=`showIMEIDetails('${item.imei}')`)
+                                                        i.fas.fa-info-circle
+                                                    button.btn.btn-small.btn-warning(onclick=`copyIMEI('${item.imei}')`)
+                                                        i.fas.fa-copy
+                    
+                    #analysisTab.tab-pane
+                        .analysis-content
+                            .chart-row
+                                .chart-container
+                                    h4 Qualitätsverteilung
+                                    canvas#qualityDistributionChart
+                                .chart-container
+                                    h4 Herstellerverteilung
+                                    canvas#manufacturerDistributionChart
+                            
+                            .analysis-stats
+                                .stat-box
+                                    h5 Längenverteilung
+                                    #lengthDistribution.length-dist
+                                .stat-box
+                                    h5 Durchschnittswerte
+                                    .average-stats
+                                        .stat
+                                            span.label Validierungs-Score:
+                                            span.value#avgValidationScore 0
+                                        .stat
+                                            span.label Qualitäts-Score:
+                                            span.value#avgQualityScore 0
+                                        .stat
+                                            span.label IMEI Länge:
+                                            span.value#avgIMELength 0
+                    
+                    #validationTab.tab-pane
+                        .validation-content
+                            .validation-summary
+                                h4 Validierungsübersicht
+                                .validation-stats
+                                    .stat
+                                        h6 Total geprüft
+                                        .number #{totalIMEIs}
+                                    .stat
+                                        h6 Valide
+                                        .number.success #{validIMEIs}
+                                    .stat
+                                        h6 Invalide
+                                        .number.danger #{totalIMEIs - validIMEIs}
+                                    .stat
+                                        h6 Erfolgsrate
+                                        .number#successRate 0%
+                            
+                            .validation-details
+                                h4 Häufige Fehler
+                                #commonErrors.common-errors
+                                h4 Validierungstipps
+                                .validation-tips
+                                    .tip
+                                        i.fas.fa-lightbulb
+                                        p Standard-IMEIs sind 15 Ziffern lang
+                                    .tip
+                                        i.fas.fa-lightbulb
+                                        p Der Luhn-Algorithmus validiert die Prüfziffer
+                                    .tip
+                                        i.fas.fa-lightbulb
+                                        p Triple-Ziffern (z.B. "111") sind oft Test-IMEIs
+                    
+                    #patternsTab.tab-pane
+                        .patterns-content
+                            .patterns-grid
+                                each item in imeiList.slice(0, 10)
+                                    .pattern-card
+                                        .pattern-header
+                                            code.small #{item.imei}
+                                            if item.isValid
+                                                span.badge.badge-success.small Valide
+                                            else
+                                                span.badge.badge-danger.small Invalide
+                                        .pattern-body
+                                            .pattern-list
+                                                each pattern in item.patterns
+                                                    .pattern-item #{pattern}
+                                            .pattern-score
+                                                .score-circle(style=`--score: ${item.qualityScore}`)
+                                                    span #{item.qualityScore}
+                                                span Score
+        
+        .imei-export-options
+            h4 Export-Optionen
+            .export-buttons
+                button.btn.btn-success(onclick="exportSelectedIMEIs()")
+                    i.fas.fa-download
+                    | Ausgewählte exportieren
+                button.btn.btn-primary(onclick="exportAllIMEIs()")
+                    i.fas.fa-file-excel
+                    | Komplette Liste exportieren
+                button.btn.btn-secondary(onclick="exportAnalysisReport()")
+                    i.fas.fa-chart-pie
+                    | Analyse-Report exportieren
+
+block scripts
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
+    script.
+        let allIMEIData = !{JSON.stringify(imeiList)};
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            renderIMEITable(allIMEIData);
+            updateStatistics();
+            initCharts();
+            setupTabs();
+        });
+        
+        function renderIMEITable(data) {
+            const tbody = document.getElementById('imeiTableBody');
+            tbody.innerHTML = '';
+            
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.className = item.isValid ? 'valid' : 'invalid';
+                row.innerHTML = `
+                    <td><code class="imei-number">${item.imei}</code></td>
+                    <td>
+                        ${item.isValid ? 
+                            '<span class="badge badge-success"><i class="fas fa-check"></i> Valide</span>' : 
+                            '<span class="badge badge-danger"><i class="fas fa-times"></i> Invalide</span>'}
+                    </td>
+                    <td>
+                        <div class="quality-meter">
+                            <div class="quality-fill" style="width: ${item.qualityScore}%"></div>
+                            <span class="quality-text">${item.qualityScore}/100</span>
+                        </div>
+                    </td>
+                    <td>${item.manufacturer}</td>
+                    <td>${item.deviceType}</td>
+                    <td>${item.tac}</td>
+                    <td>${item.length}</td>
+                    <td>
+                        <div class="patterns-tags">
+                            ${item.patterns.slice(0, 2).map(p => `<span class="pattern-tag">${p}</span>`).join('')}
+                            ${item.patterns.length > 2 ? 
+                                `<span class="pattern-tag">+${item.patterns.length - 2}</span>` : ''}
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-small btn-info" onclick="showIMEIDetails('${item.imei}')">
+                            <i class="fas fa-info-circle"></i>
+                        </button>
+                        <button class="btn btn-small btn-warning" onclick="copyIMEI('${item.imei}')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        function filterIMEIList(searchTerm) {
+            const filtered = allIMEIData.filter(item => 
+                item.imei.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.manufacturer.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.deviceType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.patterns.some(p => p.toLowerCase().includes(searchTerm.toLowerCase()))
+            );
+            renderIMEITable(filtered);
+        }
+        
+        function filterByStatus(status) {
+            let filtered;
+            switch(status) {
+                case 'valid':
+                    filtered = allIMEIData.filter(item => item.isValid);
+                    break;
+                case 'invalid':
+                    filtered = allIMEIData.filter(item => !item.isValid);
+                    break;
+                default:
+                    filtered = allIMEIData;
+            }
+            renderIMEITable(filtered);
+        }
+        
+        function updateStatistics() {
+            const validCount = allIMEIData.filter(item => item.isValid).length;
+            const totalCount = allIMEIData.length;
+            const avgQuality = totalCount > 0 ? 
+                Math.round(allIMEIData.reduce((sum, item) => sum + item.qualityScore, 0) / totalCount) : 0;
+            const bestScore = totalCount > 0 ? 
+                Math.max(...allIMEIData.map(item => item.qualityScore)) : 0;
+            const successRate = totalCount > 0 ? 
+                Math.round((validCount / totalCount) * 100) : 0;
+            
+            document.getElementById('averageScore').textContent = avgQuality;
+            document.getElementById('bestScore').textContent = bestScore;
+            document.getElementById('successRate').textContent = `${successRate}%`;
+            
+            // Durchschnittswerte
+            const avgValidation = totalCount > 0 ? 
+                Math.round(allIMEIData.reduce((sum, item) => sum + item.validationScore, 0) / totalCount) : 0;
+            const avgLength = totalCount > 0 ? 
+                Math.round(allIMEIData.reduce((sum, item) => sum + item.length, 0) / totalCount) : 0;
+            
+            document.getElementById('avgValidationScore').textContent = avgValidation;
+            document.getElementById('avgQualityScore').textContent = avgQuality;
+            document.getElementById('avgIMELength').textContent = avgLength;
+        }
+        
+        function initCharts() {
+            // Qualitätsverteilung
+            const qualityCtx = document.getElementById('qualityDistributionChart').getContext('2d');
+            const qualityData = {
+                excellent: allIMEIData.filter(item => item.qualityScore >= 90).length,
+                good: allIMEIData.filter(item => item.qualityScore >= 70 && item.qualityScore < 90).length,
+                medium: allIMEIData.filter(item => item.qualityScore >= 50 && item.qualityScore < 70).length,
+                poor: allIMEIData.filter(item => item.qualityScore < 50).length
+            };
+            
+            new Chart(qualityCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Exzellent (90-100)', 'Gut (70-89)', 'Mittel (50-69)', 'Schlecht (0-49)'],
+                    datasets: [{
+                        data: [qualityData.excellent, qualityData.good, qualityData.medium, qualityData.poor],
+                        backgroundColor: [
+                            'rgba(0, 212, 170, 0.7)',
+                            'rgba(0, 180, 216, 0.7)',
+                            'rgba(255, 158, 0, 0.7)',
+                            'rgba(255, 107, 107, 0.7)'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+            
+            // Herstellerverteilung
+            const manufacturerCtx = document.getElementById('manufacturerDistributionChart').getContext('2d');
+            const manufacturerCounts = {};
+            allIMEIData.forEach(item => {
+                manufacturerCounts[item.manufacturer] = (manufacturerCounts[item.manufacturer] || 0) + 1;
+            });
+            
+            const sortedManufacturers = Object.entries(manufacturerCounts)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 5);
+            
+            new Chart(manufacturerCtx, {
+                type: 'bar',
+                data: {
+                    labels: sortedManufacturers.map(([name]) => name),
+                    datasets: [{
+                        label: 'Anzahl',
+                        data: sortedManufacturers.map(([,count]) => count),
+                        backgroundColor: 'rgba(0, 119, 182, 0.7)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // Längenverteilung
+            const lengthDist = {};
+            allIMEIData.forEach(item => {
+                lengthDist[item.length] = (lengthDist[item.length] || 0) + 1;
+            });
+            
+            const lengthDistElement = document.getElementById('lengthDistribution');
+            lengthDistElement.innerHTML = Object.entries(lengthDist)
+                .sort(([a], [b]) => a - b)
+                .map(([length, count]) => `
+                    <div class="length-item">
+                        <span class="length-label">${length} Ziffern:</span>
+                        <span class="length-count">${count}</span>
+                    </div>
+                `).join('');
+            
+            // Häufige Fehler
+            const errors = allIMEIData.filter(item => !item.isValid);
+            const errorReasons = {};
+            errors.forEach(item => {
+                if (item.length < 14) errorReasons['Zu kurz'] = (errorReasons['Zu kurz'] || 0) + 1;
+                if (!/^\d+$/.test(item.imei)) errorReasons['Nicht numerisch'] = (errorReasons['Nicht numerisch'] || 0) + 1;
+                if (item.imei.includes('000000')) errorReasons['Nullen-Folge'] = (errorReasons['Nullen-Folge'] || 0) + 1;
+                if (item.patterns.some(p => p.includes('triple'))) errorReasons['Wiederholte Ziffern'] = (errorReasons['Wiederholte Ziffern'] || 0) + 1;
+            });
+            
+            const commonErrorsElement = document.getElementById('commonErrors');
+            commonErrorsElement.innerHTML = Object.entries(errorReasons)
+                .sort(([,a], [,b]) => b - a)
+                .map(([reason, count]) => `
+                    <div class="error-item">
+                        <span class="error-reason">${reason}:</span>
+                        <span class="error-count">${count} mal</span>
+                    </div>
+                `).join('');
+        }
+        
+        function setupTabs() {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabName = this.dataset.tab;
+                    
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                    document.getElementById(tabName + 'Tab').classList.add('active');
+                });
+            });
+        }
+        
+        function showIMEIDetails(imei) {
+            const item = allIMEIData.find(i => i.imei === imei);
+            if (!item) return;
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal modal-large">
+                    <div class="modal-header">
+                        <h3>📱 IMEI Details</h3>
+                        <button class="btn-close" onclick="this.closest('.modal-overlay').remove()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="imei-detail-view">
+                            <div class="detail-header">
+                                <code class="imei-large">${item.imei}</code>
+                                <span class="badge ${item.isValid ? 'badge-success' : 'badge-danger'}">
+                                    ${item.isValid ? '✅ VALIDE' : '❌ INVALID'}
+                                </span>
+                            </div>
+                            
+                            <div class="detail-grid">
+                                <div class="detail-section">
+                                    <h4>Basisinformationen</h4>
+                                    <div class="info-row">
+                                        <span class="label">Hersteller:</span>
+                                        <span class="value">${item.manufacturer}</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">Gerätetyp:</span>
+                                        <span class="value">${item.deviceType}</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">TAC:</span>
+                                        <span class="value">${item.tac}</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">Länge:</span>
+                                        <span class="value">${item.length} Ziffern</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="detail-section">
+                                    <h4>Bewertung</h4>
+                                    <div class="info-row">
+                                        <span class="label">Qualitäts-Score:</span>
+                                        <div class="value">
+                                            <div class="quality-meter">
+                                                <div class="quality-fill" style="width: ${item.qualityScore}%"></div>
+                                                <span class="quality-text">${item.qualityScore}/100</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">Validierungs-Score:</span>
+                                        <span class="value">${item.validationScore}/100</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="label">Analysemethode:</span>
+                                        <span class="value">${item.analysisMethod}</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="detail-section full-width">
+                                    <h4>Erkannte Muster</h4>
+                                    <div class="patterns-list">
+                                        ${item.patterns.map(pattern => 
+                                            `<span class="pattern-tag large">${pattern}</span>`
+                                        ).join('')}
+                                        ${item.patterns.length === 0 ? 
+                                            '<span class="text-muted">Keine Muster erkannt</span>' : ''}
+                                    </div>
+                                </div>
+                                
+                                ${item.originalData ? `
+                                    <div class="detail-section">
+                                        <h4>Originaldaten</h4>
+                                        <div class="info-row">
+                                            <span class="label">Techniker:</span>
+                                            <span class="value">${item.originalData.technician}</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="label">Status:</span>
+                                            <span class="value">${item.originalData.status}</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="label">Datum:</span>
+                                            <span class="value">${item.originalData.date}</span>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-warning" onclick="copyIMEI('${item.imei}')">
+                            <i class="fas fa-copy"></i> IMEI kopieren
+                        </button>
+                        <button class="btn btn-primary" onclick="this.closest('.modal-overlay').remove()">
+                            Schließen
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+        
+        function copyIMEI(imei) {
+            navigator.clipboard.writeText(imei).then(() => {
+                showNotification(`IMEI ${imei.substring(0, 8)}... kopiert`, 'success');
+            });
+        }
+        
+        function exportIMEIData() {
+            window.location.href = `/analysis/export/imei?technician=${encodeURIComponent('#{technician}')}&status=${encodeURIComponent('#{status}')}`;
+        }
+        
+        function exportSelectedIMEIs() {
+            // Hier würde die Logik für ausgewählte IMEIs implementiert werden
+            exportIMEIData();
+        }
+        
+        function exportAllIMEIs() {
+            exportIMEIData();
+        }
+        
+        function exportAnalysisReport() {
+            window.location.href = `/analysis/export/report?technician=${encodeURIComponent('#{technician}')}&status=${encodeURIComponent('#{status}')}`;
+        }
+        
+        function printIMEIList() {
+            window.print();
+        }
+        
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <span>${message}</span>
+                <button class="notification-close" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 3000);
+        }

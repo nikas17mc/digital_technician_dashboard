@@ -1,0 +1,842 @@
+/* ============================================
+   IMEI DETAILS PAGE STYLES MIT DESIGN-SYSTEM
+   ============================================ */
+
+/* IMEI Details Container */
+.imei-details-container {
+    max-width: var(--container-2xl);
+    margin: 0 auto;
+    padding: var(--space-4);
+}
+
+/* IMEI Header */
+.imei-header {
+    background: var(--card);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    margin-bottom: var(--space-6);
+    border: var(--border-thin) solid var(--border);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+}
+
+.header-info h1 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--text);
+    margin-bottom: var(--space-2);
+}
+
+.header-info h1 i {
+    color: var(--primary-500);
+    font-size: var(--text-2xl);
+    width: 48px;
+    height: 48px;
+    background: rgba(var(--primary-500), 0.1);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-subtitle {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Badges */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    white-space: nowrap;
+}
+
+.badge-primary {
+    background: var(--primary-500);
+    color: var(--text-aaa-light);
+}
+
+.badge-secondary {
+    background: var(--secondary-500);
+    color: var(--text-aaa-light);
+}
+
+.badge-info {
+    background: var(--accent-500);
+    color: var(--dark-900);
+}
+
+.badge-success {
+    background: var(--success-500);
+    color: var(--text-aaa-light);
+}
+
+.badge-danger {
+    background: var(--danger-500);
+    color: var(--text-aaa-light);
+}
+
+.badge.small {
+    font-size: var(--text-xs);
+    padding: var(--space-0.5) var(--space-2);
+}
+
+/* Header Actions */
+.header-actions {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+
+/* IMEI Stats Summary */
+.imei-stats-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.imei-stats-summary .stat-card {
+    background: var(--card);
+    border: var(--border-thin) solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    transition: all var(--duration-300) var(--ease-in-out);
+}
+
+.imei-stats-summary .stat-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary-500);
+    box-shadow: var(--shadow-lg);
+}
+
+/* IMEI Content */
+.imei-content {
+    background: var(--card);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    margin-bottom: var(--space-6);
+    border: var(--border-thin) solid var(--border);
+}
+
+/* IMEI Tabs */
+.imei-tabs .tab-buttons {
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: var(--border-thin) solid var(--border-light);
+}
+
+/* List Controls */
+.list-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+    padding: var(--space-3);
+    background: var(--dark-light);
+    border-radius: var(--radius-lg);
+    border: var(--border-thin) solid var(--border);
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: var(--card);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-lg);
+    border: var(--border-thin) solid var(--border);
+    flex: 1;
+    min-width: 200px;
+    max-width: 400px;
+}
+
+.search-box input {
+    background: transparent;
+    border: none;
+    color: var(--text);
+    width: 100%;
+    font-size: var(--text-sm);
+}
+
+.search-box input:focus {
+    outline: none;
+}
+
+.search-box i {
+    color: var(--text-secondary);
+    font-size: var(--text-base);
+}
+
+.filter-buttons {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+
+/* IMEI Table */
+.imei-table-container {
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    border: var(--border-thin) solid var(--border);
+    background: var(--card);
+    margin-bottom: var(--space-4);
+}
+
+.imei-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.imei-table thead {
+    background: var(--primary-500);
+    position: sticky;
+    top: 0;
+    z-index: var(--z-10);
+}
+
+.imei-table th {
+    padding: var(--table-header-padding);
+    text-align: left;
+    font-weight: var(--font-semibold);
+    color: var(--text-aaa-light);
+    white-space: nowrap;
+    border-bottom: 2px solid var(--primary-700);
+}
+
+.imei-table tbody tr {
+    border-bottom: var(--border-thin) solid var(--border);
+    transition: background-color var(--duration-200) var(--ease-in-out);
+}
+
+.imei-table tbody tr.valid {
+    background: rgba(var(--success-500), 0.05);
+}
+
+.imei-table tbody tr.invalid {
+    background: rgba(var(--danger-500), 0.05);
+}
+
+.imei-table tbody tr:hover {
+    background: var(--card-light);
+}
+
+.imei-table td {
+    padding: var(--table-cell-padding);
+    vertical-align: middle;
+}
+
+/* IMEI Number */
+.imei-number {
+    font-family: var(--font-secondary);
+    font-size: var(--text-base);
+    color: var(--text);
+    background: var(--dark-light);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-md);
+    display: inline-block;
+    border: var(--border-thin) solid transparent;
+    transition: all var(--duration-200) var(--ease-in-out);
+}
+
+.imei-number:hover {
+    border-color: var(--primary-500);
+    background: var(--card);
+}
+
+.imei-number.small {
+    font-size: var(--text-sm);
+    padding: var(--space-0.5) var(--space-1.5);
+}
+
+.imei-number.large {
+    font-size: var(--text-xl);
+    padding: var(--space-2) var(--space-4);
+    font-weight: var(--font-bold);
+}
+
+/* Quality Meter */
+.quality-meter {
+    position: relative;
+    height: 24px;
+    background: var(--dark-light);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.quality-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--success-500), var(--warning-500));
+    border-radius: var(--radius-full);
+    transition: width var(--duration-500) var(--ease-in-out);
+}
+
+.quality-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-aaa-light);
+    font-weight: var(--font-semibold);
+    font-size: var(--text-xs);
+    z-index: 1;
+}
+
+/* Patterns Tags */
+.patterns-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+}
+
+.pattern-tag {
+    background: var(--dark-light);
+    color: var(--text-secondary);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    white-space: nowrap;
+    border: var(--border-thin) solid transparent;
+    transition: all var(--duration-150) var(--ease-in-out);
+}
+
+.pattern-tag:hover {
+    background: var(--primary-500);
+    color: var(--text-aaa-light);
+    border-color: var(--primary-500);
+    transform: scale(1.05);
+}
+
+.pattern-tag.large {
+    font-size: var(--text-sm);
+    padding: var(--space-2) var(--space-3);
+}
+
+/* Analysis Content */
+.analysis-content .chart-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+}
+
+.analysis-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+}
+
+.stat-box h5 {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-4);
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+}
+
+/* Length Distribution */
+.length-dist .length-item {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-2);
+    border-bottom: var(--border-thin) solid var(--border);
+    transition: background-color var(--duration-150) var(--ease-in-out);
+}
+
+.length-item:hover {
+    background: var(--dark-light);
+}
+
+.length-item:last-child {
+    border-bottom: none;
+}
+
+/* Average Stats */
+.average-stats .stat {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-2);
+    border-bottom: var(--border-thin) solid var(--border);
+    transition: background-color var(--duration-150) var(--ease-in-out);
+}
+
+.average-stats .stat:hover {
+    background: var(--dark-light);
+}
+
+.average-stats .stat:last-child {
+    border-bottom: none;
+}
+
+.stat .label {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+}
+
+.stat .value {
+    font-weight: var(--font-bold);
+    color: var(--text);
+    font-size: var(--text-base);
+}
+
+/* Validation Content */
+.validation-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+}
+
+.validation-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+}
+
+.validation-stats .stat {
+    text-align: center;
+    padding: var(--space-4);
+    background: var(--dark-light);
+    border-radius: var(--radius-lg);
+    border: var(--border-thin) solid transparent;
+    transition: all var(--duration-200) var(--ease-in-out);
+}
+
+.validation-stats .stat:hover {
+    border-color: var(--primary-500);
+    transform: translateY(-2px);
+}
+
+.validation-stats .stat h6 {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+}
+
+.validation-stats .number {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+}
+
+.validation-stats .number.success {
+    color: var(--success-500);
+}
+
+.validation-stats .number.danger {
+    color: var(--danger-500);
+}
+
+/* Common Errors */
+.common-errors {
+    background: var(--dark-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    margin: var(--space-4) 0;
+    border: var(--border-thin) solid var(--border);
+}
+
+.error-item {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-2);
+    border-bottom: var(--border-thin) solid var(--border);
+    transition: background-color var(--duration-150) var(--ease-in-out);
+}
+
+.error-item:hover {
+    background: var(--card);
+}
+
+.error-item:last-child {
+    border-bottom: none;
+}
+
+/* Validation Tips */
+.validation-tips {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+}
+
+.tip {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    background: var(--dark-light);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--primary-500);
+    transition: all var(--duration-200) var(--ease-in-out);
+}
+
+.tip:hover {
+    background: var(--card);
+    transform: translateX(4px);
+}
+
+.tip i {
+    color: var(--primary-500);
+    font-size: var(--text-lg);
+    margin-top: var(--space-0.5);
+    flex-shrink: 0;
+}
+
+.tip p {
+    flex: 1;
+    color: var(--text);
+    margin: 0;
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+}
+
+/* Patterns Grid */
+.patterns-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: var(--space-4);
+}
+
+.pattern-card {
+    background: var(--dark-light);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: var(--border-thin) solid var(--border);
+    transition: all var(--duration-300) var(--ease-in-out);
+}
+
+.pattern-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary-500);
+    box-shadow: var(--shadow-lg);
+}
+
+.pattern-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    background: var(--card);
+    border-bottom: var(--border-thin) solid var(--border);
+}
+
+.pattern-body {
+    padding: var(--space-4);
+}
+
+.pattern-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-bottom: var(--space-4);
+}
+
+/* Pattern Score */
+.pattern-score {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+}
+
+.score-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: conic-gradient(var(--success-500) 0% calc(var(--score) * 1%),
+            var(--dark-light) calc(var(--score) * 1%) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.score-circle::before {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: var(--dark-light);
+    border-radius: 50%;
+}
+
+.score-circle span {
+    position: relative;
+    z-index: 1;
+    font-weight: var(--font-bold);
+    font-size: var(--text-base);
+    color: var(--text);
+}
+
+/* IMEI Export Options */
+.imei-export-options {
+    background: var(--card);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    text-align: center;
+    border: var(--border-thin) solid var(--border);
+}
+
+.imei-export-options h4 {
+    margin-bottom: var(--space-4);
+    color: var(--text);
+    font-size: var(--text-xl);
+    font-weight: var(--font-semibold);
+}
+
+.export-buttons {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Print Styles */
+@media print {
+    .imei-details-container {
+        padding: 0;
+    }
+    
+    .imei-header {
+        box-shadow: none;
+        border: 1px solid #000;
+        background: white;
+    }
+    
+    .imei-content {
+        box-shadow: none;
+        border: 1px solid #000;
+        background: white;
+    }
+    
+    .imei-table-container {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #000;
+        background: white;
+    }
+    
+    .patterns-grid {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    
+    .header-actions,
+    .search-box,
+    .filter-buttons {
+        display: none;
+    }
+}
+
+/* Dark Mode Adjustments */
+[data-theme="light"] .imei-header {
+    background: white;
+    border-color: var(--neutral-300);
+}
+
+[data-theme="light"] .imei-content {
+    background: white;
+    border-color: var(--neutral-300);
+}
+
+[data-theme="light"] .imei-stats-summary .stat-card {
+    background: white;
+    border-color: var(--neutral-300);
+}
+
+[data-theme="light"] .list-controls {
+    background: var(--neutral-50);
+    border-color: var(--neutral-300);
+}
+
+[data-theme="light"] .search-box {
+    background: white;
+    border-color: var(--neutral-300);
+}
+
+[data-theme="light"] .imei-table-container {
+    background: white;
+    border-color: var(--neutral-300);
+}
+
+[data-theme="light"] .imei-number {
+    background: var(--neutral-100);
+}
+
+[data-theme="light"] .quality-meter {
+    background: var(--neutral-200);
+}
+
+[data-theme="light"] .pattern-tag {
+    background: var(--neutral-100);
+}
+
+[data-theme="light"] .common-errors {
+    background: var(--neutral-50);
+    border-color: var(--neutral-300);
+}
+
+[data-theme="light"] .validation-stats .stat {
+    background: var(--neutral-50);
+}
+
+[data-theme="light"] .tip {
+    background: var(--neutral-50);
+}
+
+[data-theme="light"] .pattern-card {
+    background: var(--neutral-50);
+}
+
+[data-theme="light"] .score-circle::before {
+    background: var(--neutral-50);
+}
+
+[data-theme="light"] .imei-export-options {
+    background: white;
+    border-color: var(--neutral-300);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .imei-details-container {
+        padding: var(--space-3);
+    }
+    
+    .imei-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-3);
+        padding: var(--space-4);
+    }
+    
+    .header-info h1 {
+        font-size: var(--text-xl);
+    }
+    
+    .header-actions {
+        justify-content: center;
+    }
+    
+    .analysis-content .chart-row {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+    
+    .analysis-stats {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+    
+    .validation-content {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+}
+
+@media (max-width: 768px) {
+    .imei-header h1 i {
+        width: 40px;
+        height: 40px;
+        font-size: var(--text-lg);
+    }
+    
+    .imei-stats-summary {
+        grid-template-columns: 1fr;
+    }
+    
+    .list-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-box {
+        max-width: none;
+    }
+    
+    .filter-buttons {
+        justify-content: center;
+    }
+    
+    .patterns-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .validation-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .export-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .export-buttons .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .imei-details-container {
+        padding: var(--space-2);
+    }
+    
+    .imei-header {
+        padding: var(--space-3);
+    }
+    
+    .imei-content {
+        padding: var(--space-3);
+    }
+    
+    .imei-number.large {
+        font-size: var(--text-base);
+        padding: var(--space-1) var(--space-2);
+    }
+    
+    .analysis-content .chart-row {
+        margin-bottom: var(--space-3);
+    }
+}
+
+/* Accessibility */
+.imei-number:focus-visible,
+.pattern-tag:focus-visible,
+.tip:focus-visible,
+.pattern-card:focus-visible,
+.validation-stats .stat:focus-visible {
+    outline: var(--border-medium) solid var(--primary-aaa);
+    outline-offset: var(--space-2);
+}
+
+/* Performance Optimizations */
+.imei-stats-summary .stat-card,
+.pattern-card,
+.validation-stats .stat,
+.tip {
+    will-change: transform;
+    transform: translateZ(0);
+}

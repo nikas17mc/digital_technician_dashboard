@@ -1,0 +1,220 @@
+extends layout.pug
+
+block content
+    .error-container(class=`error-${status || 500}`)
+        .error-card
+            .error-icon
+                i.fas.fa-exclamation-triangle
+            h1.error-title #{status || 500} - Fehler aufgetreten
+            
+            .error-content
+                if error
+                    .error-message
+                        h3 
+                            i.fas.fa-exclamation-circle
+                            | Fehlermeldung:
+                        pre.error-code #{error}
+                
+                .error-details
+                    h3 
+                        i.fas.fa-info-circle
+                        | Technische Details:
+                    ul.error-list
+                        li
+                            strong Zeitpunkt:
+                            span #{new Date().toLocaleString('de-DE')}
+                        if url
+                            li
+                                strong URL:
+                                span #{url}
+                        if method
+                            li
+                                strong Methode:
+                                span #{method}
+                        if userAgent
+                            li
+                                strong Browser:
+                                span #{userAgent}
+                        if ip
+                            li
+                                strong IP-Adresse:
+                                span #{ip}
+                
+                if stack && process.env.NODE_ENV === 'development'
+                    .error-stack-container
+                        h3
+                            i.fas.fa-code
+                            | Stack Trace:
+                        pre.error-stack #{stack}
+                
+                .error-actions
+                    a.btn.btn-primary(href="/")
+                        i.fas.fa-home
+                        | Zurück zum Dashboard
+                    button.btn.btn-secondary(onclick="window.history.back()")
+                        i.fas.fa-arrow-left
+                        | Zurück
+                    if process.env.NODE_ENV === 'development'
+                        button.btn.btn-warning(onclick="copyErrorDetails()")
+                            i.fas.fa-copy
+                            | Fehler kopieren
+                    button.btn.btn-info(onclick="reloadPage()")
+                        i.fas.fa-sync
+                        | Seite neu laden
+                
+                .error-help
+                    h4
+                        i.fas.fa-life-ring
+                        | Hilfe & Support:
+                    p
+                        | Wenn dieser Fehler weiterhin auftritt, kontaktieren Sie bitte den Support.
+                    .help-contacts
+                        a.btn.btn-primary(href="mailto:support@techniker-dashboard.com")
+                            i.fas.fa-envelope
+                            | E-Mail Support
+                        a.btn.btn-secondary(href="/help")
+                            i.fas.fa-question-circle
+                            | Hilfe-Center
+                        a.btn.btn-info(href="/documentation")
+                            i.fas.fa-book
+                            | Dokumentation
+                
+                if process.env.NODE_ENV === 'development'
+                    .error-debug
+                        h4
+                            i.fas.fa-bug
+                            | Debug-Informationen:
+                        pre.debug-info
+                            | Status: #{status || 500}
+                            | Environment: #{process.env.NODE_ENV || 'production'}
+                            | Node Version: #{process.env.NODE_VERSION || process.version}
+                            | Platform: #{process.platform}
+                            | Arch: #{process.arch}
+                            | PID: #{process.pid}
+                            | Timestamp: #{new Date().toISOString()}
+                            | Uptime: #{Math.floor(process.uptime())}s
+                
+                //- Fehlerstatistik (nur in Produktion)
+                if process.env.NODE_ENV === 'production'
+                    .error-stats
+                        h4
+                            i.fas.fa-chart-bar
+                            | Fehlerstatistik:
+                        p
+                            | Dieser Fehler wurde bereits #{errorCount || 1} Mal gemeldet.
+                            | Unser Team arbeitet an einer Lösung.
+
+block scripts
+    script.
+        // Error details object
+        const errorDetails = {
+            error: "#{error}",
+            url: "#{url}",
+            method: "#{method}",
+            status: "#{status || 500}",
+            timestamp: "#{new Date().toLocaleString('de-DE')}",
+            userAgent: navigator.userAgent,
+            platform: navigator.platform,
+            language: navigator.language,
+            online: navigator.onLine
+        };
+        
+        // Copy error details to clipboard
+        function copyErrorDetails() {
+            navigator.clipboard.writeText(JSON.stringify(errorDetails, null, 2))
+                .then(() => {
+                    showNotification('Fehlerdetails wurden in die Zwischenablage kopiert', 'success');
+                })
+                .catch(err => {
+                    console.error('Failed to copy:', err);
+                    showNotification('Fehler beim Kopieren. Bitte manuell kopieren.', 'error');
+                });
+        }
+        
+        // Reload page
+        function reloadPage() {
+            window.location.reload();
+        }
+        
+        // Show notification
+        function showNotification(message, type) {
+            // Remove existing notifications
+            const existing = document.querySelectorAll('.notification');
+            existing.forEach(el => el.remove());
+            
+            // Create new notification
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <span>${message}</span>
+                <button class="notification-close" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            // Add to body
+            document.body.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+        
+        // Auto-log error details in development
+        if ("#{process.env.NODE_ENV}" === 'development') {
+            console.error('Error Details:', errorDetails);
+            if ("#{stack}") {
+                console.error('Stack Trace:', "#{stack}");
+            }
+        }
+        
+        // Send error to analytics (if available)
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'exception', {
+                description: "#{error}",
+                fatal: "#{status || 500}" >= 500
+            });
+        }
+        
+        // Report error to server (only in production)
+        if ("#{process.env.NODE_ENV}" === 'production') {
+            fetch('/api/error-report', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    error: "#{error}",
+                    status: "#{status || 500}",
+                    url: "#{url}",
+                    timestamp: new Date().toISOString()
+                })
+            }).catch(err => console.warn('Failed to report error:', err));
+        }
+        
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl+Shift+R to reload
+            if (e.ctrlKey && e.shiftKey && e.key === 'R') {
+                reloadPage();
+            }
+            // Ctrl+C to copy error details (only in development)
+            if (e.ctrlKey && e.key === 'C' && "#{process.env.NODE_ENV}" === 'development') {
+                copyErrorDetails();
+            }
+            // Escape to go back
+            if (e.key === 'Escape') {
+                window.history.back();
+            }
+        });
+        
+        // Add error animation on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const errorCard = document.querySelector('.error-card');
+            if (errorCard) {
+                errorCard.classList.add('error-card-loaded');
+            }
+        });

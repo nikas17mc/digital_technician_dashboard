@@ -1,0 +1,595 @@
+/* ============================================
+   SETTINGS & CONFIGURATION STYLES
+   ============================================ */
+
+/* Settings Layout */
+.settings-content {
+    display: flex;
+    gap: var(--space-6);
+    min-height: 500px;
+}
+
+.settings-tabs {
+    display: flex;
+    height: 100%;
+}
+
+/* Settings Navigation */
+.settings-tabs .tab-buttons {
+    width: 220px;
+    background: var(--dark-light);
+    border-right: var(--border-thin) solid var(--border);
+    padding: var(--space-4) 0;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.settings-tabs .tab-buttons .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    text-align: left;
+    border-left: 3px solid transparent;
+    transition: all var(--duration-300) var(--ease-in-out);
+    cursor: pointer;
+}
+
+.settings-tabs .tab-buttons .tab-btn:hover {
+    background: var(--card);
+    color: var(--text);
+}
+
+.settings-tabs .tab-buttons .tab-btn.active {
+    background: var(--card);
+    color: var(--primary-500);
+    border-left-color: var(--primary-500);
+}
+
+.settings-tabs .tab-content {
+    flex: 1;
+    padding: var(--space-6);
+    overflow-y: auto;
+}
+
+/* Settings Groups */
+.settings-group {
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-6);
+    border-bottom: var(--border-thin) solid var(--border-light);
+}
+
+.settings-group:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.settings-group h4 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+    color: var(--primary-500);
+    font-size: var(--text-lg);
+}
+
+/* Setting Items */
+.setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+    padding: var(--space-3);
+    background: var(--dark-light);
+    border-radius: var(--radius-lg);
+}
+
+.setting-item:last-child {
+    margin-bottom: 0;
+}
+
+.setting-item label:not(.checkbox-label) {
+    color: var(--text);
+    font-weight: var(--font-medium);
+    min-width: 200px;
+    flex-shrink: 0;
+}
+
+.setting-item input[type="number"],
+.setting-item select {
+    width: 120px;
+    padding: var(--space-2) var(--space-3);
+    background: var(--card);
+    border: var(--border-thin) solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text);
+}
+
+.setting-item input[type="text"] {
+    width: 300px;
+}
+
+/* Checkbox Custom Styling */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    cursor: pointer;
+    user-select: none;
+    color: var(--text);
+    font-weight: var(--font-medium);
+}
+
+.checkbox-custom {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    display: inline-block;
+    position: relative;
+    transition: all var(--duration-200) var(--ease-in-out);
+    flex-shrink: 0;
+}
+
+.checkbox-label input:checked + .checkbox-custom {
+    background: var(--primary-500);
+    border-color: var(--primary-500);
+}
+
+.checkbox-label input:checked + .checkbox-custom::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-aaa-light);
+    font-size: 12px;
+    font-weight: var(--font-bold);
+}
+
+.checkbox-label input {
+    display: none;
+}
+
+/* Theme Options */
+.theme-options {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-top: var(--space-4);
+}
+
+.theme-option input {
+    display: none;
+}
+
+.theme-option label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--duration-300) var(--ease-in-out);
+    min-width: 140px;
+}
+
+.theme-option input:checked + label {
+    border-color: var(--primary-500);
+    background: rgba(var(--primary-500), 0.1);
+    box-shadow: 0 0 0 2px rgba(var(--primary-500), 0.2);
+}
+
+.theme-option label:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-300);
+}
+
+.theme-preview {
+    width: 80px;
+    height: 60px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+    margin-bottom: var(--space-2);
+}
+
+.theme-preview.dark {
+    background: var(--dark-300);
+}
+
+.theme-preview.dark .preview-header {
+    height: 12px;
+    background: var(--primary-500);
+}
+
+.theme-preview.dark .preview-content {
+    height: 48px;
+    background: var(--dark-50);
+    margin: var(--space-1);
+    border-radius: var(--radius-sm);
+}
+
+.theme-preview.light {
+    background: #f0f0f0;
+}
+
+.theme-preview.light .preview-header {
+    height: 12px;
+    background: var(--secondary-600);
+}
+
+.theme-preview.light .preview-content {
+    height: 48px;
+    background: white;
+    margin: var(--space-1);
+    border-radius: var(--radius-sm);
+    border: 1px solid #ddd;
+}
+
+.theme-preview.auto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--dark-300) 50%, #f0f0f0 50%);
+}
+
+.theme-preview.auto i {
+    font-size: var(--text-2xl);
+    color: var(--primary-500);
+}
+
+.theme-option span {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--text);
+}
+
+/* Import/Export Styles */
+.import-dropzone,
+.export-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-12);
+    text-align: center;
+    margin: var(--space-6) 0;
+    transition: all var(--duration-300) var(--ease-in-out);
+}
+
+.import-dropzone:hover,
+.export-dropzone:hover {
+    border-color: var(--primary-500);
+    background: rgba(var(--primary-500), 0.05);
+    transform: translateY(-2px);
+}
+
+.import-dropzone i,
+.export-dropzone i {
+    font-size: var(--text-5xl);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-4);
+}
+
+.import-dropzone p,
+.export-dropzone p {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-4);
+    font-size: var(--text-lg);
+}
+
+.import-instructions {
+    background: var(--dark-light);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-6);
+}
+
+.import-instructions p {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    color: var(--text);
+    line-height: var(--leading-relaxed);
+}
+
+.import-instructions i {
+    color: var(--primary-500);
+    margin-top: var(--space-1);
+    flex-shrink: 0;
+}
+
+.import-format pre,
+.export-format pre {
+    background: var(--dark-300);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    font-family: var(--font-secondary);
+    font-size: var(--text-sm);
+    overflow-x: auto;
+    margin-top: var(--space-2);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+}
+
+/* Format Options */
+.format-options {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin: var(--space-4) 0;
+}
+
+.format-option input {
+    display: none;
+}
+
+.format-option label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--duration-300) var(--ease-in-out);
+    min-width: 120px;
+}
+
+.format-option input:checked + label {
+    border-color: var(--primary-500);
+    background: rgba(var(--primary-500), 0.1);
+}
+
+.format-option label:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-300);
+}
+
+.format-option i {
+    font-size: var(--text-4xl);
+    color: var(--text-secondary);
+}
+
+.format-option input:checked + label i {
+    color: var(--primary-500);
+}
+
+.format-option span {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--text);
+}
+
+/* Date Picker Styling */
+.date-picker-container {
+    text-align: center;
+    padding: var(--space-4);
+}
+
+.date-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+    padding: 0 var(--space-4);
+}
+
+.date-header h4 {
+    margin: 0;
+    color: var(--text);
+    font-size: var(--text-lg);
+}
+
+.date-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--space-1);
+    margin-bottom: var(--space-4);
+}
+
+.date-weekdays {
+    display: contents;
+}
+
+.date-weekdays span {
+    text-align: center;
+    font-weight: var(--font-semibold);
+    color: var(--text-secondary);
+    padding: var(--space-2);
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+}
+
+.date-days {
+    display: contents;
+}
+
+.date-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all var(--duration-200) var(--ease-in-out);
+    font-weight: var(--font-medium);
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: var(--text-sm);
+}
+
+.date-day:hover {
+    background: var(--dark-light);
+}
+
+.date-day.selected {
+    background: var(--primary-500);
+    color: var(--text-aaa-light);
+    font-weight: var(--font-bold);
+}
+
+.date-day.today {
+    border: 2px solid var(--primary-500);
+}
+
+.date-day.other-month {
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
+.date-day:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.date-day:disabled:hover {
+    background: transparent;
+}
+
+/* Range Selection */
+.date-range {
+    background: rgba(var(--primary-500), 0.2);
+}
+
+/* Date Picker Navigation */
+.date-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.date-nav button {
+    background: transparent;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    padding: var(--space-2);
+    border-radius: var(--radius-full);
+    transition: all var(--duration-200) var(--ease-in-out);
+}
+
+.date-nav button:hover {
+    background: var(--dark-light);
+}
+
+.date-nav button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.date-nav button:disabled:hover {
+    background: transparent;
+}
+
+.date-nav span {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text);
+    min-width: 150px;
+    text-align: center;
+}
+
+/* Quick Ranges */
+.quick-ranges {
+    display: flex;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.quick-range-btn {
+    padding: var(--space-2) var(--space-3);
+    background: var(--dark-light);
+    border: var(--border-thin) solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text);
+    cursor: pointer;
+    font-size: var(--text-sm);
+    transition: all var(--duration-200) var(--ease-in-out);
+}
+
+.quick-range-btn:hover {
+    background: var(--card);
+    border-color: var(--primary-300);
+}
+
+.quick-range-btn.active {
+    background: var(--primary-500);
+    color: var(--text-aaa-light);
+    border-color: var(--primary-500);
+}
+
+/* Mapping Table */
+.mapping-table {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    overflow-x: auto;
+}
+
+.mapping-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--space-4);
+    padding: var(--space-3);
+    background: var(--dark-light);
+    border-radius: var(--radius-md);
+    align-items: center;
+    min-width: 400px;
+}
+
+.mapping-row:first-child {
+    background: var(--primary-500);
+    color: var(--text-aaa-light);
+    font-weight: var(--font-semibold);
+    position: sticky;
+    left: 0;
+}
+
+.mapping-cell {
+    padding: var(--space-2);
+    color: var(--text);
+}
+
+.mapping-cell:last-child {
+    text-align: right;
+}
+
+/* Settings Input Groups */
+.input-group {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+}
+
+.input-group input {
+    flex: 1;
+    min-width: 200px;
+}
+
+.input-group .btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+/* Settings Modal Variants */
+.modal-small {
+    max-width: 400px;
+}
+
+.modal-large {
+    max-width: 900px;
+}

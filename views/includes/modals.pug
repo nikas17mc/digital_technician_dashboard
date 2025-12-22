@@ -1,0 +1,787 @@
+//- Allgemeine Modals für die Anwendung
+
+//- Einstellungen Modal
+#settingsModal.modal-overlay(style="display: none;")
+    .modal.modal-large
+        .modal-header
+            h3
+                i.fas.fa-cog
+                | Einstellungen
+            button.btn-close(type="button" onclick="closeModal('settingsModal')") &times;
+
+        .modal-body
+            .settings-tabs
+                .tab-buttons
+                    button.tab-btn.active(data-tab="general")
+                        i.fas.fa-sliders-h
+                        | Allgemein
+                    button.tab-btn(data-tab="appearance")
+                        i.fas.fa-palette
+                        | Erscheinungsbild
+                    button.tab-btn(data-tab="data")
+                        i.fas.fa-database
+                        | Daten
+                    button.tab-btn(data-tab="export")
+                        i.fas.fa-file-export
+                        | Export
+                    button.tab-btn(data-tab="advanced")
+                        i.fas.fa-code
+                        | Erweitert
+            .settings-content
+                .tab-content
+                    #generalTab.tab-pane.active
+                        .settings-group
+                            h4
+                                i.fas.fa-save
+                                | Auto-Save
+                            .setting-item
+                                label.checkbox-label
+                                    input#autoSave(type="checkbox", checked)
+                                    span.checkbox-custom
+                                    span Automatisches Speichern aktivieren
+                            .setting-item
+                                label Speicherintervall (Minuten):
+                                input#saveInterval(type="number" min="1" max="60" value="5")
+
+                        .settings-group
+                            h4
+                                i.fas.fa-bell
+                                | Benachrichtigungen
+                            .setting-item
+                                label.checkbox-label
+                                    input#notifications(type="checkbox", checked)
+                                    span.checkbox-custom
+                                    span Benachrichtigungen anzeigen
+                            .setting-item
+                                label Sound bei Benachrichtigung:
+                                select#notificationSound
+                                    option(value="default") Standard
+                                    option(value="soft") Leise
+                                    option(value="none") Kein Sound
+
+                    #appearanceTab.tab-pane
+                        .settings-group
+                            h4
+                                i.fas.fa-moon
+                                | Theme
+                            .theme-options
+                                .theme-option
+                                    input#themeDark(type="radio" name="theme" value="dark", checked)
+                                    label(for="themeDark")
+                                        .theme-preview.dark
+                                            .preview-header
+                                            .preview-content
+                                        span Dark Mode
+                                .theme-option
+                                    input#themeLight(type="radio" name="theme" value="light")
+                                    label(for="themeLight")
+                                        .theme-preview.light
+                                            .preview-header
+                                            .preview-content
+                                        span Light Mode
+                                .theme-option
+                                    input#themeAuto(type="radio" name="theme" value="auto")
+                                    label(for="themeAuto")
+                                        .theme-preview.auto
+                                            i.fas.fa-adjust
+                                        span Automatisch
+
+                        .settings-group
+                            h4
+                                i.fas.fa-eye
+                                | Anzeige
+                            .setting-item
+                                label Schriftgröße:
+                                select#fontSize
+                                    option(value="small") Klein
+                                    option(value="normal", selected) Normal
+                                    option(value="large") Groß
+                                    option(value="xlarge") Sehr groß
+                            .setting-item
+                                label.checkbox-label
+                                    input#compactMode(type="checkbox")
+                                    span.checkbox-custom
+                                    span Kompakter Modus
+                            .setting-item
+                                label.checkbox-label
+                                    input#animations(type="checkbox", checked)
+                                    span.checkbox-custom
+                                    span Animationen aktivieren
+
+                    #dataTab.tab-pane
+                        .settings-group
+                            h4
+                                i.fas.fa-database
+                                | Datenverwaltung
+                            .setting-item
+                                label.checkbox-label
+                                    input#backupAuto(type="checkbox", checked)
+                                    span.checkbox-custom
+                                    span Automatische Backups
+                            .setting-item
+                                label Backup-Intervall:
+                                select#backupInterval
+                                    option(value="daily") Täglich
+                                    option(value="weekly", selected) Wöchentlich
+                                    option(value="monthly") Monatlich
+                            .setting-item
+                                label Maximale Backups behalten:
+                                input#maxBackups(type="number" min="1" max="100" value="10")
+
+                        .settings-group
+                            h4
+                                i.fas.fa-trash-alt
+                                | Datenbereinigung
+                            .setting-item
+                                label Einträge älter als (Tage) automatisch löschen:
+                                input#autoCleanDays(type="number" min="0" max="365" value="0")
+                                small.text-muted 0 = nie löschen
+                            .setting-item
+                                button.btn.btn-danger(onclick="clearAllData()")
+                                    i.fas.fa-trash
+                                    | Alle Daten löschen
+
+                    #exportTab.tab-pane
+                        .settings-group
+                            h4
+                                i.fas.fa-file-excel
+                                | Excel Export
+                            .setting-item
+                                label.checkbox-label
+                                    input#exportIMEI(type="checkbox", checked)
+                                    span.checkbox-custom
+                                    span IMEI-Daten exportieren
+                            .setting-item
+                                label.checkbox-label
+                                    input#exportStats(type="checkbox", checked)
+                                    span.checkbox-custom
+                                    span Statistiken exportieren
+                            .setting-item
+                                label.checkbox-label
+                                    input#exportCharts(type="checkbox")
+                                    span.checkbox-custom
+                                    span Charts als Bilder exportieren
+                            .setting-item
+                                label.checkbox-label
+                                    input#autoOpenExport(type="checkbox", checked)
+                                    span.checkbox-custom
+                                    span Export automatisch öffnen
+
+                        .settings-group
+                            h4
+                                i.fas.fa-file-pdf
+                                | PDF Export
+                            .setting-item
+                                label Papierformat:
+                                select#paperFormat
+                                    option(value="A4") A4
+                                    option(value="A3") A3
+                                    option(value="letter") Letter
+                            .setting-item
+                                label.checkbox-label
+                                    input#exportHeader(type="checkbox", checked)
+                                    span.checkbox-custom
+                                    span Kopfzeile mit Logo
+                            .setting-item
+                                label.checkbox-label
+                                    input#exportFooter(type="checkbox", checked)
+                                    span.checkbox-custom
+                                    span Fußzeile mit Seitenzahlen
+
+                    #advancedTab.tab-pane
+                        .settings-group
+                            h4
+                                i.fas.fa-tachometer-alt
+                                | Leistung
+                            .setting-item
+                                label Cache-Dauer (Sekunden):
+                                input#cacheDuration(type="number" min="0" max="3600" value="300")
+                            .setting-item
+                                label.checkbox-label
+                                    input#lazyLoading(type="checkbox", checked)
+                                    span.checkbox-custom
+                                    span Lazy Loading für große Tabellen
+                            .setting-item
+                                label Max. Einträge pro Seite:
+                                input#pageSize(type="number" min="10" max="1000" value="50")
+
+                        .settings-group
+                            h4
+                                i.fas.fa-bug
+                                | Debugging
+                            .setting-item
+                                label.checkbox-label
+                                    input#debugMode(type="checkbox")
+                                    span.checkbox-custom
+                                    span Debug-Modus aktivieren
+                            .setting-item
+                                label.checkbox-label
+                                    input#logErrors(type="checkbox", checked)
+                                    span.checkbox-custom
+                                    span Fehler loggen
+                            .setting-item
+                                button.btn.btn-warning(onclick="exportLogs()")
+                                    i.fas.fa-download
+                                    | Logs exportieren
+
+                        .settings-group
+                            h4
+                                i.fas.fa-code
+                                | API
+                            .setting-item
+                                label API-Version:
+                                select#apiVersion
+                                    option(value="v1") v1
+                                    option(value="v2", selected) v2
+                                small.text-muted Aktuelle Version: v2
+                            .setting-item
+                                button.btn.btn-info(onclick="showApiDocs()")
+                                    i.fas.fa-book
+                                    | API Dokumentation
+
+        .modal-footer
+            button.btn.btn-secondary(onclick="closeModal('settingsModal')") Abbrechen
+            button.btn.btn-success(onclick="saveSettings()")
+                i.fas.fa-save
+                | Einstellungen speichern
+            button.btn.btn-primary(onclick="resetSettings()")
+                i.fas.fa-undo
+                | Auf Standard zurücksetzen
+
+//- Hilfe Modal
+#helpModal.modal-overlay(style="display: none;")
+    .modal.modal-large
+        .modal-header
+            h3
+                i.fas.fa-question-circle
+                | Hilfe & Support
+            button.btn-close(type="button" onclick="closeModal('helpModal')") &times;
+
+        .modal-body
+            .help-sections
+                .help-section
+                    h4
+                        i.fas.fa-play-circle
+                        | Video-Tutorials
+                    .video-list
+                        .video-item
+                            .video-thumb
+                                i.fas.fa-play
+                            .video-info
+                                h5 Dashboard Einführung
+                                p Lernen Sie die Grundfunktionen in 5 Minuten kennen.
+                                button.btn.btn-small.btn-primary
+                                    i.fas.fa-play
+                                    | Abspielen
+                        .video-item
+                            .video-thumb
+                                i.fas.fa-play
+                            .video-info
+                                h5 IMEI Analyse
+                                p So verwenden Sie die erweiterte IMEI-Validierung.
+                                button.btn.btn-small.btn-primary
+                                    i.fas.fa-play
+                                    | Abspielen
+                        .video-item
+                            .video-thumb
+                                i.fas.fa-play
+                            .video-info
+                                h5 Excel Export
+                                p Erstellen Sie professionelle Reports.
+                                button.btn.btn-small.btn-primary
+                                    i.fas.fa-play
+                                    | Abspielen
+
+                .help-section
+                    h4
+                        i.fas.fa-book
+                        | Dokumentation
+                    .doc-links
+                        a.doc-link(href="#")
+                            i.fas.fa-file-pdf
+                            span Benutzerhandbuch (PDF)
+                        a.doc-link(href="#")
+                            i.fas.fa-code
+                            span API Dokumentation
+                        a.doc-link(href="#")
+                            i.fas.fa-download
+                            span Schnellstart-Anleitung
+                        a.doc-link(href="#")
+                            i.fas.fa-chart-bar
+                            span Analyse Guide
+
+                .help-section
+                    h4
+                        i.fas.fa-headset
+                        | Kontakt
+                    .contact-info
+                        .contact-item
+                            i.fas.fa-envelope
+                            div
+                                h6 E-Mail Support
+                                p support@techniker-dashboard.com
+                        .contact-item
+                            i.fas.fa-phone
+                            div
+                                h6 Telefon
+                                p +49 123 456 789
+                        .contact-item
+                            i.fas.fa-clock
+                            div
+                                h6 Support-Zeiten
+                                p Mo-Fr: 9:00-18:00 Uhr
+
+        .modal-footer
+            button.btn.btn-primary(onclick="closeModal('helpModal')") Schließen
+            button.btn.btn-success(onclick="openModal('ticketModal')")
+                i.fas.fa-ticket-alt
+                | Support-Ticket erstellen
+
+//- Support Ticket Modal
+#ticketModal.modal-overlay(style="display: none;")
+    .modal
+        .modal-header
+            h3
+                i.fas.fa-ticket-alt
+                | Support-Ticket erstellen
+            button.btn-close(type="button" onclick="closeModal('ticketModal')") &times;
+
+        .modal-body
+            form#ticketForm
+                .form-group
+                    label(for="ticketSubject") Betreff:
+                    input#ticketSubject(type="text" placeholder="Kurze Beschreibung des Problems", required)
+
+                .form-group
+                    label(for="ticketCategory") Kategorie:
+                    select#ticketCategory(required)
+                        option(value="") -- Bitte wählen --
+                        option(value="bug") Fehler/Bug
+                        option(value="feature") Feature-Anfrage
+                        option(value="question") Frage
+                        option(value="other") Sonstiges
+
+                .form-group
+                    label(for="ticketPriority") Priorität:
+                    select#ticketPriority
+                        option(value="low") Niedrig
+                        option(value="medium", selected) Mittel
+                        option(value="high") Hoch
+                        option(value="critical") Kritisch
+
+                .form-group
+                    label(for="ticketDescription") Beschreibung:
+                    textarea#ticketDescription(rows="6" placeholder="Bitte beschreiben Sie Ihr Problem detailliert...", required)
+
+                .form-group
+                    label.checkbox-label
+                        input#attachLogs(type="checkbox")
+                        span.checkbox-custom
+                        span Diagnose-Logs anhängen
+
+                .form-group
+                    label(for="ticketEmail") E-Mail für Rückmeldung:
+                    input#ticketEmail(type="email" placeholder="ihre.email@example.com", required)
+
+        .modal-footer
+            button.btn.btn-secondary(type="button" onclick="closeModal('ticketModal')") Abbrechen
+            button.btn.btn-success(type="submit" form="ticketForm")
+                i.fas.fa-paper-plane
+                | Ticket senden
+
+//- Date Picker Modal
+#datePickerModal.modal-overlay(style="display: none;")
+    .modal
+        .modal-header
+            h3
+                i.fas.fa-calendar-alt
+                | Datum auswählen
+            button.btn-close(type="button" onclick="closeModal('datePickerModal')") &times;
+
+        .modal-body
+            .date-picker-container
+                .date-header
+                    button.btn.btn-icon(type="button" onclick="changeMonth(-1)")
+                        i.fas.fa-chevron-left
+                    h4#currentMonth April 2024
+                    button.btn.btn-icon(type="button" onclick="changeMonth(1)")
+                        i.fas.fa-chevron-right
+
+                .date-grid
+                    .date-weekdays
+                        span Mo
+                        span Di
+                        span Mi
+                        span Do
+                        span Fr
+                        span Sa
+                        span So
+
+                    .date-days#dateDays
+                        //- Days will be populated by JavaScript
+
+        .modal-footer
+            button.btn.btn-secondary(onclick="setToday()")
+                i.fas.fa-calendar-day
+                | Heute
+            button.btn.btn-primary(onclick="applyDate()")
+                i.fas.fa-check
+                | Übernehmen
+            button.btn.btn-danger(onclick="closeModal('datePickerModal')") Abbrechen
+
+//- IMEI Scanner Modal
+#imeiScannerModal.modal-overlay(style="display: none;")
+    .modal.modal-large
+        .modal-header
+            h3
+                i.fas.fa-barcode
+                | IMEI Scanner
+            button.btn-close(type="button" onclick="closeModal('imeiScannerModal')") &times;
+
+        .modal-body
+            .scanner-container
+                .scanner-preview#scannerPreview
+                    .scanner-overlay
+                        .scanner-frame
+                        .scanner-line
+                    video#scannerVideo(style="display: none;")
+                    canvas#scannerCanvas(style="display: none;")
+
+                .scanner-controls
+                    button.btn.btn-primary(onclick="startScanner()")
+                        i.fas.fa-play
+                        | Scanner starten
+                    button.btn.btn-warning(onclick="stopScanner()", disabled)
+                        i.fas.fa-stop
+                        | Scanner stoppen
+                    button.btn.btn-success(onclick="captureIMEI()", disabled)
+                        i.fas.fa-camera
+                        | IMEI erfassen
+
+                .scanner-results
+                    h5 Erfasste IMEIs:
+                    #scannedIMEIs.imei-list
+                        //- Scanned IMEIs will appear here
+
+                .scanner-manual
+                    h5 Manuelle Eingabe:
+                    .input-group
+                        input#manualIMEI(type="text" placeholder="IMEI eingeben...")
+                        button.btn.btn-secondary(onclick="addManualIMEI()")
+                            i.fas.fa-plus
+                            | Hinzufügen
+
+        .modal-footer
+            button.btn.btn-success(onclick="useScannedIMEIs()")
+                i.fas.fa-check
+                | IMEIs übernehmen
+            button.btn.btn-secondary(onclick="closeModal('imeiScannerModal')") Abbrechen
+
+//- Import Modal
+#importModal.modal-overlay(style="display: none;")
+    .modal.modal-large
+        .modal-header
+            h3
+                i.fas.fa-file-import
+                | Daten importieren
+            button.btn-close(type="button" onclick="closeModal('importModal')") &times;
+
+        .modal-body
+            .import-tabs
+                .tab-buttons
+                    button.tab-btn.active(data-tab="json")
+                        i.fas.fa-file-code
+                        | JSON Import
+                    button.tab-btn(data-tab="excel")
+                        i.fas.fa-file-excel
+                        | Excel Import
+                    button.tab-btn(data-tab="csv")
+                        i.fas.fa-file-csv
+                        | CSV Import
+
+                .tab-content
+                    #jsonTab.tab-pane.active
+                        .import-instructions
+                            p
+                                i.fas.fa-info-circle
+                                | Laden Sie eine JSON-Datei im erwarteten Format hoch.
+
+                            .import-format
+                                h6 Erwartetes Format:
+                                pre.
+                                    [
+                                        {
+                                            "technic": "Shady",
+                                            "date": "15.01.2024",
+                                            "event": "Repariert fertig",
+                                            "count": 5,
+                                            "imei": ["123456789012345", "234567890123456"]
+                                        }
+                                    ]
+
+                        .import-dropzone#jsonDropzone
+                            i.fas.fa-cloud-upload-alt
+                            p Datei hier ablegen oder
+                            input#jsonFileInput(type="file" accept=".json" style="display: none;")
+                            button.btn.btn-primary(onclick="document.getElementById('jsonFileInput').click()") Datei auswählen
+
+                        .import-options
+                            label.checkbox-label
+                                input#jsonMerge(type="checkbox")
+                                span.checkbox-custom
+                                span Mit vorhandenen Daten mergen
+                            label.checkbox-label
+                                input#jsonValidate(type="checkbox", checked)
+                                span.checkbox-custom
+                                span Daten vor Import validieren
+
+                    #excelTab.tab-pane
+                        .import-instructions
+                            p
+                                i.fas.fa-info-circle
+                                | Importieren Sie Daten aus einer Excel-Datei.
+
+                            .import-template
+                                h6 Excel-Vorlage herunterladen:
+                                a.btn.btn-small.btn-success(href="/templates/import_template.xlsx", download)
+                                    i.fas.fa-download
+                                    | Vorlage herunterladen
+
+                        .import-dropzone#excelDropzone
+                            i.fas.fa-file-excel
+                            p Excel-Datei hier ablegen oder
+                            input#excelFileInput(type="file" accept=".xlsx,.xls" style="display: none;")
+                            button.btn.btn-primary(onclick="document.getElementById('excelFileInput').click()") Datei auswählen
+
+                        .import-mapping
+                            h6 Spalten-Zuordnung:
+                            .mapping-table
+                                .mapping-row
+                                    span Quell-Spalte
+                                    span Ziel-Feld
+                                    span Beispiel
+                                .mapping-row
+                                    select
+                                        option A (Techniker)
+                                    select
+                                        option technic
+                                    span Shady, Abdul, ...
+
+                    #csvTab.tab-pane
+                        .import-instructions
+                            p
+                                i.fas.fa-info-circle
+                                | Importieren Sie Daten aus einer CSV-Datei.
+
+                        .import-dropzone#csvDropzone
+                            i.fas.fa-file-csv
+                            p CSV-Datei hier ablegen oder
+                            input#csvFileInput(type="file" accept=".csv,.txt" style="display: none;")
+                            button.btn.btn-primary(onclick="document.getElementById('csvFileInput').click()") Datei auswählen
+
+                        .csv-options
+                            .form-group
+                                label Trennzeichen:
+                                select#csvDelimiter
+                                    option(value=",", selected) Komma (,)
+                                    option(value=";") Semikolon (;)
+                                    option(value="\t") Tabulator
+                            .form-group
+                                label.checkbox-label
+                                    input#csvHeader(type="checkbox", checked)
+                                    span.checkbox-custom
+                                    span Erste Zeile enthält Überschriften
+
+        .modal-footer
+            button.btn.btn-secondary(onclick="closeModal('importModal')") Abbrechen
+            button.btn.btn-success(onclick="startImport()")
+                i.fas.fa-upload
+                | Import starten
+
+//- Export Modal
+#exportModal.modal-overlay(style="display: none;")
+    .modal.modal-large
+        .modal-header
+            h3
+                i.fas.fa-file-export
+                | Daten exportieren
+            button.btn-close(type="button" onclick="closeModal('exportModal')") &times;
+
+        .modal-body
+            .export-options
+                .export-format
+                    h4 Export-Format:
+                    .format-options
+                        .format-option
+                            input#formatExcel(type="radio" name="exportFormat" value="excel", checked)
+                            label(for="formatExcel")
+                                i.fas.fa-file-excel
+                                span Excel (.xlsx)
+                        .format-option
+                            input#formatPDF(type="radio" name="exportFormat" value="pdf")
+                            label(for="formatPDF")
+                                i.fas.fa-file-pdf
+                                span PDF (.pdf)
+                        .format-option
+                            input#formatJSON(type="radio" name="exportFormat" value="json")
+                            label(for="formatJSON")
+                                i.fas.fa-file-code
+                                span JSON (.json)
+                        .format-option
+                            input#formatCSV(type="radio" name="exportFormat" value="csv")
+                            label(for="formatCSV")
+                                i.fas.fa-file-csv
+                                span CSV (.csv)
+
+                .export-content
+                    h4 Inhalt:
+                    .content-options
+                        label.checkbox-label
+                            input#exportData(type="checkbox", checked)
+                            span.checkbox-custom
+                            span Dateneinträge
+                        label.checkbox-label
+                            input#exportSummary(type="checkbox", checked)
+                            span.checkbox-custom
+                            span Zusammenfassung
+                        label.checkbox-label
+                            input#exportCharts(type="checkbox")
+                            span.checkbox-custom
+                            span Charts/Grafiken
+                        label.checkbox-label
+                            input#exportIMEI(type="checkbox", checked)
+                            span.checkbox-custom
+                            span IMEI-Daten
+
+                .export-range
+                    h4 Zeitraum:
+                    .range-options
+                        .form-group
+                            label Von:
+                            input#exportFrom(type="text" placeholder="TT.MM.JJJJ")
+                        .form-group
+                            label Bis:
+                            input#exportTo(type="text" placeholder="TT.MM.JJJJ")
+                        .quick-ranges
+                            button.btn.btn-small.btn-secondary(onclick="setExportRange('today')") Heute
+                            button.btn.btn-small.btn-secondary(onclick="setExportRange('week')") Diese Woche
+                            button.btn.btn-small.btn-secondary(onclick="setExportRange('month')") Dieser Monat
+                            button.btn.btn-small.btn-secondary(onclick="setExportRange('all')") Alle
+
+                .export-advanced
+                    h4 Erweiterte Optionen:
+                    .advanced-options
+                        .form-group
+                            label Dateiname:
+                            input#exportFilename(type="text" placeholder="techniker_report")
+                        .form-group
+                            label.checkbox-label
+                                input#exportCompress(type="checkbox")
+                                span.checkbox-custom
+                                span Komprimieren (ZIP)
+                        .form-group
+                            label.checkbox-label
+                                input#exportPassword(type="checkbox")
+                                span.checkbox-custom
+                                span Passwortschutz
+                        #passwordField.form-group(style="display: none;")
+                            label Passwort:
+                            input#exportPasswordValue(type="password")
+
+        .modal-footer
+            button.btn.btn-secondary(onclick="closeModal('exportModal')") Abbrechen
+            button.btn.btn-success(onclick="startExport()")
+                i.fas.fa-download
+                | Export starten
+            button.btn.btn-primary(onclick="previewExport()")
+                i.fas.fa-eye
+                | Vorschau
+
+//- Confirmation Modal
+#confirmModal.modal-overlay(style="display: none;")
+    .modal.modal-small
+        .modal-header
+            h3#confirmTitle Bestätigung
+            button.btn-close(type="button" onclick="closeModal('confirmModal')") &times;
+
+        .modal-body
+            p#confirmMessage Möchten Sie diese Aktion wirklich ausführen?
+
+        .modal-footer
+            button.btn.btn-secondary(onclick="closeModal('confirmModal')") Abbrechen
+            button.btn.btn-danger#confirmButton Bestätigen
+
+//- Progress Modal
+#progressModal.modal-overlay(style="display: none;")
+    .modal.modal-small
+        .modal-header
+            h3
+                i.fas.fa-spinner.fa-spin
+                span#progressTitle Wird verarbeitet...
+            button.btn-close(type="button" onclick="cancelProgress()") &times;
+
+        .modal-body
+            .progress-container
+                .progress-bar
+                    .progress-fill#progressFill(style="width: 0%")
+                .progress-text
+                    span#progressText 0%
+                    span#progressDetail
+            #progressLog.progress-log
+
+        .modal-footer
+            button.btn.btn-danger(onclick="cancelProgress()")
+                i.fas.fa-times
+                | Abbrechen
+
+//- Notification Modal
+#notificationModal.modal-overlay(style="display: none;")
+    .modal.modal-small
+        .modal-header
+            h3#notificationTitle
+                i.fas.fa-bell
+                | Benachrichtigung
+            button.btn-close(type="button" onclick="closeModal('notificationModal')") &times;
+
+        .modal-body
+            .notification-icon
+                i#notificationIcon.fas.fa-info-circle
+            p#notificationMessage
+            #notificationDetails.notification-details
+
+        .modal-footer
+            button.btn.btn-primary(onclick="closeModal('notificationModal')") OK
+
+//- Login Modal (für zukünftige Erweiterungen)
+#loginModal.modal-overlay(style="display: none;")
+    .modal
+        .modal-header
+            h3
+                i.fas.fa-sign-in-alt
+                | Anmeldung
+            button.btn-close(type="button" onclick="closeModal('loginModal')") &times;
+
+        .modal-body
+            form#loginForm
+                .form-group
+                    label(for="loginUsername") Benutzername:
+                    input#loginUsername(type="text" placeholder="Benutzername", required)
+
+                .form-group
+                    label(for="loginPassword") Passwort:
+                    input#loginPassword(type="password" placeholder="Passwort", required)
+
+                .form-group
+                    label.checkbox-label
+                        input#rememberMe(type="checkbox")
+                        span.checkbox-custom
+                        span Angemeldet bleiben
+
+                .form-group
+                    a(href="#" onclick="showForgotPassword()") Passwort vergessen?
+
+        .modal-footer
+            button.btn.btn-secondary(onclick="closeModal('loginModal')") Abbrechen
+            button.btn.btn-success(type="submit" form="loginForm")
+                i.fas.fa-sign-in-alt
+                | Anmelden

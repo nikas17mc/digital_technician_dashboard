@@ -1,0 +1,120 @@
+extends layout.pug
+
+block content
+    .welcome-container
+        .welcome-card
+            .welcome-header
+                i.fas.fa-tools
+                h1 Willkommen beim Techniker Dashboard
+            .welcome-content
+                p Eine umfassende Lösung zur Verfolgung von Technikerleistungen, IMEI-Analyse und Datenverwaltung.
+                
+                .features-grid
+                    .feature-card
+                        i.fas.fa-database
+                        h3 Datenverwaltung
+                        p Erfassen und verwalten Sie Technikerdaten mit IMEI-Unterstützung.
+                    
+                    .feature-card
+                        i.fas.fa-chart-line
+                        h3 Analytics
+                        p Detaillierte Statistiken und Performance-Tracking.
+                    
+                    .feature-card
+                        i.fas.fa-search
+                        h3 IMEI Analyse
+                        p Mathematische IMEI-Validierung und Mustererkennung.
+                    
+                    .feature-card
+                        i.fas.fa-file-export
+                        h3 Export
+                        p Excel-Reports und Datenexport in verschiedenen Formaten.
+                
+                .quick-actions
+                    a.btn.btn-primary.btn-large(href="/dashboard")
+                        i.fas.fa-rocket
+                        | Dashboard starten
+                    button.btn.btn-secondary(onclick="showTutorial()")
+                        i.fas.fa-play-circle
+                        | Tutorial ansehen
+                    button.btn.btn-success(onclick="importSampleData()")
+                        i.fas.fa-download
+                        | Beispieldaten laden
+            
+            .welcome-stats
+                .stat-item
+                    i.fas.fa-users
+                    span.stat-number 4
+                    span.stat-label Aktive Techniker
+                .stat-item
+                    i.fas.fa-mobile-alt
+                    span.stat-number #{statistics.totalDevices}
+                    span.stat-label Gespeicherte Geräte
+                .stat-item
+                    i.fas.fa-barcode
+                    span.stat-number #{statistics.totalIMEIs}
+                    span.stat-label IMEI-Nummern
+                .stat-item
+                    i.fas.fa-calendar-alt
+                    span.stat-number 
+                    span.stat-label Tage Historie
+
+block scripts
+    script.
+        function showTutorial() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal modal-large">
+                    <div class="modal-header">
+                        <h3>📚 Schnellstart-Anleitung</h3>
+                        <button class="btn-close" onclick="this.closest('.modal-overlay').remove()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="tutorial-steps">
+                            <div class="step">
+                                <h4><span class="step-number">1</span> Neuen Eintrag erfassen</h4>
+                                <p>• Techniker, Datum und Status auswählen</p>
+                                <p>• Anzahl der Geräte eingeben</p>
+                                <p>• IMEI-Nummern optional hinzufügen</p>
+                                <p>• Auf "Eintrag speichern" klicken</p>
+                            </div>
+                            <div class="step">
+                                <h4><span class="step-number">2</span> Daten analysieren</h4>
+                                <p>• Filter für Zeiträume verwenden</p>
+                                <p>• Techniker-Statistiken anzeigen</p>
+                                <p>• IMEI-Details einsehen</p>
+                                <p>• Mismatch-Analyse durchführen</p>
+                            </div>
+                            <div class="step">
+                                <h4><span class="step-number">3</span> Berichte exportieren</h4>
+                                <p>• Excel-Reports generieren</p>
+                                <p>• Daten als JSON exportieren</p>
+                                <p>• PDF-Berichte erstellen</p>
+                                <p>• Automatische Backups</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="this.closest('.modal-overlay').remove()">Verstanden</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+        
+        async function importSampleData() {
+            if (confirm('Möchten Sie Beispieldaten laden? Dies fügt 10 Beispiel-Einträge hinzu.')) {
+                try {
+                    const response = await fetch('/data/sample', { method: 'POST' });
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        alert(`✅ ${result.count} Beispieldaten erfolgreich geladen!`);
+                        window.location.href = '/dashboard';
+                    }
+                } catch (error) {
+                    alert('❌ Fehler beim Laden der Beispieldaten');
+                }
+            }
+        }

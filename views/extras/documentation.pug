@@ -1,0 +1,273 @@
+extends ../layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/pages/documentation.css")
+
+block content
+    .documentation-container
+        .documentation-header
+            h1
+                i.fas.fa-book
+                | Dokumentation & Benutzerhandbuch
+            p.subtitle Umfassende Anleitung zur Nutzung des Techniker Dashboards
+        
+        .documentation-content
+            //- Navigation Sidebar
+            nav.documentation-nav
+                .nav-section
+                    h3 
+                        i.fas.fa-rocket
+                        | Erste Schritte
+                    ul
+                        li: a(href="#getting-started") Einführung
+                        li: a(href="#registration") Registrierung & Login
+                        li: a(href="#dashboard-overview") Dashboard Überblick
+                
+                .nav-section
+                    h3
+                        i.fas.fa-tasks
+                        | Hauptfunktionen
+                    ul
+                        li: a(href="#data-entry") Dateneingabe
+                        li: a(href="#imei-management") IMEI Management
+                        li: a(href="#technician-tracking") Techniker Tracking
+                        li: a(href="#reports") Berichte & Export
+                
+                .nav-section
+                    h3
+                        i.fas.fa-cog
+                        | Einstellungen
+                    ul
+                        li: a(href="#user-settings") Benutzereinstellungen
+                        li: a(href="#system-config") Systemkonfiguration
+                        li: a(href="#notifications") Benachrichtigungen
+                
+                .nav-section
+                    h3
+                        i.fas.fa-question-circle
+                        | Hilfe & Support
+                    ul
+                        li: a(href="#faq") Häufige Fragen
+                        li: a(href="#troubleshooting") Problembehandlung
+                        li: a(href="#contact") Kontakt & Support
+            
+            //- Main Content
+            main.documentation-main
+                section#getting-started.doc-section
+                    h2
+                        i.fas.fa-rocket
+                        | Erste Schritte
+                    
+                    .doc-card
+                        h3#introduction Einführung
+                        p Willkommen beim Techniker Dashboard! Diese Plattform ermöglicht es Ihnen, Reparaturaufträge, IMEI-Nummern und Technikerleistungen effizient zu verwalten.
+                        
+                        .info-box
+                            h4 
+                                i.fas.fa-lightbulb
+                                | Wichtig zu wissen:
+                            ul
+                                li Das System speichert alle Daten sicher in einer Datenbank
+                                li Sie können jederzeit Berichte exportieren
+                                li Mehrere Techniker können gleichzeitig arbeiten
+                    
+                    .doc-card
+                        h3#registration Registrierung & Login
+                        p So melden Sie sich im System an:
+                        
+                        ol
+                            li Rufen Sie die Login-Seite auf
+                            li Geben Sie Ihre Zugangsdaten ein
+                            li Klicken Sie auf "Anmelden"
+                            li Bei erstmaliger Nutzung kontaktieren Sie den Administrator für Zugangsdaten
+                        
+                        .warning-box
+                            h4
+                                i.fas.fa-exclamation-triangle
+                                | Sicherheitshinweis:
+                            p Bewahren Sie Ihre Zugangsdaten sicher auf und teilen Sie diese nicht mit Dritten.
+                
+                section#main-features.doc-section
+                    h2
+                        i.fas.fa-tasks
+                        | Hauptfunktionen
+                    
+                    .doc-card
+                        h3#data-entry Dateneingabe
+                        p So erfassen Sie einen neuen Eintrag:
+                        
+                        .steps
+                            .step
+                                .step-number 1
+                                .step-content
+                                    h5 Techniker auswählen
+                                    p Wählen Sie den verantwortlichen Techniker aus der Dropdown-Liste
+                            
+                            .step
+                                .step-number 2
+                                .step-content
+                                    h5 Datum festlegen
+                                    p Wählen Sie das Datum des Ereignisses
+                            
+                            .step
+                                .step-number 3
+                                .step-content
+                                    h5 Ereignistyp wählen
+                                    p Wählen Sie den entsprechenden Ereignistyp (z.B. "Repariert", "In Prüfung")
+                            
+                            .step
+                                .step-number 4
+                                .step-content
+                                    h5 IMEI-Nummern eingeben
+                                    p Fügen Sie die IMEI-Nummern der Geräte hinzu
+                    
+                    .doc-card
+                        h3#imei-management IMEI Management
+                        p Das IMEI-Management ermöglicht:
+                        
+                        .feature-grid
+                            .feature
+                                i.fas.fa-plus-circle
+                                h5 Hinzufügen
+                                p Fügen Sie beliebig viele IMEI-Nummern hinzu
+                            
+                            .feature
+                                i.fas.fa-trash-alt
+                                h5 Löschen
+                                p Entfernen Sie einzelne oder alle IMEI-Einträge
+                            
+                            .feature
+                                i.fas.fa-search
+                                h5 Suche
+                                p Suchen Sie nach spezifischen IMEI-Nummern
+                            
+                            .feature
+                                i.fas.fa-check-circle
+                                h5 Validierung
+                                p Automatische Prüfung der IMEI-Formatierung
+                
+                section#settings.doc-section
+                    h2
+                        i.fas.fa-cog
+                        | Einstellungen
+                    
+                    .doc-card
+                        h3#user-settings Benutzereinstellungen
+                        p Passen Sie das System Ihren Bedürfnissen an:
+                        
+                        table.settings-table
+                            thead
+                                tr
+                                    th Einstellung
+                                    th Beschreibung
+                                    th Standardwert
+                            tbody
+                                tr
+                                    td Theme
+                                    td Farbschema der Oberfläche
+                                    td Dunkel
+                                tr
+                                    td Sprache
+                                    td Systemsprache
+                                    td Deutsch
+                                tr
+                                    td Zeitzone
+                                    td Zeitliche Einstellung
+                                    td Europa/Berlin
+                                tr
+                                    td Benachrichtigungen
+                                    td E-Mail Benachrichtigungen
+                                    td Ein
+                
+                section#help.doc-section
+                    h2
+                        i.fas.fa-question-circle
+                        | Hilfe & Support
+                    
+                    .doc-card
+                        h3#faq Häufige Fragen
+                        
+                        .faq-list
+                            .faq-item
+                                .faq-question
+                                    i.fas.fa-question
+                                    span Wie lösche ich einen Eintrag?
+                                .faq-answer
+                                    p Klicken Sie auf den Löschen-Button neben dem Eintrag und bestätigen Sie die Aktion.
+                            
+                            .faq-item
+                                .faq-question
+                                    i.fas.fa-question
+                                    span Kann ich Daten exportieren?
+                                .faq-answer
+                                    p Ja, unter "Export" können Sie Daten als Excel, PDF oder CSV exportieren.
+                            
+                            .faq-item
+                                .faq-question
+                                    i.fas.fa-question
+                                    span Wer hat Zugriff auf meine Daten?
+                                .faq-answer
+                                    p Nur autorisierte Benutzer Ihres Unternehmens haben Zugriff.
+                    
+                    .doc-card
+                        h3#contact Kontakt & Support
+                        
+                        .contact-info
+                            .contact-method
+                                i.fas.fa-envelope
+                                div
+                                    h5 E-Mail Support
+                                    p support@techniker-dashboard.com
+                                    small Antwort innerhalb von 24 Stunden
+                            
+                            .contact-method
+                                i.fas.fa-phone
+                                div
+                                    h5 Telefon Support
+                                    p +49 123 456 789
+                                    small Mo-Fr: 9:00-18:00 Uhr
+                            
+                            .contact-method
+                                i.fas.fa-comments
+                                div
+                                    h5 Live Chat
+                                    p Verfügbar im Dashboard
+                                    small Echtzeit-Support
+        
+        .documentation-footer
+            p Letzte Aktualisierung: #{new Date().toLocaleDateString('de-DE')}
+            p Version: 2.5.1
+
+block scripts
+    script.
+        // Smooth scrolling for documentation navigation
+        document.querySelectorAll('.documentation-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // FAQ toggle functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const answer = this.nextElementSibling;
+                const isActive = answer.style.display === 'block';
+                
+                // Close all other answers
+                document.querySelectorAll('.faq-answer').forEach(ans => {
+                    ans.style.display = 'none';
+                });
+                
+                // Toggle current answer
+                answer.style.display = isActive ? 'none' : 'block';
+            });
+        });

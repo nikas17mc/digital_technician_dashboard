@@ -1,0 +1,33 @@
+{
+  "name": "digital_technician_dashboard",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [
+    "dashboard",
+    "technician",
+    "digital"
+  ],
+  "license": "MIT",
+  "author": "nikas",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.1",
+    "express": "^5.2.1",
+    "express-fileupload": "^1.5.2",
+    "express-session": "^1.18.2",
+    "fs-extra": "^11.3.2",
+    "moment": "^2.30.1",
+    "multer": "^2.0.2",
+    "pug": "^3.0.3",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "dotenv": "^17.2.3",
+    "nodemon": "^3.1.11"
+  }
+}

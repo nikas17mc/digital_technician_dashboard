@@ -1,0 +1,191 @@
+extends ../layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/pages/terms.css")
+
+block content
+    .terms-container
+        .terms-header
+            h1
+                i.fas.fa-file-contract
+                | Allgemeine Geschäftsbedingungen (AGB)
+            p.subtitle Gültig ab: #{new Date().toLocaleDateString('de-DE')}
+        
+        .terms-content
+            .terms-card
+                h2 
+                    i.fas.fa-gavel
+                    | § 1 Geltungsbereich
+                
+                p 1.1 Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge zwischen der Mustermann GmbH (nachfolgend "Anbieter") und den Nutzern (nachfolgend "Kunden") des Techniker Dashboards.
+                
+                p 1.2 Abweichende Bedingungen des Kunden werden nicht anerkannt, es sei denn, der Anbieter stimmt ihrer Geltung ausdrücklich schriftlich zu.
+            
+            .terms-card
+                h2
+                    i.fas.fa-user-check
+                    | § 2 Vertragsgegenstand
+                
+                p 2.1 Der Anbieter stellt dem Kunden eine webbasierte Software zur Verwaltung von Techniker-Daten und IMEI-Nummern zur Verfügung (nachfolgend "Dashboard").
+                
+                p 2.2 Die Nutzung des Dashboards erfolgt über einen Browserzugang. Eine Installation auf lokalen Systemen ist nicht erforderlich.
+            
+            .terms-card
+                h2
+                    i.fas.fa-user-plus
+                    | § 3 Vertragsschluss
+                
+                p 3.1 Der Vertrag kommt durch die Registrierung des Kunden und die Freischaltung des Accounts durch den Anbieter zustande.
+                
+                p 3.2 Der Kunde bestätigt mit der Registrierung, dass er diese AGB gelesen und akzeptiert hat.
+            
+            .terms-card
+                h2
+                    i.fas.fa-key
+                    | § 4 Zugangsdaten
+                
+                p 4.1 Der Kunde ist verpflichtet, seine Zugangsdaten geheim zu halten und vor unbefugtem Zugriff Dritter zu schützen.
+                
+                p 4.2 Bei Verdacht auf Missbrauch der Zugangsdaten ist der Kunde verpflichtet, den Anbieter unverzüglich zu informieren.
+            
+            .terms-card
+                h2
+                    i.fas.fa-credit-card
+                    | § 5 Preise und Zahlungsbedingungen
+                
+                table.pricing-table
+                    thead
+                        tr
+                            th Leistung
+                            th Preis
+                            th Zahlungsweise
+                    tbody
+                        tr
+                            td Basis-Account
+                            td 49,00 €/Monat
+                            td Monatlich im Voraus
+                        tr
+                            td Pro-Account
+                            td 99,00 €/Monat
+                            td Monatlich im Voraus
+                        tr
+                            td Enterprise
+                            td Individuell
+                            td Nach Vereinbarung
+                
+                p 5.1 Alle Preise verstehen sich zuzüglich der gesetzlichen Mehrwertsteuer.
+                
+                p 5.2 Die Zahlung erfolgt per Banküberweisung oder Kreditkarte.
+            
+            .terms-card
+                h2
+                    i.fas.fa-ban
+                    | § 6 Pflichten des Kunden
+                
+                p Der Kunde verpflichtet sich:
+                
+                .obligations
+                    .obligation
+                        i.fas.fa-check-circle
+                        span Nur rechtmäßige Daten einzugeben
+                    
+                    .obligation
+                        i.fas.fa-check-circle
+                        span Keine Urheberrechte zu verletzen
+                    
+                    .obligation
+                        i.fas.fa-check-circle
+                        span Das System nicht für illegale Zwecke zu nutzen
+                    
+                    .obligation
+                        i.fas.fa-check-circle
+                        span Regelmäßige Backups seiner Daten durchzuführen
+            
+            .terms-card
+                h2
+                    i.fas.fa-server
+                    | § 7 Verfügbarkeit
+                
+                p 7.1 Der Anbieter gewährleistet eine monatliche Verfügbarkeit von 99,5%.
+                
+                p 7.2 Geplante Wartungsarbeiten werden mindestens 48 Stunden vorher angekündigt.
+                
+                .availability-info
+                    .availability-item
+                        i.fas.fa-check
+                        span 24/7 Support
+                    .availability-item
+                        i.fas.fa-check
+                        span 99,5% Uptime
+                    .availability-item
+                        i.fas.fa-check
+                        span Schnelle Reaktionszeit
+            
+            .terms-card
+                h2
+                    i.fas.fa-wrench
+                    | § 8 Haftung
+                
+                p 8.1 Der Anbieter haftet nur für Vorsatz und grobe Fahrlässigkeit.
+                
+                p 8.2 Die Haftung für leichte Fahrlässigkeit ist ausgeschlossen, es sei denn, es handelt sich um die Verletzung wesentlicher Vertragspflichten.
+                
+                .liability-info
+                    p
+                        i.fas.fa-exclamation-triangle
+                        |  Wichtiger Hinweis: Der Anbieter übernimmt keine Haftung für Datenverluste. Der Kunde ist für regelmäßige Backups verantwortlich.
+            
+            .terms-card
+                h2
+                    i.fas.fa-calendar-times
+                    | § 9 Vertragslaufzeit und Kündigung
+                
+                p 9.1 Der Vertrag läuft auf unbestimmte Zeit und kann mit einer Frist von einem Monat zum Monatsende gekündigt werden.
+                
+                p 9.2 Das Recht zur fristlosen Kündigung aus wichtigem Grund bleibt unberührt.
+                
+                .termination-options
+                    .option
+                        h5 Ordentliche Kündigung
+                        p 1 Monat zum Monatsende
+                    
+                    .option
+                        h5 Außerordentliche Kündigung
+                        p Bei wichtigem Grund sofort
+            
+            .terms-card
+                h2
+                    i.fas.fa-balance-scale
+                    | § 10 Schlussbestimmungen
+                
+                p 10.1 Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts.
+                
+                p 10.2 Erfüllungsort und Gerichtsstand ist der Sitz des Anbieters.
+                
+                p 10.3 Sollte eine Bestimmung dieser AGB unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.
+        
+        .terms-footer
+            .signature-section
+                p Für Mustermann GmbH
+                .signature-line
+                p Geschäftsführung
+        
+        .terms-actions
+            button.btn.btn-primary(onclick="window.print()")
+                i.fas.fa-print
+                | AGB drucken
+            button.btn.btn-secondary(onclick="downloadTerms()")
+                i.fas.fa-download
+                | Als PDF speichern
+
+block scripts
+    script.
+        function downloadTerms() {
+            // Hier würde die PDF-Generierung implementiert werden
+            alert('Die AGB werden als PDF heruntergeladen.');
+        }
+        
+        // Auto-scroll to top on print
+        window.addEventListener('beforeprint', () => {
+            window.scrollTo(0, 0);
+        });
