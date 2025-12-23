@@ -3,6 +3,10 @@ const path = require('path');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const fs = require('fs-extra');
+const crypto = require('crypto');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const cors = require('cors');
 require('dotenv').config({path: './envs/site.env', debug: false});
 const fileUpload = require('express-fileupload');
 
@@ -14,14 +18,42 @@ const analysisRouter = require('./routes/analysis');
 const app = express();
 
 // Middleware
+// Security Middleware
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
+            scriptSrc: ["'self'"],
+            imgSrc: ["'self'", "data:", "https:"]
+        }
+    }
+}));
+
+// CORS Configuration
+app.use(cors({
+    origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000'],
+    credentials: true
+}));
+
+// Rate Limiting
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    message: 'Too many requests from this IP, please try again later.'
+});
+app.use(limiter);
+
+// Body Parser Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
-    secret: 'techniker-dashboard-secret',
+    secret: process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex'),
     resave: false,
-    saveUninitialized: true,
-    cookie: { 
+    saveUninitialized: false,
+    cookie: {
         secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000 // 24 Stunden
     }
 }));
@@ -69,7 +101,7 @@ app.use((req, res, _) => {
 // Error Handling Middleware
 app.use((err, req, res, _) => {
     console.error('❌ Fehler:', err.stack);
-    
+
     // Log error to file
     const errorLog = {
         timestamp: new Date().toISOString(),
@@ -80,22 +112,22 @@ app.use((err, req, res, _) => {
         userAgent: req.get('User-Agent'),
         ip: req.ip
     };
-    
+
     // Asynchron loggen
     fs.appendFile(
         path.join(__dirname, 'logs', 'errors.log'),
         JSON.stringify(errorLog) + '\n'
     ).catch(logErr => console.error('Fehler beim Loggen:', logErr));
-    
+
     // Error response
     const status = err.status || 500;
     res.status(status).render('error', {
         title: `${status} - Fehler`,
         status: status,
-        error: process.env.NODE_ENV === 'development' ? err.message : 'Ein unerwarteter Fehler ist aufgetreten.',
+        error: 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.',
         url: req.url,
         method: req.method,
-        stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+        // Remove stack trace to prevent information disclosure
     });
 });
 

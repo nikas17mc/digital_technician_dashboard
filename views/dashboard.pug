@@ -94,7 +94,7 @@ block content
                         span schneller
         
         .dashboard-grid.dashboard-grid-custom
-            //- Linke Spalte: Dateneingabe
+            // Linke Spalte: Dateneingabe
             .dashboard-card.imei-entry-panel
                 .dashboard-card-header
                     .dashboard-card-title
@@ -117,8 +117,8 @@ block content
                                 i.fas.fa-calendar
                                 span Datum:
                             .date-input-group
-                                input#date.form-control(type="text" name="date", value=currentDate, readonly)
-                                button.btn.btn-icon.btn-secondary(type="button" onclick="showDatePicker()", aria-label="Datum auswählen")
+                                input#date.form-control(type="text", name="date", value=currentDate, readonly)
+                                button.btn.btn-icon.btn-secondary(type="button", onclick="showDatePicker()", aria-label="Datum auswählen")
                                     i.fas.fa-calendar-alt
                         
                         .form-group
@@ -134,7 +134,7 @@ block content
                             label(for="count")
                                 i.fas.fa-hashtag
                                 span Anzahl:
-                            input#count.form-control(type="number" name="count" value="1" min="1" max="100")
+                            input#count.form-control(type="number", name="count", value="1", min="1", max="100")
                         
                         .imei-section
                             .section-header
@@ -145,27 +145,27 @@ block content
                             #imeiContainer.imei-container
                                 .imei-row
                                     .imei-label IMEI 1:
-                                    input.imei-input(type="text" placeholder="IMEI eingeben..." data-index="1")
-                                    button.btn.btn-icon.btn-danger(type="button" onclick="removeIMEIRow(this)", aria-label="IMEI entfernen")
+                                    input.imei-input(type="text", placeholder="IMEI eingeben...", data-index="1")
+                                    button.btn.btn-icon.btn-danger(type="button", onclick="removeIMEIRow(this)", aria-label="IMEI entfernen")
                                         i.fas.fa-times
                             
                             .imei-actions
-                                button.btn.btn-primary(type="button" onclick="addIMEIRow()")
+                                button.btn.btn-primary(type="button", onclick="addIMEIRow()")
                                     i.fas.fa-plus
                                     span IMEI hinzufügen
-                                button.btn.btn-danger(type="button" onclick="clearIMEI()")
+                                button.btn.btn-danger(type="button", onclick="clearIMEI()")
                                     i.fas.fa-trash
                                     span Alle löschen
                 
                 .dashboard-card-footer
-                    button.btn.btn-success.btn-large(type="button" onclick="saveEntry()")
+                    button.btn.btn-success.btn-large(type="button", onclick="saveEntry()")
                         i.fas.fa-save
                         span Eintrag speichern
-                    button.btn.btn-outline-secondary(type="button" onclick="resetForm()")
+                    button.btn.btn-outline-secondary(type="button", onclick="resetForm()")
                         i.fas.fa-redo
                         span Zurücksetzen
             
-            //- Rechte Spalte: Datenübersicht
+            // Rechte Spalte: Datenübersicht
             .dashboard-content
                 .dashboard-card
                     .dashboard-card-header
@@ -180,11 +180,11 @@ block content
                         .filter-group-horizontal
                             .filter-item
                                 label(for="startDate") Von:
-                                input#startDate.form-control(type="text" placeholder="TT.MM.JJJJ")
+                                input#startDate.form-control(type="text", placeholder="TT.MM.JJJJ")
                             
                             .filter-item
                                 label(for="endDate") Bis:
-                                input#endDate.form-control(type="text" placeholder="TT.MM.JJJJ")
+                                input#endDate.form-control(type="text", placeholder="TT.MM.JJJJ")
                             
                             .filter-item
                                 label(for="technicianFilter") Techniker:
@@ -265,7 +265,7 @@ block content
                                 i.fas.fa-file-csv
                                 span CSV Export
         
-        //- Quick Actions Panel
+        // Quick Actions Panel
         .quick-actions-panel
             h4 Schnellaktionen
             .quick-actions-grid
@@ -288,14 +288,14 @@ block content
                     i.fas.fa-question-circle
                     span Hilfe
         
-        //- Recent Activity
+        // Recent Activity
         .recent-activity-dashboard
             .dashboard-card-header
                 .dashboard-card-title
                     i.fas.fa-history
                     h3 Letzte Aktivitäten
                 .dashboard-card-actions
-                    button.btn.btn-icon.btn-sm(onclick="loadMoreActivities()", aria-label="Meere Aktivitäten laden")
+                    button.btn.btn-icon.btn-sm(onclick="loadMoreActivities()", aria-label="Weitere Aktivitäten laden")
                         i.fas.fa-ellipsis-h
             
             .dashboard-card-body
@@ -309,370 +309,4 @@ block content
                                 .activity-time-dashboard= activity.time
 
 block scripts
-    script.
-        // Dashboard Initialisierung
-        document.addEventListener('DOMContentLoaded', function() {
-            initDashboard();
-            refreshData();
-        });
-        
-        function initDashboard() {
-            // Setze heutiges Datum
-            const today = new Date().toLocaleDateString('de-DE');
-            document.getElementById('date').value = today;
-            
-            // Tab Navigation
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const tabName = this.dataset.tab;
-                    
-                    // Aktiven Tab entfernen
-                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-                    
-                    // Neuen Tab aktivieren
-                    this.classList.add('active');
-                    document.getElementById(tabName + 'Tab').classList.add('active');
-                });
-            });
-            
-            // Datumspicker Initialisierung
-            initDatePickers();
-        }
-        
-        function initDatePickers() {
-            // Start-Datum: Erster Tag des aktuellen Monats
-            const firstDay = new Date();
-            firstDay.setDate(1);
-            document.getElementById('startDate').value = firstDay.toLocaleDateString('de-DE');
-            
-            // End-Datum: Heute
-            document.getElementById('endDate').value = new Date().toLocaleDateString('de-DE');
-            
-            // Datepicker für Formularfelder
-            const dateFields = ['#date', '#startDate', '#endDate'];
-            dateFields.forEach(selector => {
-                const field = document.querySelector(selector);
-                if (field) {
-                    field.addEventListener('click', function() {
-                        showDatePicker(this.id);
-                    });
-                }
-            });
-        }
-        
-        // IMEI Management
-        let imeiCounter = 1;
-        
-        function addIMEIRow() {
-            imeiCounter++;
-            const container = document.getElementById('imeiContainer');
-            const row = document.createElement('div');
-            row.className = 'imei-row';
-            row.innerHTML = `
-                <div class="imei-label">IMEI ${imeiCounter}:</div>
-                <input class="imei-input" type="text" placeholder="IMEI eingeben..." data-index="${imeiCounter}">
-                <button class="btn btn-icon btn-danger" type="button" onclick="removeIMEIRow(this)" aria-label="IMEI entfernen">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            container.appendChild(row);
-            row.querySelector('.imei-input').focus();
-            updateIMEICount();
-        }
-        
-        function removeIMEIRow(btn) {
-            const rows = document.querySelectorAll('.imei-row');
-            if (rows.length > 1) {
-                btn.closest('.imei-row').remove();
-                updateIMELabels();
-                updateIMEICount();
-            } else {
-                showNotification('Mindestens eine IMEI-Zeile muss vorhanden sein.', 'warning');
-            }
-        }
-        
-        function updateIMELabels() {
-            document.querySelectorAll('.imei-row').forEach((row, index) => {
-                row.querySelector('.imei-label').textContent = `IMEI ${index + 1}:`;
-            });
-        }
-        
-        function updateIMEICount() {
-            const count = document.querySelectorAll('.imei-row').length;
-            const badge = document.querySelector('.section-badge');
-            if (badge) {
-                badge.textContent = count;
-            }
-        }
-        
-        function clearIMEI() {
-            if (confirm('Möchten Sie wirklich alle IMEI-Einträge löschen?')) {
-                const container = document.getElementById('imeiContainer');
-                container.innerHTML = '';
-                imeiCounter = 0;
-                addIMEIRow();
-                updateIMEICount();
-            }
-        }
-        
-        // Formular-Funktionen
-        function resetForm() {
-            document.getElementById('entryForm').reset();
-            document.getElementById('date').value = new Date().toLocaleDateString('de-DE');
-            document.getElementById('count').value = '1';
-            clearIMEI();
-            showNotification('Formular wurde zurückgesetzt.', 'info');
-        }
-        
-        async function saveEntry() {
-            const formData = {
-                technician: document.getElementById('technician').value,
-                date: document.getElementById('date').value,
-                status: document.getElementById('status').value,
-                count: document.getElementById('count').value,
-                imei: Array.from(document.querySelectorAll('.imei-input'))
-                    .map(input => input.value.trim())
-                    .filter(value => value)
-            };
-            
-            // Validierung
-            if (!formData.technician || !formData.date || !formData.status) {
-                showNotification('Bitte füllen Sie alle Pflichtfelder aus.', 'error');
-                return;
-            }
-            
-            if (formData.imei.length === 0) {
-                showNotification('Bitte geben Sie mindestens eine IMEI-Nummer ein.', 'warning');
-                return;
-            }
-            
-            try {
-                const response = await fetch('/data/add', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    showNotification('✅ Eintrag erfolgreich gespeichert!', 'success');
-                    resetForm();
-                    refreshData();
-                    
-                    // Aktualisiere Statistiken
-                    updateDashboardStats();
-                } else {
-                    throw new Error(result.message || 'Unbekannter Fehler');
-                }
-            } catch (error) {
-                showNotification('❌ Fehler beim Speichern: ' + error.message, 'error');
-                console.error('Save error:', error);
-            }
-        }
-        
-        // Daten-Management
-        async function refreshData() {
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-            const technicianFilter = document.getElementById('technicianFilter').value;
-            
-            try {
-                const url = new URL('/data/filter', window.location.origin);
-                if (startDate) url.searchParams.append('startDate', startDate);
-                if (endDate) url.searchParams.append('endDate', endDate);
-                if (technicianFilter) url.searchParams.append('technician', technicianFilter);
-                
-                const response = await fetch(url);
-                const result = await response.json();
-                
-                if (result.success) {
-                    updateDataTable(result.data);
-                    updateSummary(result.statistics);
-                    updateDashboardStats();
-                } else {
-                    throw new Error(result.message || 'Fehler beim Laden der Daten');
-                }
-            } catch (error) {
-                showNotification('❌ Fehler beim Aktualisieren: ' + error.message, 'error');
-                console.error('Refresh error:', error);
-            }
-        }
-        
-        function applyFilters() {
-            refreshData();
-            showNotification('Filter wurden angewendet.', 'success');
-        }
-        
-        function resetFilters() {
-            initDatePickers();
-            document.getElementById('technicianFilter').value = '';
-            refreshData();
-            showNotification('Filter wurden zurückgesetzt.', 'info');
-        }
-        
-        function updateDataTable(data) {
-            const tbody = document.getElementById('dataTable');
-            if (!tbody) return;
-            
-            tbody.innerHTML = '';
-            
-            if (data.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="8" class="text-center">
-                            <i class="fas fa-inbox"></i>
-                            <p>Keine Daten gefunden</p>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            data.forEach(entry => {
-                const row = document.createElement('tr');
-                row.dataset.entryId = entry.id;
-                row.innerHTML = `
-                    <td>${entry.id}</td>
-                    <td>${entry.technic}</td>
-                    <td>${entry.date}</td>
-                    <td>${entry.event}</td>
-                    <td>${entry.total_count}</td>
-                    <td>${entry.imei.filter(i => i).length}</td>
-                    <td>${new Date(entry.timestamp).toLocaleTimeString('de-DE')}</td>
-                    <td>
-                        <button class="btn btn-icon btn-sm btn-info" onclick="showIMEIDetails(${entry.id})" aria-label="IMEI Details">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn btn-icon btn-sm btn-warning" onclick="editEntry(${entry.id})" aria-label="Eintrag bearbeiten">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-icon btn-sm btn-danger" onclick="deleteEntry(${entry.id})" aria-label="Eintrag löschen">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-        
-        function updateDashboardStats() {
-            // Hier könnten wir die Dashboard-Statistiken live aktualisieren
-            // Beispiel: Aktualisiere die Zahlen in den Stat-Cards
-            const statCards = document.querySelectorAll('.stat-value');
-            // Hier würden wir die echten Daten einfügen
-        }
-        
-        // Eintrag-Funktionen
-        function editEntry(entryId) {
-            // Hier würde die Bearbeitungslogik implementiert werden
-            showNotification(`Bearbeiten von Eintrag ${entryId} wird vorbereitet...`, 'info');
-            // window.location.href = `/edit/${entryId}`;
-        }
-        
-        async function deleteEntry(entryId) {
-            if (!confirm(`Möchten Sie Eintrag ${entryId} wirklich löschen?`)) {
-                return;
-            }
-            
-            try {
-                const response = await fetch(`/data/delete/${entryId}`, {
-                    method: 'DELETE'
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    showNotification('✅ Eintrag erfolgreich gelöscht!', 'success');
-                    refreshData();
-                } else {
-                    throw new Error(result.message);
-                }
-            } catch (error) {
-                showNotification('❌ Fehler beim Löschen: ' + error.message, 'error');
-            }
-        }
-        
-        function showIMEIDetails(entryId) {
-            window.location.href = `/imei-details/${entryId}`;
-        }
-        
-        // Export-Funktionen
-        function exportExcel() {
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-            const technician = document.getElementById('technicianFilter').value;
-            
-            let url = '/import-export/excel-export';
-            const params = [];
-            if (startDate) params.push(`startDate=${encodeURIComponent(startDate)}`);
-            if (endDate) params.push(`endDate=${encodeURIComponent(endDate)}`);
-            if (technician) params.push(`technician=${encodeURIComponent(technician)}`);
-            
-            if (params.length > 0) {
-                url += '?' + params.join('&');
-            }
-            
-            window.location.href = url;
-            showNotification('Excel-Export wird vorbereitet...', 'info');
-        }
-        
-        function exportPDF() {
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-            
-            // Hier würde die PDF-Generierung implementiert werden
-            showNotification('PDF-Export wird in Kürze verfügbar sein.', 'info');
-        }
-        
-        function exportCSV() {
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-            const technician = document.getElementById('technicianFilter').value;
-            
-            let url = '/import-export/csv-export';
-            const params = [];
-            if (startDate) params.push(`startDate=${encodeURIComponent(startDate)}`);
-            if (endDate) params.push(`endDate=${encodeURIComponent(endDate)}`);
-            if (technician) params.push(`technician=${encodeURIComponent(technician)}`);
-            
-            if (params.length > 0) {
-                url += '?' + params.join('&');
-            }
-            
-            window.location.href = url;
-            showNotification('CSV-Export wird vorbereitet...', 'info');
-        }
-        
-        function quickReport() {
-            generateReport();
-        }
-        
-        function quickExport() {
-            exportExcel();
-        }
-        
-        // Hilfsfunktionen
-        function showNotification(message, type) {
-            // Hier würde die Notification-Komponente verwendet werden
-            console.log(`${type.toUpperCase()}: ${message}`);
-            // In der Praxis würde hier eine richtige Notification-Komponente angesprochen werden
-        }
-        
-        function loadMoreActivities() {
-            // Hier würde das Laden weiterer Aktivitäten implementiert werden
-            showNotification('Weitere Aktivitäten werden geladen...', 'info');
-        }
-        
-        function showDatePicker(fieldId) {
-            // Hier würde der Datepicker geöffnet werden
-            const field = document.getElementById(fieldId);
-            if (field) {
-                field.type = 'date';
-                field.showPicker();
-                setTimeout(() => {
-                    field.type = 'text';
-                }, 100);
-            }
-        }
+    script(src="/js/dashboard.js")

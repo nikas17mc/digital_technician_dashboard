@@ -5,6 +5,7 @@ const moment = require('moment');
 class DataManager {
     constructor() {
         this.data = [];
+        this.cache = new Map();
         this.technicians = ["Shady", "Luciano", "Osman", "Nikolai"];
         this.statusTypes = [
             "Repariert fertig",
@@ -16,23 +17,79 @@ class DataManager {
             "Polieren (888888)",
         ];
         this.dataPath = path.join(__dirname, '../data/auto_save.json');
+        this.cacheTimeout = 5 * 60 * 1000; // 5 minutes
         this.loadAutoSave();
     }
 
-    async loadAutoSave() {
+    async loadAutoSave(page = 1, limit = 1000) {
         try {
+            const cacheKey = `data_${page}_${limit}`;
+            const cached = this.getCachedData(cacheKey);
+            if (cached) {
+                this.data = cached;
+                return;
+            }
+
             if (await fs.pathExists(this.dataPath)) {
                 const fileData = await fs.readJson(this.dataPath);
-                this.data = fileData.map((entry, idx) => ({
-                    id: idx + 1,
+                const startIndex = (page - 1) * limit;
+                const endIndex = startIndex + limit;
+                const paginatedData = fileData.slice(startIndex, endIndex);
+                
+                this.data = paginatedData.map((entry, idx) => ({
+                    id: startIndex + idx + 1,
                     ...entry,
                     date: this.extractDateFromDateTime(entry.date_time),
                     timestamp: new Date().toISOString()
                 }));
+                
+                // Cache the result
+                this.setCachedData(cacheKey, this.data);
             }
         } catch (error) {
             console.error('Fehler beim Laden:', error);
         }
+    }
+
+    getCachedData(key) {
+        const cached = this.cache.get(key);
+        if (cached && Date.now() - cached.timestamp < this.cacheTimeout) {
+            return cached.data;
+        }
+        return null;
+    }
+
+    setCachedData(key, data) {
+        this.cache.set(key, {
+            data: data,
+            timestamp: Date.now()
+        });
+    }
+
+    clearCache() {
+        this.cache.clear();
+    }
+
+    // Utility method to transform entry data
+    transformEntry(entry, transformType = 'load') {
+        if (transformType === 'load') {
+            return {
+                id: entry.id,
+                ...entry,
+                date: this.extractDateFromDateTime(entry.date_time),
+                timestamp: new Date().toISOString()
+            };
+        } else if (transformType === 'save') {
+            return {
+                id: entry.id,
+                date_time: entry.date_time,
+                technic: entry.technic,
+                event: entry.event,
+                total_count: entry.total_count,
+                imei: entry.imei
+            };
+        }
+        return entry;
     }
 
     extractDateFromDateTime(dateTimeStr) {
@@ -73,16 +130,11 @@ class DataManager {
 
     async autoSave() {
         try {
-            const exportData = this.data.map(entry => ({
-                id: entry.id,
-                date_time: entry.date_time,
-                technic: entry.technic,
-                event: entry.event,
-                total_count: entry.total_count,
-                imei: entry.imei,
-            }));
-
+            const exportData = this.data.map(entry => this.transformEntry(entry, 'save'));
             await fs.writeJson(this.dataPath, exportData, { spaces: 2 });
+            
+            // Clear cache after saving
+            this.clearCache();
         } catch (error) {
             console.error('Auto-save error:', error);
         }
