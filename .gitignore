@@ -5,3 +5,5 @@ envs
 package-lock.json
 node_modules
 gfgfgf
+new_version/node_modules
+new_version/package-lock.json

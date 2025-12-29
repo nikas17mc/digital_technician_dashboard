@@ -3,49 +3,263 @@ const path = require('path');
 
 class ConfigManager {
     constructor() {
-        this.configPath = path.join(__dirname, '../data/config.json');
+        this.configPath = path.join(__dirname, '../data/default-config.json');
         this.defaultConfig = {
+            app: {
+                name: "Digital Technician Dashboard",
+                timezone: "Europe/Berlin",
+                locale: "de-DE"
+            },
+
             general: {
                 autoSave: true,
-                theme: 'dark',
-                language: 'de',
-                notificationEnabled: true,
-                autoRefresh: true,
-                refreshInterval: 30
+                autoSaveTime: 5,
+                animations: {
+                    enabled: true,
+                    strength: "full"
+                },
+                notifications: {
+                    enabled: true,
+                    channels: {
+                        inApp: true,
+                        email: false,
+                        webhook: false
+                    },
+                    digestIntervalMinutes: 15
+                },
+                sound: {
+                    enabled: true,
+                    soundMusic: 0,
+                    variants: ["", "", ""]
+                }
             },
-            window: {
-                width: 1400,
-                height: 800,
-                maximized: false,
-                xPosition: 0,
-                yPosition: 0
+
+            appearance: {
+                theme: "dark",
+                font: {
+                    checked: 0,
+                    fontFamily: ["", ""]
+                },
+                size: "normal",
+                compactModus: false
             },
-            paths: {
-                lastJsonPath: '',
-                lastExportPath: '',
-                defaultImportPath: '',
-                backupPath: './backups'
+
+            security: {
+                cors: {
+                    enabled: true,
+                    allowedOrigins: [],
+                    allowCredentials: true
+                },
+                rateLimit: {
+                    enabled: true,
+                    windowMs: 60000,
+                    maxRequests: 120
+                },
+                helmet: {
+                    enabled: true
+                }
             },
-            analysis: {
-                defaultDateRange: '7',
-                enableMismatchAnalysis: true,
-                enableIMEIAnalysis: true,
-                cacheResults: true,
-                cacheDuration: 3600
+
+            auth: {
+                strategy: "jwt",
+                jwt: {
+                    issuer: "technician-dashboard",
+                    audience: "technicians",
+                    expiresIn: "15m",
+                    refreshExpiresIn: "7d",
+                    algorithm: "HS256"
+                },
+                passwordPolicy: {
+                    minLength: 12,
+                    requireUppercase: true,
+                    requireLowercase: true,
+                    requireNumber: true,
+                    requireSymbol: true
+                },
+                session: {
+                    enabled: false
+                }
             },
-            export: {
-                defaultFormat: 'excel',
-                includeIMEI: true,
-                includeStatistics: true,
-                autoOpenExport: true,
-                compressExports: false
+
+            roles: {
+                default: "technician",
+                available: [
+                    "admin",
+                    "senior-technician",
+                    "technician",
+                    "dispatcher"
+                ]
             },
-            dashboard: {
-                showTechnicianCards: true,
-                cardsPerRow: 2,
-                defaultView: 'data',
-                refreshOnStart: true,
-                showNotifications: true
+
+            permissions: {
+                admin: ["*"],
+                seniorTechnician: [
+                    "devices.read",
+                    "devices.update",
+                    "qc.write",
+                    "parts.approve",
+                    "reports.read"
+                ],
+                technician: [
+                    "devices.read",
+                    "devices.updateStatus",
+                    "qc.read"
+                ],
+                dispatcher: [
+                    "devices.read",
+                    "reports.read",
+                    "jobs.assign"
+                ]
+            },
+
+            devices: {
+                identifiers: {
+                    imei: {
+                        required: true,
+                        unique: true,
+                        length: 15
+                    },
+                    serialNumber: {
+                        required: false,
+                        unique: true
+                    }
+                },
+                flags: {
+                    wpr: {
+                        requiresApproval: true,
+                        blocksPartOrdering: true
+                    },
+                    qcRework: {
+                        maxAllowed: 2
+                    }
+                },
+                lifecycle: {
+                    requirePlentyConfirmationOn: [
+                        "REP_fertig",
+                        "Repariert fertig",
+                        "WPR (Wirtschaftskontrolle)"
+                    ]
+                }
+            },
+
+            plenty: {
+                mode: "manual-confirmation-only",
+                blockStatusChangeIfPending: true,
+                reminder: {
+                    enabled: true,
+                    afterMinutes: 30
+                },
+                auditTag: "[PLENTY]"
+            },
+
+            jobs: {
+                events: [
+                    "REP_fertig",
+                    "Repariert fertig",
+                    "Ersatzteile benoetigt",
+                    "WPR (Wirtschaftskontrolle)",
+                    "Qualitätskontrolle (777777)",
+                    "Test nicht bestanden (444444)",
+                    "Polieren (888888)",
+                    "Ersatzteile Retoure"
+                ],
+                statuses: [
+                    "open",
+                    "assigned",
+                    "in-progress",
+                    "waiting",
+                    "completed",
+                    "closed"
+                ],
+                priorities: [
+                    "low",
+                    "medium",
+                    "high",
+                    "critical"
+                ],
+                sla: {
+                    low: 72,
+                    medium: 48,
+                    high: 24,
+                    critical: 4
+                },
+                autoCloseAfterHours: 72
+            },
+
+            reporting: {
+                fixedTimes: ["08:30", "12:30", "15:30"],
+                autoSnapshot: true,
+                remindIfMissing: {
+                    enabled: true,
+                    afterMinutes: 10
+                },
+                escalation: {
+                    enabled: true,
+                    afterMinutes: 30,
+                    notifyRole: "admin"
+                }
+            },
+
+            assets: {
+                healthThresholds: {
+                    warning: 70,
+                    critical: 90
+                },
+                supportedTypes: [
+                    "server",
+                    "router",
+                    "switch",
+                    "workstation",
+                    "sensor"
+                ]
+            },
+
+            monitoring: {
+                enabled: true,
+                pollIntervalSeconds: 30,
+                retentionDays: 30,
+                alertLevels: ["info", "warning", "critical"]
+            },
+
+            logging: {
+                level: "info",
+                format: "json",
+                storeToFile: true,
+                filePath: "./logs",
+                audit: {
+                    enabled: true,
+                    retentionDays: 180
+                }
+            },
+
+            realtime: {
+                enabled: true,
+                transport: "websocket",
+                heartbeatIntervalSeconds: 20
+            },
+
+            workflowGuards: {
+                preventDoublePartUsage: true,
+                preventStatusSkip: true,
+                requireReasonOnRework: true,
+                mandatoryCommentOnQCFail: true
+            },
+
+            features: {
+                jobAssignment: true,
+                assetMonitoring: true,
+                slaTracking: true,
+                technicianPerformance: true,
+                exportReports: true,
+                cache: {
+                    cacheTime: 300,
+                    lazyLoading: true,
+                    maxShowPerSite: 50
+                },
+                debugging: {
+                    debugModus: false,
+                    logError: false
+                }
             }
         };
         this.config = this.loadConfig();
@@ -68,7 +282,7 @@ class ConfigManager {
 
     mergeConfigs(defaultConfig, userConfig) {
         const result = JSON.parse(JSON.stringify(defaultConfig));
-        
+
         for (const section in userConfig) {
             if (userConfig.hasOwnProperty(section)) {
                 if (typeof userConfig[section] === 'object' && !Array.isArray(userConfig[section])) {
@@ -82,7 +296,7 @@ class ConfigManager {
                 }
             }
         }
-        
+
         return result;
     }
 
@@ -156,10 +370,10 @@ class ConfigManager {
         try {
             const backupDir = this.get('paths', 'backupPath', './backups');
             await fs.ensureDir(backupDir);
-            
+
             const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
             const backupPath = path.join(backupDir, `config_backup_${timestamp}.json`);
-            
+
             await fs.copyFile(this.configPath, backupPath);
             return backupPath;
         } catch (error) {

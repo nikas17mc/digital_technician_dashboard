@@ -19,16 +19,16 @@ const app = express();
 
 // Middleware
 // Security Middleware
-app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'"],
-            styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
-            scriptSrc: ["'self'"],
-            imgSrc: ["'self'", "data:", "https:"]
-        }
-    }
-}));
+// app.use(helmet({
+//     contentSecurityPolicy: {
+//         directives: {
+//             defaultSrc: ["'self'"],
+//             styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
+//             scriptSrc: ["'self'"],
+//             imgSrc: ["'self'", "data:", "https:"]
+//         }
+//     }
+// }));
 
 // CORS Configuration
 app.use(cors({
@@ -39,7 +39,7 @@ app.use(cors({
 // Rate Limiting
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+    max: 1000, // limit each IP to 100 requests per windowMs
     message: 'Too many requests from this IP, please try again later.'
 });
 app.use(limiter);
