@@ -1,5 +1,6 @@
 .vscode
 data
+logs
 .env
 envs
 package-lock.json

@@ -7,13 +7,13 @@ const crypto = require('crypto');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const cors = require('cors');
-require('dotenv').config({ path: './envs/site.env', debug: false });
+require('dotenv').config({path: './envs/site.env', debug: false});
 const fileUpload = require('express-fileupload');
 
-// const indexRouter = require('./routes/index');
-// const dataRouter = require('./routes/data');
-// const importExport = require('./routes/import-export');
-// const analysisRouter = require('./routes/analysis');
+const indexRouter = require('./routes/index');
+const dataRouter = require('./routes/data');
+const importExport = require('./routes/import-export');
+const analysisRouter = require('./routes/analysis');
 
 const app = express();
 
@@ -37,11 +37,12 @@ app.use(cors({
 }));
 
 // Rate Limiting
-app.use(rateLimit({
+const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 1000, // limit each IP to 100 requests per windowMs
     message: 'Too many requests from this IP, please try again later.'
-}));
+});
+app.use(limiter);
 
 // Body Parser Middleware
 app.use(bodyParser.json());
@@ -65,10 +66,10 @@ app.use((req, _, next) => {
 });
 
 // Statische Dateien
-app.use(express.static(path.join(__dirname, 'src/public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // View Engine
-app.set('views', path.join(__dirname, 'src/views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // Globale Variablen für Templates
@@ -81,15 +82,10 @@ app.use((_, res, next) => {
 });
 
 // Routen
-const router = express.Router();
-
-router.get('/', (req, res) => { 
-    res.render('app');
-})
-// app.use('/', indexRouter);
-// app.use('/data', dataRouter);
-// app.use('/import-export', importExport)
-// app.use('/analysis', analysisRouter);
+app.use('/', indexRouter);
+app.use('/data', dataRouter);
+app.use('/import-export', importExport)
+app.use('/analysis', analysisRouter);
 
 // 404 Handler
 app.use((req, res, _) => {
