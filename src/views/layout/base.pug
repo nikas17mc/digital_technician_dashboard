@@ -1,7 +1,127 @@
-block head
+//- src/views/layout/base.pug
+//- Fundamentales HTML-Layout (SEO, Head, globale Blocks)
 
-block styles 
+doctype html
+html(lang=locale || "de")
+    head
+        // -------------------------------------------------
+        // Core Meta
+        // -------------------------------------------------
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta(name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover")
 
-block body 
+        title #{pageTitle || app.name}
 
-block scripts 
+        meta(
+            name="description"
+            content=metaDescription || "Zentrales Dashboard zur Verwaltung von Geräten, Reparaturen, Ersatzteilen und Workflows."
+        )
+
+        meta(name="theme-color" content="#0f172a")
+        meta(name="color-scheme" content="dark light")
+
+        // -------------------------------------------------
+        // SEO / Robots
+        // -------------------------------------------------
+        if noIndex
+            meta(name="robots" content="noindex, nofollow")
+        else
+            meta(name="robots" content="index, follow")
+
+        if canonicalUrl
+            link(rel="canonical" href=canonicalUrl)
+
+        // -------------------------------------------------
+        // Open Graph
+        // -------------------------------------------------
+        meta(property="og:type" content="website")
+        meta(property="og:site_name" content=app.name)
+        meta(property="og:title" content=pageTitle || app.name)
+        meta(
+            property="og:description"
+            content=metaDescription || "Digitales Techniker-Dashboard für Bestand, Reparaturen und Analyse."
+        )
+        if canonicalUrl
+            meta(property="og:url" content=canonicalUrl)
+        meta(property="og:image" content=ogImage || "/assets/og/default.png")
+
+        // -------------------------------------------------
+        // Twitter Cards
+        // -------------------------------------------------
+        meta(name="twitter:card" content="summary_large_image")
+        meta(name="twitter:title" content=pageTitle || app.name)
+        meta(
+            name="twitter:description"
+            content=metaDescription || "Zentrales Techniker-Dashboard mit Workflow-Engine und Analyse."
+        )
+        meta(name="twitter:image" content=ogImage || "/assets/og/default.png")
+
+        // -------------------------------------------------
+        // Performance / Preload
+        // -------------------------------------------------
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+
+        link(rel="preload" href="/assets/css/app.css" as="style")
+
+        // optional: App-Script nur vorladen, nicht erzwingen
+        block preloadScripts
+
+        // -------------------------------------------------
+        // Styles
+        // -------------------------------------------------
+        link(rel="stylesheet" href="/assets/css/app.css")
+
+        // -------------------------------------------------
+        // Structured Data
+        // -------------------------------------------------
+        if structuredData
+            script(type="application/ld+json").
+                !{JSON.stringify(structuredData)}
+
+        // -------------------------------------------------
+        // Head-Erweiterungen (seiten- oder layout-spezifisch)
+        // -------------------------------------------------
+        block head
+
+    // =====================================================
+    // BODY
+    // =====================================================
+    block body
+        body(class=bodyClass || "")
+
+            // -------------------------------------------------
+            // App Root
+            // -------------------------------------------------
+            #app
+                block header
+                block sidebar
+
+                main#content
+                    block content
+
+                block footer
+
+            // -------------------------------------------------
+            // Globale Modals / Overlays
+            // -------------------------------------------------
+            block modals
+
+            // -------------------------------------------------
+            // Runtime Config (whitelisted)
+            // -------------------------------------------------
+            if runtimeConfig
+                script.
+                    window.__APP_CONFIG__ = !{JSON.stringify(runtimeConfig)}
+
+            // -------------------------------------------------
+            // Globale Scripts
+            // -------------------------------------------------
+            block appScripts
+                script(src="/assets/js/app.js" defer)
+
+            // -------------------------------------------------
+            // Seiten-spezifische Scripts
+            // -------------------------------------------------
+            block pageScript

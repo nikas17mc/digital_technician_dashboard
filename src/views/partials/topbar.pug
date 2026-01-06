@@ -1,0 +1,12 @@
+//- =====================================================
+//- src/views/partials/topbar.pug
+//- =====================================================
+mixin topbar()
+    .topbar
+        .topbar__left
+            if pageTitle
+                h1.topbar__title= pageTitle
+        .topbar__right
+            if user
+                span.topbar__user= user.name
+                a.topbar__logout(href="/logout") Logout

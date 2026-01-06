@@ -1,0 +1,10 @@
+//- =====================================================
+//- src/views/partials/flash-message.pug
+//- =====================================================
+mixin flashMessage()
+    if flash && Object.keys(flash).length
+        .flash-container
+            each messages, type in flash
+                each message in messages
+                    .flash(class=`flash--${type}`)
+                        span.flash__text= message

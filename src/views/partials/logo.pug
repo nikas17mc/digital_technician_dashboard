@@ -1,0 +1,6 @@
+//- =====================================================
+//- src/views/partials/logo.pug
+//- =====================================================
+mixin logo(size = "md")
+    .logo(class=`logo--${size}`)
+        img(src="/assets/img/logo.svg" alt="#{app?.name || 'Logo'}")

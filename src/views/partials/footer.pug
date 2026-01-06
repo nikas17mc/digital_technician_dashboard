@@ -1,0 +1,9 @@
+//- =====================================================
+//- src/views/partials/footer.pug
+//- =====================================================
+mixin footer()
+    .footer
+        .footer__left
+            span © #{new Date().getFullYear()} #{app && app.name ? app.name : ''}
+        .footer__right
+            span Version #{(app && app.version) ? app.version : "dev"}
