@@ -1,3 +1,34 @@
-extends layout/auth.pug
+extends layout/app.pug
 
-//- block content
+block content
+    .welcome-container
+        .welcome-hero
+            h1 Digital Technician Dashboard
+            p.tagline Zentrale Steuerung. Klare Prozesse. Kein Chaos mehr.
+
+            .welcome-actions
+                a.btn.btn-primary(href="/login") Anmelden
+                a.btn.btn-secondary(href="/about") Mehr erfahren
+
+        .welcome-grid
+            .welcome-card
+                h3 Geräteverwaltung
+                p Vollständige Erfassung von Geräten über IMEI und Seriennummer, inklusive Status-Historie vom Wareneingang bis zum Abschluss.
+
+            .welcome-card
+                h3 Rework-Analyse
+                p Automatische Identifikation von Wiederholungsreparaturen durch Korrelation von Reparatur-, QC- und Teile-Daten.
+
+            .welcome-card
+                h3 Bestandskontrolle
+                p Synchronisierte Übersicht über physische Bestände, virtuelle Plenty-Bestände und Abweichungen in Echtzeit.
+
+            .welcome-card
+                h3 Workflow-Engine
+                p Verbindliche Statusübergänge mit Pflichtfeldern, die Prozesslücken zuverlässig verhindern.
+
+block pageScript
+    script.
+        document.addEventListener('DOMContentLoaded', () => {
+            console.debug('Welcome page loaded');
+        });

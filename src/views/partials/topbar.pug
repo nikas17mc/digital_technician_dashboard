@@ -1,12 +1,35 @@
 //- =====================================================
 //- src/views/partials/topbar.pug
 //- =====================================================
-mixin topbar()
+mixin topbar(options)
+    - options = options || {}
+    - var title = options.title || pageTitle || null
+    - var showBreadcrumbs = options.showBreadcrumbs || false
+    - var breadcrumbs = options.breadcrumbs || []
+    - var showUser = options.showUser !== false
+
     .topbar
         .topbar__left
-            if pageTitle
-                h1.topbar__title= pageTitle
+            if title
+                h1.topbar__title= title
+
+            if showBreadcrumbs && breadcrumbs.length
+                nav.topbar__breadcrumbs(aria-label="Breadcrumb")
+                    ul
+                        each crumb, index in breadcrumbs
+                            li
+                                if crumb.href && index !== breadcrumbs.length - 1
+                                    a(href=crumb.href)= crumb.label
+                                else
+                                    span= crumb.label
+
         .topbar__right
-            if user
-                span.topbar__user= user.name
-                a.topbar__logout(href="/logout") Logout
+            if showUser && user
+                .topbar__user
+                    span.topbar__user-name= user.name || user.email
+                    if user.role
+                        span.topbar__user-role= user.role
+
+                .topbar__actions
+                    a.topbar__action(href="/profile") Profil
+                    a.topbar__action.topbar__action--logout(href="/logout") Logout

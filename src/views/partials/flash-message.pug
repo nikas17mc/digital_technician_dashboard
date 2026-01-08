@@ -1,10 +1,17 @@
 //- =====================================================
 //- src/views/partials/flash-message.pug
 //- =====================================================
-mixin flashMessage()
+mixin flashMessage(options)
+    - options = options || {}
+    - var dismissible = options.dismissible !== false
+
     if flash && Object.keys(flash).length
         .flash-container
             each messages, type in flash
                 each message in messages
-                    .flash(class=`flash--${type}`)
-                        span.flash__text= message
+                    .flash(class=`flash--${type}` data-flash-type=type)
+                        .flash__content
+                            span.flash__message= message
+
+                        if dismissible
+                            button.flash__close(type="button" aria-label="Schließen" data-flash-close) ×

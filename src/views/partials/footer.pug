@@ -1,9 +1,31 @@
 //- =====================================================
 //- src/views/partials/footer.pug
 //- =====================================================
-mixin footer()
-    .footer
+mixin footer(options)
+    - options = options || {}
+    - var showVersion = options.showVersion !== false
+    - var showEnv = options.showEnv || false
+    - var showLinks = options.showLinks !== false
+
+    footer.footer(role="contentinfo")
         .footer__left
-            span © #{new Date().getFullYear()} #{app && app.name ? app.name : ''}
-        .footer__right
-            span Version #{(app && app.version) ? app.version : "dev"}
+            span.footer__copyright
+                | © #{new Date().getFullYear()} #{app.name}
+
+            if showVersion
+                span.footer__version
+                    | v#{app.version || "dev"}
+
+            if showEnv && app.env
+                span.footer__env(class=`env--${app.env}`)
+                    | #{app.env}
+
+        if showLinks
+            .footer__right
+                ul.footer__links
+                    li
+                        a(href="/imprint") Impressum
+                    li
+                        a(href="/privacy") Datenschutz
+                    li
+                        a(href="/status") Systemstatus

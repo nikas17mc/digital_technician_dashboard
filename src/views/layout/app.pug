@@ -24,14 +24,23 @@ block body
 
             //- Sidebar (Navigation / Rollenabhängig)
             aside.app-sidebar
-                +sidebar()
+                +sidebar({
+                    role: "manager"
+                })
 
             //- Content-Bereich
             .app-main
 
                 //- Topbar (User, Breadcrumbs, Actions)
                 header.app-topbar
-                    +topbar()
+                    +topbar({
+                        title: "Geräteübersicht",
+                        showBreadcrumbs: true,
+                        breadcrumbs: [
+                            { label: "Dashboard", href: "/dashboard" },
+                            { label: "Geräte" }
+                        ]
+                    })
 
                 //- Seiteninhalt
                 main.app-content

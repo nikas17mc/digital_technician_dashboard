@@ -1,14 +1,43 @@
 //- =====================================================
 //- src/views/partials/sidebar.pug
 //- =====================================================
-mixin sidebar()
-    nav.sidebar
+
+mixin sidebar(options)
+    - options = options || {}
+    - var activePath = options.activePath || currentPath || ""
+    - var role = options.role || (user && user.role) || "guest"
+
+    nav.sidebar(role="navigation" aria-label="Hauptnavigation")
+        .sidebar__brand
+            a.sidebar__logo(href="/dashboard")
+                span.sidebar__logo-text= app.name
+
         ul.sidebar__nav
-            li
-                a(href="/dashboard") Dashboard
-            li
-                a(href="/devices") Geräte
-            li
-                a(href="/parts") Ersatzteile
-            li
-                a(href="/reports") Reports
+
+            li(class=activePath.startsWith("/dashboard") ? "is-active" : "")
+                a(href="/dashboard")
+                    span.sidebar__label Dashboard
+
+            li(class=activePath.startsWith("/devices") ? "is-active" : "")
+                a(href="/devices")
+                    span.sidebar__label Geräte
+
+            li(class=activePath.startsWith("/parts") ? "is-active" : "")
+                a(href="/parts")
+                    span.sidebar__label Ersatzteile
+
+            if role === "admin" || role === "manager"
+                li(class=activePath.startsWith("/reports") ? "is-active" : "")
+                    a(href="/reports")
+                        span.sidebar__label Reports
+
+            if role === "admin"
+                li(class=activePath.startsWith("/admin") ? "is-active" : "")
+                    a(href="/admin")
+                        span.sidebar__label Administration
+
+        .sidebar__footer
+            if user
+                span.sidebar__user-name= user.name || user.email
+            if user
+                a.sidebar__logout(href="/logout") Logout
