@@ -1,0 +1,82 @@
+//- =====================================================
+//- ./src/views/dashboard/widgets/activity-feed.pug
+//- =====================================================
+mixin activityFeed(activities)
+    if !activities || activities.length === 0
+        div.activity-feed-empty(
+            role="status"
+            aria-live="polite"
+        )
+            p Keine Aktivitäten vorhanden.
+            small Das System ist aktuell ruhig. Verdächtig ruhig.
+
+    else
+        ul.activity-feed(
+            role="list"
+        )
+            each event in activities
+                -
+                    const type = event.type || 'system';
+                    const severity = event.severity || 'info';
+
+                    const icons = {
+                        device: '📱',
+                        workflow: '🔁',
+                        qc: '🧪',
+                        system: '⚙️',
+                        user: '👤',
+                        part: '🧩'
+                    };
+
+                    const severityLabels = {
+                        info: 'Info',
+                        success: 'Erfolg',
+                        warning: 'Warnung',
+                        error: 'Fehler',
+                        critical: 'Kritisch'
+                    };
+
+                li.activity-event(
+                    role="listitem"
+                    class=`type-${type} severity-${severity}`
+                    aria-label=`${severityLabels[severity]} Ereignis`
+                )
+                    // ===== Event Icon =====
+                    div.event-icon(
+                        aria-hidden="true"
+                    )
+                        span= icons[type] || '•'
+
+                    // ===== Event Body =====
+                    div.event-body
+                        // --- Header ---
+                        div.event-header
+                            span.event-type= type.toUpperCase()
+                            span.event-severity(
+                                class=`sev-${severity}`
+                            )= severityLabels[severity]
+
+                        // --- Message ---
+                        p.event-message
+                            = event.message || 'Keine Beschreibung verfügbar.'
+
+                        // --- Meta Information ---
+                        div.event-meta
+                            if event.deviceId
+                                span.meta-item
+                                    strong Gerät:
+                                    |  #{event.deviceId}
+                            if event.technician
+                                span.meta-item
+                                    strong Techniker:
+                                    |  #{event.technician}
+                            if event.part
+                                span.meta-item
+                                    strong Teil:
+                                    |  #{event.part}
+
+                        // --- Timestamp ---
+                        time.event-time(
+                            datetime=event.timestamp
+                        )
+                            = event.timeFormatted || event.timestamp

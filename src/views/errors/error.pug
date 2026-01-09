@@ -1,0 +1,100 @@
+extends ../layout/app.pug
+
+block variables
+    -
+        const errorCode = typeof statusCode !== 'undefined' ? statusCode : 500;
+        const errorTitle =
+            errorCode === 404 ? 'Ressource nicht gefunden' :
+            errorCode === 401 ? 'Nicht autorisiert' :
+            errorCode === 403 ? 'Zugriff verweigert' :
+            errorCode === 503 ? 'Service nicht verfügbar' :
+            'Interner Systemfehler';
+
+        const errorMessage =
+            typeof message === 'string' && message.length > 0
+                ? message
+                : 'Ein unerwarteter Fehler ist aufgetreten.';
+
+        const requestId =
+            locals && locals.requestId
+                ? locals.requestId
+                : 'n/a';
+
+        const environment =
+            locals && locals.env
+                ? locals.env
+                : 'production';
+
+        const timestamp = new Date().toISOString();
+
+block content
+    main.error-page
+        .error-container
+
+            // Header / Status
+            header.error-header
+                .error-code #{errorCode}
+                h1.error-title #{errorTitle}
+                p.error-subtitle
+                    | Systemstatus: 
+                    span.status-indicator.error Fehler erkannt
+
+            // Core Error Info
+            section.error-core
+                .error-message
+                    p #{errorMessage}
+
+                ul.error-meta
+                    li
+                        span.label Zeitstempel:
+                        span.value #{timestamp}
+                    li
+                        span.label Request-ID:
+                        span.value #{requestId}
+                    li
+                        span.label Umgebung:
+                        span.value #{environment}
+
+            // Diagnostic Context
+            if typeof error !== 'undefined'
+                section.error-diagnostics
+                    h2 Technische Details
+                    pre.error-stack
+                        code
+                            if error.stack
+                                | #{error.stack}
+                            else
+                                | #{String(error)}
+
+            // Actions
+            section.error-actions
+                a.btn.btn-primary(href="/dashboard")
+                    i.icon.icon-dashboard
+                    | Zurück zum Dashboard
+
+                a.btn.btn-secondary(href="javascript:location.reload()")
+                    i.icon.icon-refresh
+                    | Seite neu laden
+
+                a.btn.btn-ghost(href="/support")
+                    i.icon.icon-support
+                    | Support kontaktieren
+
+            // System Hints
+            section.error-hints
+                h3 Mögliche Ursachen
+                ul
+                    if errorCode === 404
+                        include partials/error-404.pug
+                    else if errorCode === 403
+                        include partials/error-403.pug
+                    else if errorCode === 500
+                        include partials/error-500.pug
+                    else
+                        include partials/error-generic.pug
+
+            // Footer / Assurance
+            footer.error-footer
+                p
+                    | Dieser Fehler wurde protokolliert. 
+                    | Falls er reproduzierbar ist, bitte mit der Request-ID melden.

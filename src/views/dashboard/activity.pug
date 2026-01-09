@@ -1,6 +1,130 @@
-extends ../../layout/app.pug
+extends ../layout/app.pug
 
 include widgets/activity-feed.pug
 include widgets/realtime-status.pug
 
-block content 
+block content
+    main.activity-dashboard(
+        role="main"
+        aria-label="Aktivitätsübersicht"
+    )
+        // ===== Header =====
+        section.activity-header(
+            role="region"
+            aria-labelledby="activity-title"
+        )
+            h1#activity-title Aktivität & Verlauf
+            p.activity-subtitle
+                | Vollständiger Echtzeit-Überblick über System-, Geräte- und Benutzeraktivitäten.
+            noscript
+                div.alert.alert-warning
+                    | Für Live-Aktualisierungen ist JavaScript erforderlich.
+
+        // ===== Realtime Status =====
+        section.activity-realtime(
+            role="region"
+            aria-labelledby="realtime-title"
+        )
+            h2#realtime-title Realtime-Status
+            +realtimeStatus(realtime)
+
+        // ===== Activity Stream (Virtualized) =====
+        section.activity-stream(
+            role="region"
+            aria-label="Aktivitätsstream"
+            data-virtualized="true"
+        )
+            article.widget.widget-activity-feed(
+                role="feed"
+                aria-busy="false"
+                aria-live="polite"
+            )
+                h2.visually-hidden Aktivitätsfeed
+                +activityFeed(activities)
+
+        // ===== Filters & Controls =====
+        section.activity-controls(
+            role="region"
+            aria-label="Filter und Steuerung"
+        )
+            form.activity-filter(method="get")
+                fieldset
+                    legend Filter
+                    label
+                        span Typ
+                        select(name="type")
+                            option(value="all") Alle
+                            option(value="device") Geräte
+                            option(value="workflow") Workflow
+                            option(value="qc") QC
+                            option(value="system") System
+                    label
+                        span Zeitraum
+                        select(name="range")
+                            option(value="today") Heute
+                            option(value="24h") Letzte 24h
+                            option(value="7d") Letzte 7 Tage
+                            option(value="all") Alles
+                    button(type="submit") Anwenden
+
+        // ===== Extended / Audit Information =====
+        section.activity-extended(
+            role="region"
+            aria-label="Erweiterte Informationen"
+        )
+            details
+                summary Audit- & Compliance-Hinweise
+                p
+                    | Alle hier dargestellten Aktivitäten basieren auf dem Device-History-,
+                    | Workflow- und Event-Bus-System. Änderungen sind versioniert und
+                    | revisionssicher nachvollziehbar.
+                ul
+                    li Geräte-Statuswechsel werden automatisch protokolliert
+                    li QC-Ergebnisse sind unveränderlich gespeichert
+                    li Manuelle Plenty-Übertragungen werden markiert
+
+            details
+                summary Technischer Zustand
+                ul
+                    li
+                        strong Event-Bus:
+                        |  #{realtime.connected ? 'aktiv' : 'inaktiv'}
+                    li
+                        strong Letztes Update:
+                        |  #{lastUpdate || '—'}
+                    li
+                        strong Aktiver Benutzer:
+                        |  #{user.name || 'Unbekannt'}
+
+block pageScript
+    script.
+        (function () {
+            if (!window.Activity) {
+                window.Activity = {};
+            }
+
+            Activity.config = {
+                realtime: true,
+                virtualization: true,
+                autoScroll: true
+            };
+
+            document.addEventListener('DOMContentLoaded', function () {
+                if (window.Realtime && Activity.config.realtime) {
+                    Realtime.connect();
+                }
+
+                if (Activity.config.virtualization) {
+                    document.querySelectorAll('[data-virtualized="true"]').forEach(function (el) {
+                        el.classList.add('is-virtualized');
+                    });
+                }
+
+                if (Activity.config.autoScroll) {
+                    const feed = document.querySelector('[role="feed"]');
+                    if (feed) {
+                        feed.scrollTop = feed.scrollHeight;
+                    }
+                }
+            });
+        })();

@@ -5,6 +5,133 @@ include widgets/job-queue.pug
 include widgets/alerts.pug
 include widgets/plenty-blocker.pug
 
-block content 
+block content
+    main.dashboard(
+        role="main"
+        aria-label="Techniker Dashboard"
+    )
+        // ===== Dashboard Header =====
+        section.dashboard-header(
+            role="region"
+            aria-labelledby="dashboard-title"
+        )
+            h1#dashboard-title Dashboard
+            p.dashboard-subtitle
+                | Zentrale Übersicht über Geräte, Workflows, Blocker und Systemzustände.
+            noscript
+                div.alert.alert-warning
+                    | Dieses Dashboard benötigt JavaScript für Live-Daten und Realtime-Updates.
 
-block pageScript 
+        // ===== Global Status Strip =====
+        section.dashboard-status-strip(
+            role="region"
+            aria-label="Systemstatus"
+        )
+            ul.status-list
+                li
+                    span.label System
+                    span.value(class=system.online ? 'ok' : 'error')
+                        = system.online ? 'Online' : 'Offline'
+                li
+                    span.label Realtime
+                    span.value(class=realtime.connected ? 'ok' : 'warning')
+                        = realtime.connected ? 'Verbunden' : 'Getrennt'
+                li
+                    span.label Plenty Sync
+                    span.value(class=plenty.pending > 0 ? 'warning' : 'ok')
+                        = plenty.pending || 0
+                        |  offen
+
+        // ===== Dashboard Grid (Virtualized Content Area) =====
+        section.dashboard-grid(
+            role="region"
+            aria-label="Dashboard Widgets"
+            data-virtualized="true"
+        )
+            // --- Device Statistics ---
+            article.widget.widget-device-stats(
+                role="region"
+                aria-labelledby="widget-device-stats-title"
+            )
+                h2#widget-device-stats-title Geräteübersicht
+                +deviceStats(devices)
+
+            // --- Job Queue ---
+            article.widget.widget-job-queue(
+                role="region"
+                aria-labelledby="widget-job-queue-title"
+            )
+                h2#widget-job-queue-title Aktive Jobs
+                +jobQueue(jobs)
+
+            // --- Alerts & Warnings ---
+            article.widget.widget-alerts(
+                role="region"
+                aria-labelledby="widget-alerts-title"
+            )
+                h2#widget-alerts-title Warnungen & Hinweise
+                +alerts(alerts)
+
+            // --- Plenty Blocker ---
+            article.widget.widget-plenty-blocker(
+                role="region"
+                aria-labelledby="widget-plenty-blocker-title"
+            )
+                h2#widget-plenty-blocker-title Plenty Blocker
+                +plentyBlocker(plenty)
+
+        // ===== Large / Extended Content (Accessible & Scroll-safe) =====
+        section.dashboard-extended(
+            role="region"
+            aria-label="Erweiterte Informationen"
+        )
+            details(open)
+                summary Technische Details & Systemzustand
+                ul.extended-list
+                    li
+                        strong Server-Zeit:
+                        |  #{serverTime}
+                    li
+                        strong Zeitzone:
+                        |  #{app.timezone}
+                    li
+                        strong Aktiver Benutzer:
+                        |  #{user.name || 'Unbekannt'}
+                    li
+                        strong Rolle:
+                        |  #{user.role || '—'}
+
+            details
+                summary Hinweise zur Bedienung
+                p
+                    | Dieses Dashboard ist widget-basiert aufgebaut. Inhalte werden dynamisch geladen,
+                    | virtualisiert dargestellt und in Echtzeit aktualisiert, um auch bei großen Datenmengen
+                    | performant zu bleiben.
+                p
+                    | Alle kritischen Zustände werden visuell hervorgehoben und zusätzlich im Alert-System gespiegelt.
+
+block pageScript
+    script.
+        (function () {
+            if (!window.Dashboard) {
+                window.Dashboard = {};
+            }
+
+            Dashboard.config = {
+                realtime: true,
+                virtualization: true,
+                refreshInterval: 30000
+            };
+
+            document.addEventListener('DOMContentLoaded', function () {
+                if (window.Realtime && Dashboard.config.realtime) {
+                    Realtime.connect();
+                }
+
+                if (Dashboard.config.virtualization) {
+                    document.querySelectorAll('[data-virtualized="true"]').forEach(function (el) {
+                        el.classList.add('is-virtualized');
+                    });
+                }
+            });
+        })();

@@ -37,7 +37,7 @@ dotenvConfig({ path: './envs/site.env', encoding: 'UTF-8', quiet: true, debug: t
 // import auditMiddleware from './src/middlewares/audit.middleware.js';
 // import rateLimitMiddleware from './src/middlewares/rateLimit.middleware.js';
 // import validationMiddleware from './src/middlewares/validation.middleware.js';
-// import errorMiddleware from './src/middlewares/error.middleware.js';
+import errorMiddleware from './src/middlewares/error.middleware.js';
 
 /* -------------------------------------------------------------------------- */
 /* ROUTES                                                                     */
@@ -150,7 +150,43 @@ app.get('/dashboard', (req, res) => {
     res.render('dashboard/index', {
         app: {
             name: process.env.APP_NAME || 'My App',
-            version: process.env.APP_VERSION || 'dev'
+            version: process.env.APP_VERSION || 'dev',
+            timezone: new Date().getUTCDate()
+        },
+        system: {
+            online: true
+        },
+        realtime: {
+            connected: true
+        },
+        plenty: {
+            pending: 0
+        },
+        user: {
+            name: "",
+            role: "admin"
+        }
+    });
+});
+app.get('/activity', (req, res) => {
+    res.render('dashboard/activity', {
+        app: {
+            name: process.env.APP_NAME || 'My App',
+            version: process.env.APP_VERSION || 'dev',
+            timezone: new Date().getUTCDate()
+        },
+        system: {
+            online: true
+        },
+        realtime: {
+            connected: true
+        },
+        plenty: {
+            pending: 0
+        },
+        user: {
+            name: "",
+            role: "admin"
         }
     });
 });
@@ -194,7 +230,7 @@ app.use((_, res) => {
 /* ERROR HANDLER                                                              */
 /* -------------------------------------------------------------------------- */
 
-// app.use(errorMiddleware);
+app.use(errorMiddleware);
 
 /* -------------------------------------------------------------------------- */
 /* SERVER                                                                     */
