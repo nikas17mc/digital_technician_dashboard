@@ -1,5 +1,8 @@
 extends ../layout/app.pug
 
+block head
+    link(rel="stylesheet", href="./css/error.css")
+
 block variables
     -
         const errorCode = typeof statusCode !== 'undefined' ? statusCode : 500;
@@ -14,11 +17,6 @@ block variables
             typeof message === 'string' && message.length > 0
                 ? message
                 : 'Ein unerwarteter Fehler ist aufgetreten.';
-
-        const requestId =
-            locals && locals.requestId
-                ? locals.requestId
-                : 'n/a';
 
         const environment =
             locals && locals.env
@@ -50,7 +48,7 @@ block content
                         span.value #{timestamp}
                     li
                         span.label Request-ID:
-                        span.value #{requestId}
+                        span.value #{requestId ? requestId : "n/a"}
                     li
                         span.label Umgebung:
                         span.value #{environment}
@@ -68,6 +66,15 @@ block content
 
             // Actions
             section.error-actions
+                if role === 'admin'
+                    a.btn.btn-danger(href="/admin/system/logs")
+                        i.icon.icon-bug
+                        | Systemlogs öffnen
+
+                if role === 'technician'
+                    a.btn.btn-secondary(href="/devices")
+                        i.icon.icon-device
+                        | Geräteübersicht
                 a.btn.btn-primary(href="/dashboard")
                     i.icon.icon-dashboard
                     | Zurück zum Dashboard

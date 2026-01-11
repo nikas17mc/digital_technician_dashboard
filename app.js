@@ -18,10 +18,17 @@ import { config as dotenvConfig } from 'dotenv';
 dotenvConfig({ path: './envs/site.env', encoding: 'UTF-8', quiet: true, debug: true })
 
 /* -------------------------------------------------------------------------- */
+/* Variables                                                                      */
+/* -------------------------------------------------------------------------- */
+let isDev = process.env.NODE_ENV;
+
+
+
+/* -------------------------------------------------------------------------- */
 /* CORE                                                                       */
 /* -------------------------------------------------------------------------- */
 
-// import { initLogger, info, warn } from './src/core/logger.js';
+import { initLogger, info, warn } from './src/core/logger.js';
 // import { initDatabase, close } from './src/core/database.js';
 // import { initCache } from './src/core/cache.js';
 // import { initEventBus } from './src/core/event-bus.js';
@@ -37,7 +44,7 @@ dotenvConfig({ path: './envs/site.env', encoding: 'UTF-8', quiet: true, debug: t
 // import auditMiddleware from './src/middlewares/audit.middleware.js';
 // import rateLimitMiddleware from './src/middlewares/rateLimit.middleware.js';
 // import validationMiddleware from './src/middlewares/validation.middleware.js';
-import errorMiddleware from './src/middlewares/error.middleware.js';
+import { errorMiddleware } from './src/middlewares/error.middleware.js';
 
 /* -------------------------------------------------------------------------- */
 /* ROUTES                                                                     */
@@ -69,7 +76,11 @@ ensureDirSync(path.join(path.dirname('./'), 'logs'));
 /* BOOTSTRAP CORE                                                             */
 /* -------------------------------------------------------------------------- */
 
-// initLogger();
+initLogger({
+    appName: process.env.APP_NAME,
+    level: "info",
+    logToFile: process.env.LOG_TO_FILE
+});
 // initDatabase();
 // initCache();
 // initEventBus();
@@ -115,7 +126,7 @@ app.use(session({
 /* STATIC & VIEW ENGINE                                                       */
 /* -------------------------------------------------------------------------- */
 
-app.use(express.static(path.join(path.dirname('./'), 'src/public')));
+app.use(express.static(path.join(process.cwd(), 'src/public')));
 
 app.set('views', path.join(path.dirname('./'), 'src/views'));
 app.set('view engine', 'pug');
@@ -215,7 +226,7 @@ app.get('/activity', (req, res) => {
 /* -------------------------------------------------------------------------- */
 
 app.use((_, res) => {
-    res.status(404).render('error', {
+    res.status(404).render('errors/error', {
         app: {
             name: process.env.APP_NAME || 'My App',
             version: process.env.APP_VERSION || 'dev'
@@ -238,7 +249,23 @@ app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
-    // info(`Server läuft auf http://localhost:${PORT}`);
+    switch (isDev) {
+        case "development":
+            info(`Server läuft auf http://localhost:${PORT}`);
+            break;
+        default:
+            console.info(`
+    🚀 Server gestartet!
+    
+    📍 Port: ${PORT}
+    🌐 URL: http://localhost:${PORT}
+    📁 Environment: ${process.env.NODE_ENV || 'public'}
+    
+    ✅ Bereit für Verbindungen...
+            `);
+            break;
+    }
+
 });
 
 // attach(server);

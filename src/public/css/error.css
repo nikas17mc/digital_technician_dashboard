@@ -1,0 +1,370 @@
+/* =========================================================
+   Error Page – Premium Ultra Pro Plus
+   Depends on app.css Design Tokens
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   Base Layout
+   --------------------------------------------------------- */
+
+.error-page {
+    min-height: 100vh;
+    background:
+        radial-gradient(
+            1200px 600px at 20% -10%,
+            rgba(56, 189, 248, 0.08),
+            transparent 60%
+        ),
+        radial-gradient(
+            1000px 500px at 90% 110%,
+            rgba(34, 197, 94, 0.06),
+            transparent 55%
+        ),
+        var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.error-container {
+    width: 100%;
+    max-width: 880px;
+    background: linear-gradient(
+        180deg,
+        rgba(2, 6, 23, 0.85),
+        rgba(2, 6, 23, 0.95)
+    );
+    border-radius: 1.25rem;
+    padding: 3rem;
+    box-shadow:
+        0 40px 120px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    animation: errorFadeIn 0.5s ease-out both;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.error-container:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 60px 160px rgba(0, 0, 0, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ---------------------------------------------------------
+   Header
+   --------------------------------------------------------- */
+
+.error-header {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+}
+
+.error-code {
+    font-size: clamp(3.5rem, 8vw, 6rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--color-primary);
+    text-shadow: 0 0 30px rgba(56, 189, 248, 0.35);
+}
+
+.error-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.error-subtitle {
+    font-size: 0.95rem;
+    color: var(--color-muted);
+}
+
+.status-indicator.error {
+    color: var(--color-danger);
+    font-weight: 600;
+}
+
+/* ---------------------------------------------------------
+   Core Message
+   --------------------------------------------------------- */
+
+.error-core {
+    display: grid;
+    gap: 1.75rem;
+    margin-bottom: 2.5rem;
+}
+
+.error-message {
+    font-size: 1.05rem;
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+.error-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.75rem 1.5rem;
+    font-size: 0.85rem;
+}
+
+.error-meta .label {
+    color: var(--color-muted);
+}
+
+.error-meta .value {
+    color: var(--color-text);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ---------------------------------------------------------
+   Diagnostics (Debug)
+   --------------------------------------------------------- */
+
+.error-diagnostics {
+    margin-bottom: 2.5rem;
+    border-left: 3px solid var(--color-warning);
+    padding-left: 1.25rem;
+}
+
+.error-diagnostics h2 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-warning);
+}
+
+.error-stack {
+    max-height: 260px;
+    overflow: auto;
+    background: rgba(15, 23, 42, 0.8);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--color-text);
+}
+
+/* ---------------------------------------------------------
+   Context / Hints
+   --------------------------------------------------------- */
+
+.error-context,
+.error-hints,
+.error-specific {
+    margin-bottom: 2.25rem;
+}
+
+.error-context h3,
+.error-hints h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-secondary);
+}
+
+.error-context ul,
+.error-hints ul {
+    display: grid;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--color-muted);
+}
+
+.error-context .hint {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--color-text);
+}
+
+/* ---------------------------------------------------------
+   Actions + Motion
+   --------------------------------------------------------- */
+
+.error-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+}
+
+.error-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background-color 0.18s ease;
+}
+
+.error-actions .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.error-actions .btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.error-actions .btn:focus-visible {
+    outline: none;
+    box-shadow:
+        0 0 0 2px var(--color-bg),
+        0 0 0 4px var(--color-primary);
+}
+
+/* ---------------------------------------------------------
+   Footer
+   --------------------------------------------------------- */
+
+.error-footer {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 1.25rem;
+}
+
+/* ---------------------------------------------------------
+   Ultra Dark Mode
+   --------------------------------------------------------- */
+
+@media (prefers-color-scheme: dark) {
+    .error-page {
+        background:
+            radial-gradient(
+                900px 500px at 30% -10%,
+                rgba(56, 189, 248, 0.06),
+                transparent 60%
+            ),
+            var(--color-bg);
+    }
+}
+
+.error-page.ultra-dark {
+    background:
+        radial-gradient(
+            800px 400px at 50% -20%,
+            rgba(239, 68, 68, 0.05),
+            transparent 65%
+        ),
+        #020617;
+}
+
+.error-page.ultra-dark .error-container {
+    background: linear-gradient(
+        180deg,
+        rgba(2, 6, 23, 0.95),
+        rgba(2, 6, 23, 0.98)
+    );
+    box-shadow: 0 80px 200px rgba(0, 0, 0, 0.85);
+}
+
+/* ---------------------------------------------------------
+   Admin Debug Overlay
+   --------------------------------------------------------- */
+
+.debug-enabled.role-admin::before {
+    content: "DEBUG MODE";
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    background: var(--color-danger);
+    color: #020617;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0.35rem 0.6rem;
+    border-radius: 0.4rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+.debug-enabled.role-admin .error-diagnostics::after {
+    content: "Admin Debug Context";
+    position: absolute;
+    top: -0.65rem;
+    right: 0;
+    font-size: 0.65rem;
+    color: var(--color-warning);
+}
+
+/* ---------------------------------------------------------
+   Status-Specific Animations
+   --------------------------------------------------------- */
+
+/* 404 – Orientierung verloren */
+.error-page.error-404 .error-code {
+    animation: glitch404 2.8s infinite;
+}
+
+@keyframes glitch404 {
+    0%, 100% {
+        text-shadow: 0 0 30px rgba(56, 189, 248, 0.35);
+    }
+    50% {
+        text-shadow:
+            2px 0 rgba(56, 189, 248, 0.4),
+            -2px 0 rgba(34, 197, 94, 0.25);
+    }
+}
+
+/* 500 – System unter Last */
+.error-page.error-500 .error-code {
+    animation: pulse500 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse500 {
+    0% {
+        transform: scale(1);
+        opacity: 0.9;
+    }
+    50% {
+        transform: scale(1.02);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.9;
+    }
+}
+
+/* 403 – Zugriff verweigert */
+.error-page.error-403 .error-code {
+    color: var(--color-warning);
+    text-shadow: 0 0 24px rgba(245, 158, 11, 0.35);
+}
+
+/* ---------------------------------------------------------
+   Animations
+   --------------------------------------------------------- */
+
+@keyframes errorFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ---------------------------------------------------------
+   Responsive
+   --------------------------------------------------------- */
+
+@media (max-width: 640px) {
+    .error-container {
+        padding: 2rem 1.5rem;
+    }
+
+    .error-actions {
+        flex-direction: column;
+    }
+
+    .error-code {
+        font-size: 3rem;
+    }
+}
