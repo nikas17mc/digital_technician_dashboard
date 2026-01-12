@@ -4,6 +4,7 @@
 
 extends ./layout/auth.pug
 
+
 block content
     .auth-container
         .auth-card
@@ -66,7 +67,7 @@ block content
 
         //- Footer
         .auth-footer
-            p © #{new Date().getFullYear()} Digitaler Techniker Dashboard
+            p © #{year} #{app.name}
 
 block pageScript
-    script(src="../script/pages/login.page.js") 
+    script(src="/script/pages/login.page.js") 

@@ -89,6 +89,16 @@ initLogger({
 // initScheduler();
 
 /* -------------------------------------------------------------------------- */
+/* GLOBAL LOCALS                                      */
+/* -------------------------------------------------------------------------- */
+app.locals.app = {
+    name: 'Digitaler Techniker Dashboard',
+    version: '1.0.0'
+};
+
+
+
+/* -------------------------------------------------------------------------- */
 /* GLOBAL SECURITY & REQUEST MIDDLEWARE                                       */
 /* -------------------------------------------------------------------------- */
 
@@ -131,15 +141,13 @@ app.use(session({
 
 app.use(express.static(path.join(process.cwd(), 'src/public')));
 
-app.set('views', path.join(path.dirname('./'), 'src/views'));
+app.set('views', path.join(process.cwd(), 'src/views'));
 app.set('view engine', 'pug');
 
 app.use((req, res, next) => {
-    res.locals.appName = 'Digitaler Techniker Dashboard';
-    res.locals.appVersion = '1.0.0';
     res.locals.env = process.env.NODE_ENV || 'development';
     res.locals.year = new Date().getFullYear();
-    res.locals.user = req.session?.user || null;
+    res.locals.user = req.session && req.session.user ? req.session.user : null;
     next();
 });
 
@@ -228,16 +236,11 @@ app.get('/activity', (req, res) => {
 /* 404                                                                       */
 /* -------------------------------------------------------------------------- */
 
-app.use((_, res) => {
-    res.status(404).render('errors/error', {
-        app: {
-            name: process.env.APP_NAME || 'My App',
-            version: process.env.APP_VERSION || 'dev'
-        },
-        status: 404,
-        title: '404 – Nicht gefunden',
-        message: 'Diese Route existiert nicht.'
-    });
+app.use((req, res, next) => {
+    const err = new Error('Route nicht gefunden');
+    err.status = 404;
+    err.code = 'ROUTE_NOT_FOUND';
+    next(err);
 });
 
 /* -------------------------------------------------------------------------- */

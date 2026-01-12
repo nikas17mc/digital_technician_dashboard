@@ -10,15 +10,15 @@ mixin footer(options)
     footer.footer(role="contentinfo")
         .footer__left
             span.footer__copyright
-                | © #{new Date().getFullYear()} #{app.name}
+                | © #{year} #{app.name}
 
             if showVersion
                 span.footer__version
                     | v#{app.version || "dev"}
 
-            if showEnv && app.env
-                span.footer__env(class=`env--${app.env}`)
-                    | #{app.env}
+            if showEnv && env
+                span.footer__env(class=`env--${env}`)
+                    | #{env}
 
         if showLinks
             .footer__right
