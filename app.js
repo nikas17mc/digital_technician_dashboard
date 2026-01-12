@@ -11,6 +11,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import fileUpload from 'express-fileupload';
+import flash from 'connect-flash';
 import { ensureDirSync } from 'fs-extra';
 
 import { config as dotenvConfig } from 'dotenv';
@@ -50,7 +51,7 @@ import { errorMiddleware } from './src/middlewares/error.middleware.js';
 /* ROUTES                                                                     */
 /* -------------------------------------------------------------------------- */
 
-// import authRoutes from './src/routes/auth.routes.js';
+import authRoutes from './src/routes/auth.routes.js';
 // import devicesRoutes from './src/routes/devices.routes.js';
 // import jobsRoutes from './src/routes/jobs.routes.js';
 // import partsRoutes from './src/routes/parts.rooutes.js';
@@ -90,6 +91,8 @@ initLogger({
 /* -------------------------------------------------------------------------- */
 /* GLOBAL SECURITY & REQUEST MIDDLEWARE                                       */
 /* -------------------------------------------------------------------------- */
+
+app.use(flash())
 
 app.use(helmet());
 
@@ -149,7 +152,7 @@ app.get('/', (_, res) => res.render('welcome', {
         name: "Digitaler Techniker Dashboard"
     },
 }));
-// app.use('/auth', authRoutes);
+app.use('/auth', authRoutes);
 
 /* -------------------------------------------------------------------------- */
 /* AUTHENTICATED ROUTES                                                       */

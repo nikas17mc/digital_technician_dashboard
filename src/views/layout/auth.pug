@@ -8,31 +8,38 @@ include ../partials/logo.pug
 include ../partials/flash-message.pug
 
 //- =====================================================
+//- HEAD / STYLE
+//- =====================================================
+block head
+    link(rel="stylesheet", href="../css/auth.css")
+
+//- =====================================================
 //- BODY / AUTH WRAPPER
 //- =====================================================
 block body
     body.auth-layout(data-layout="auth")
 
         //- Zentrale Auth-Stage
-        .auth-container
+        main.auth-main
+            .auth-container
 
-            //- Branding / Logo
-            .auth-header
-                +logo()
+                //- Branding / Logo
+                .auth-header
+                    +logo()
 
-            //- Flash Messages (Errors, Success, Info)
-            .auth-messages
-                +flashMessage()
+                //- Flash Messages (Errors, Success, Info)
+                .auth-messages
+                    +flashMessage()
 
-            //- Auth-Content (Login, Register, Reset etc.)
-            .auth-content
-                block content
-                    //- Default Fallback
-                    p Auth-Content nicht definiert.
+                //- Auth-Content (Login, Register, Reset etc.)
+                .auth-content
+                    block content
+                        //- Default Fallback
+                        p Auth-Content nicht definiert.
 
         //- Page-spezifische Scripts
         block pageScript
 
         //- Auth-weite Scripts (leichtgewichtig, kein App-Bundle)
         block authScripts
-            script(src="./script/auth.js", defer)
+            script(src="../script/auth.js", defer)

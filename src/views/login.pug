@@ -1,3 +1,72 @@
-extends layout/auth.pug
+//- ./src/views/login.pug
+//- Premium Login + Registration Page
+//- Designed for seamless integration with auth.routes.js + auth.middleware.js
 
-//- block content
+extends ./layout/auth.pug
+
+block content
+    .auth-container
+        .auth-card
+            .auth-brand
+                h1 Digitaler Techniker
+                p Zugriff auf das Kontrollzentrum
+
+            //- Tabs
+            .auth-tabs
+                button.auth-tab.is-active(type="button" data-tab="login") Login
+                button.auth-tab(type="button" data-tab="register") Registrierung
+
+            //- LOGIN FORM
+            form.auth-form#login-form(method="POST" action="/auth/login" autocomplete="on")
+                input(type="hidden" name="_csrf", value=csrfToken)
+
+                .form-group
+                    label(for="login-identifier") E-Mail oder Benutzername
+                    input#login-identifier(type="text" name="identifier", required, autofocus, placeholder="z. B. admin@firma.de")
+
+                .form-group
+                    label(for="login-password") Passwort
+                    input#login-password(type="password" name="password", required, placeholder="••••••••")
+
+                .form-row
+                    label.checkbox
+                        input(type="checkbox" name="remember")
+                        span Angemeldet bleiben
+                    a.link(href="/auth/forgot") Passwort vergessen?
+
+                button.btn-primary(type="submit") Anmelden
+
+            //- REGISTRATION FORM
+            form.auth-form.is-hidden#register-form(method="POST" action="/auth/register" autocomplete="on")
+                input(type="hidden" name="_csrf", value=csrfToken)
+
+                .form-group
+                    label(for="reg-username") Benutzername
+                    input#reg-username(type="text" name="username", required, placeholder="techniker01")
+
+                .form-group
+                    label(for="reg-email") E-Mail
+                    input#reg-email(type="email" name="email", required, placeholder="name@firma.de")
+
+                .form-group
+                    label(for="reg-password") Passwort
+                    input#reg-password(type="password" name="password", required)
+
+                .form-group
+                    label(for="reg-password-confirm") Passwort bestätigen
+                    input#reg-password-confirm(type="password" name="passwordConfirm", required)
+
+                .form-group
+                    label(for="reg-role") Rolle
+                    select#reg-role(name="role")
+                        option(value="technician") Techniker
+                        option(value="admin") Administrator
+
+                button.btn-secondary(type="submit") Konto erstellen
+
+        //- Footer
+        .auth-footer
+            p © #{new Date().getFullYear()} Digitaler Techniker Dashboard
+
+block pageScript
+    script(src="../script/pages/login.page.js") 
