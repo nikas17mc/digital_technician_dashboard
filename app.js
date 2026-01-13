@@ -170,11 +170,7 @@ app.use('/auth', authRoutes);
 //auditMiddleware('DASHBOARD_VIEW'),
 app.get('/dashboard', (req, res) => {
     res.render('dashboard/index', {
-        app: {
-            name: process.env.APP_NAME || 'My App',
-            version: process.env.APP_VERSION || 'dev',
-            timezone: new Date().getUTCDate()
-        },
+        currentPath: req.path,
         system: {
             online: true
         },
@@ -184,10 +180,6 @@ app.get('/dashboard', (req, res) => {
         plenty: {
             pending: 0
         },
-        user: {
-            name: "",
-            role: "admin"
-        }
     });
 });
 app.get('/activity', (req, res) => {

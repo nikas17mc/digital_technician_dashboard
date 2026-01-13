@@ -11,6 +11,8 @@ mixin sidebar(options)
         .sidebar__brand
             a.sidebar__logo(href="/dashboard")
                 span.sidebar__logo-text= app.name
+            button.sidebar__resizer(type="button" aria-label="Sidebar verkleinern / vergrößern" data-sidebar-resizer)
+                span.sidebar__resizer-icon
 
         ul.sidebar__nav
 

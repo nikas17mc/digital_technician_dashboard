@@ -1,2 +1,64 @@
-mixin alerts()
-    // hi
+//- ./src/views/dashboard/widgets/alerts.pug
+
+mixin alerts(alerts)
+    if !alerts || alerts.length === 0
+        div.alerts-empty(
+            role="status"
+            aria-live="polite"
+        )
+            p Keine aktiven Warnungen.
+            small Das System verhält sich auffällig unauffällig.
+
+    else
+        section.alerts-container(role="region" aria-label="Systemwarnungen")
+            ul.alerts-list(role="list")
+                each alert in alerts
+                    -
+                        const level = alert.level || 'info';
+                        const icons = {
+                            info: 'ℹ️',
+                            warning: '⚠️',
+                            error: '⛔',
+                            critical: '🔥'
+                        };
+                        const labels = {
+                            info: 'Info',
+                            warning: 'Warnung',
+                            error: 'Fehler',
+                            critical: 'Kritisch'
+                        };
+
+                    li.alert-item(
+                        role="listitem"
+                        class=`alert-${level}`
+                        aria-label=`${labels[level]} Meldung`
+                    )
+                        div.alert-icon(aria-hidden="true")
+                            span= icons[level] || '•'
+
+                        div.alert-body
+                            div.alert-header
+                                strong.alert-title= alert.title || labels[level]
+                                span.alert-level= labels[level]
+
+                            if alert.message
+                                p.alert-message= alert.message
+
+                            div.alert-meta
+                                if alert.source
+                                    span.meta-item
+                                        strong Quelle:
+                                        |  #{alert.source}
+                                if alert.code
+                                    span.meta-item
+                                        strong Code:
+                                        |  #{alert.code}
+
+                            if alert.timestamp
+                                time.alert-time(datetime=alert.timestamp)
+                                    = alert.timeFormatted || alert.timestamp
+
+                            if alert.action
+                                div.alert-action
+                                    a.button.button-small(href=alert.action.url)
+                                        = alert.action.label || 'Details ansehen'
