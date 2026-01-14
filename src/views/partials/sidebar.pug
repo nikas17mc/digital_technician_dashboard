@@ -18,24 +18,34 @@ mixin sidebar(options)
 
             li(class=activePath.startsWith("/dashboard") ? "is-active" : "")
                 a(href="/dashboard")
+                    span.sidebar__icon
+                        i.fas.fa-display-code
                     span.sidebar__label Dashboard
 
             li(class=activePath.startsWith("/devices") ? "is-active" : "")
                 a(href="/devices")
+                    span.sidebar__icon
+                        i.fas.fa-mobile
                     span.sidebar__label Geräte
 
             li(class=activePath.startsWith("/parts") ? "is-active" : "")
                 a(href="/parts")
+                    span.sidebar__icon
+                        i.fas.fa-gears
                     span.sidebar__label Ersatzteile
 
             if role === "admin" || role === "manager"
                 li(class=activePath.startsWith("/reports") ? "is-active" : "")
                     a(href="/reports")
+                        span.sidebar__icon
+                            i.fas.fa-bug
                         span.sidebar__label Reports
 
             if role === "admin"
                 li(class=activePath.startsWith("/admin") ? "is-active" : "")
                     a(href="/admin")
+                        span.sidebar__icon
+                            i.fas.fa-user-tie
                         span.sidebar__label Administration
 
         .sidebar__footer

@@ -145,6 +145,7 @@ app.set('views', path.join(process.cwd(), 'src/views'));
 app.set('view engine', 'pug');
 
 app.use((req, res, next) => {
+    res.locals.currentPath = req.path;
     res.locals.env = process.env.NODE_ENV || 'development';
     res.locals.year = new Date().getFullYear();
     res.locals.user = req.session && req.session.user ? req.session.user : null;
@@ -170,7 +171,6 @@ app.use('/auth', authRoutes);
 //auditMiddleware('DASHBOARD_VIEW'),
 app.get('/dashboard', (req, res) => {
     res.render('dashboard/index', {
-        currentPath: req.path,
         system: {
             online: true
         },
@@ -199,7 +199,7 @@ app.get('/activity', (req, res) => {
             pending: 0
         },
         user: {
-            name: "",
+            name: "Mamamia",
             role: "admin"
         }
     });

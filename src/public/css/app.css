@@ -45,7 +45,9 @@
     --space-2: 0.5rem;
     --space-3: 0.75rem;
     --space-4: 1rem;
+    --space-5: 1.25rem;
     --space-6: 1.5rem;
+    --space-7: 1.75rem;
     --space-8: 2rem;
 
     /* Radius */
@@ -55,7 +57,7 @@
 
     /* Layout & Sidebar */
 
-    --sidebar-width: 260px;
+    --sidebar-width: 200px;
     --sidebar-width-collapsed: 88px;
     --sidebar-transition: 180ms ease;
 }
@@ -138,6 +140,13 @@ a:hover {
     width: var(--sidebar-width);
     transition: width var(--sidebar-transition);
     overflow: hidden;
+    padding: var(--space-2);
+}
+
+nav.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
 }
 
 .app-sidebar.is-collapsed {
@@ -145,14 +154,16 @@ a:hover {
 }
 
 .sidebar__brand {
+    width: 100%;
+    height: 50%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     padding: var(--space-4) var(--space-6);
 }
 
 .app-sidebar.is-collapsed .sidebar__logo {
-display: none;
+    display: none;
 }
 
 .sidebar__resizer {
@@ -192,6 +203,53 @@ display: none;
 .sidebar__resizer-icon::after {
     top: 6px;
 }
+
+.sidebar__nav {
+    list-style: none;
+    width: 100%;
+    display: inline-flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.sidebar__nav li {
+    border-radius: var(--radius-md);
+    box-shadow: inset 1px 1px 1px #94a3b8;
+}
+
+.sidebar__nav li:hover {
+    box-shadow: inset 1px 2px 5px #94a3b8;
+}
+
+.sidebar__nav li.is-active {
+    background: #1e293b;
+}
+
+.sidebar__nav a {
+    width: 100%;
+    text-transform: none;
+    text-align: center;
+    display: inline-flex;
+    justify-content: space-between;
+    padding: var(--space-2);
+    /* gap: var(--space-4); */
+}
+
+.sidebar__nav span {
+    /* margin: auto; */
+    width: 100%;
+}
+
+.sidebar__label {
+    color: var(--color-text);
+    font-size: var(--text-lg);
+    font-weight: 500;
+}
+
+.app-sidebar.is-collapsed .sidebar__label {
+    display: none;
+}
+
 
 /* -----------------------------------------------------
     Topbar

@@ -25,7 +25,8 @@ block body
             //- Sidebar (Navigation / Rollenabhängig)
             aside.app-sidebar
                 +sidebar({
-                    role: "manager"
+                    activePath: currentPath,
+                    role: user
                 })
 
             //- Content-Bereich
@@ -51,7 +52,7 @@ block body
 
                 //- Footer
                 footer.app-footer
-                    +footer()
+                    +footer({showVersion: true, showEnv: true, showLinks: true})
 
         //- Modals (global gesammelt, damit z-index nicht eskaliert)
         block modals

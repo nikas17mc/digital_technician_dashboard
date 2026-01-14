@@ -109,6 +109,7 @@ block content
                     | performant zu bleiben.
                 p
                     | Alle kritischen Zustände werden visuell hervorgehoben und zusätzlich im Alert-System gespiegelt.
+                pre= JSON.stringify(locals, null, 2)
 
 block pageScript
     script(src="/script/pages/dashboard.page.js", defer) 
