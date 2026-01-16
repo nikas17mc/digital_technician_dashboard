@@ -14,6 +14,7 @@ import fileUpload from 'express-fileupload';
 import flash from 'connect-flash';
 import { ensureDirSync } from 'fs-extra';
 
+import open from 'open';
 import { config as dotenvConfig } from 'dotenv';
 
 dotenvConfig({ path: './envs/site.env', encoding: 'UTF-8', quiet: true, debug: true })
@@ -246,12 +247,9 @@ app.use(errorMiddleware);
 /* -------------------------------------------------------------------------- */
 
 const PORT = process.env.PORT || 3000;
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, async () => {
     switch (isDev) {
         case "development":
-            info(`Server läuft auf http://localhost:${PORT}`);
-            break;
-        default:
             console.info(`
     🚀 Server gestartet!
     
@@ -261,6 +259,11 @@ const server = app.listen(PORT, () => {
     
     ✅ Bereit für Verbindungen...
             `);
+            await open(`http://localhost:${PORT}`, { app: { name: 'firefox' } });
+            break;
+        default:
+
+            info(`Server läuft auf http://localhost:${PORT}`);
             break;
     }
 
