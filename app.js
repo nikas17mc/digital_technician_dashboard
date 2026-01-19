@@ -173,14 +173,19 @@ app.use('/auth', authRoutes);
 app.get('/dashboard', (req, res) => {
     res.render('dashboard/index', {
         system: {
-            online: true
+            online: false
         },
         realtime: {
-            connected: true
+            connected: false
         },
         plenty: {
             pending: 0
         },
+        user: {
+            name: "Mamamia",
+            role: "admin",
+            email: "test@gmx.de"
+        }
     });
 });
 app.get('/activity', (req, res) => {
@@ -191,10 +196,10 @@ app.get('/activity', (req, res) => {
             timezone: new Date().getUTCDate()
         },
         system: {
-            online: true
+            online: false
         },
         realtime: {
-            connected: true
+            connected: false
         },
         plenty: {
             pending: 0
@@ -259,7 +264,7 @@ const server = app.listen(PORT, async () => {
     
     ✅ Bereit für Verbindungen...
             `);
-            await open(`http://localhost:${PORT}`, { app: { name: 'firefox' } });
+                if(process.env.AUTO_OPEN == true){ await open(`http://localhost:${PORT}`, { app: { name: 'firefox' } })};
             break;
         default:
 

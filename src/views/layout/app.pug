@@ -33,14 +33,14 @@ block body
             .app-main
 
                 //- Topbar (User, Breadcrumbs, Actions)
-                header.app-topbar
+                header.app-topbar(role="banner")
                     +topbar({
                         title: "Geräteübersicht",
                         showBreadcrumbs: true,
                         breadcrumbs: [
                             { label: "Dashboard", href: "/dashboard" },
                             { label: "Activity", href: "/activity" },
-                            { label: "Geräte" }
+                            { label: "Geräte" , href: "/devices" }
                         ]
                     })
 

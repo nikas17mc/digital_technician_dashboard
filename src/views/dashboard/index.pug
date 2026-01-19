@@ -96,10 +96,10 @@ block content
                         |  #{year}
                     li
                         strong Aktiver Benutzer:
-                        |  #{user || 'Unbekannt'}
+                        |  #{user.name || 'Unbekannt'}
                     li
                         strong Rolle:
-                        |  #{user || '—'}
+                        |  #{user.role || '—'}
 
             details
                 summary Hinweise zur Bedienung

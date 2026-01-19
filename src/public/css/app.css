@@ -11,6 +11,8 @@
     --color-bg: #020617;
     /* deep slate */
     --color-surface: #0f172a;
+    /* deep slate hover */
+    --color-surface-hover: #25314a;
     /* slate 900 */
     --color-surface-alt: #020617;
     --color-border: #1e293b;
@@ -60,6 +62,11 @@
     --sidebar-width: 200px;
     --sidebar-width-collapsed: 88px;
     --sidebar-transition: 180ms ease;
+
+    /* Topbar Layout */
+    --topbar-height: 64px;
+    --topbar-bg: color-mix(in srgb, var(--color-surface) 92%, transparent);
+    --topbar-border: 1px solid var(--color-border);
 }
 
 /* -----------------------------------------------------
@@ -109,8 +116,8 @@ a:hover {
     gap: 0.5rem;
 
     padding: 0.55rem 1.1rem;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: var(--text-base);
+    font-weight: 600;
     line-height: 1.2;
 
     border-radius: 0.55rem;
@@ -143,7 +150,7 @@ a:hover {
 
 .btn-primary {
     background-color: var(--color-primary);
-    color: #020617;
+    color: var(--color-text);
     border-color: var(--color-primary);
 }
 
@@ -341,22 +348,245 @@ nav.sidebar {
 
 
 /* -----------------------------------------------------
-    Topbar
+    Shell
    ----------------------------------------------------- */
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+.app-topbar {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    height: var(--topbar-height);
+    padding: 0 var(--space-6);
+    background: var(--topbar-bg);
+    backdrop-filter: blur(12px) saturate(160%);
+    border-bottom: var(--topbar-border);
 }
 
+/* -----------------------------------------------------
+    Sections
+   ----------------------------------------------------- */
+
+.topbar__left,
+.topbar__center,
+.topbar__right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.topbar__center {
+    justify-content: center;
+}
+
+/* -----------------------------------------------------
+    Sidebar Toggle / Actions
+   ----------------------------------------------------- */
+
+.topbar__action {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-lg);
+    border: 0.1em var(--color-surface-alt);
+    background: transparent;
+
+    color: var(--color-muted);
+    cursor: pointer;
+
+    transition:
+        background-color 120ms ease,
+        color 120ms ease;
+}
+
+.topbar__action:hover {
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+}
+
+
+/* -----------------------------------------------------
+    Title
+   ----------------------------------------------------- */
+
 .topbar__title {
-    font-size: var(--text-xl);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap;
+}
+
+/* -----------------------------------------------------
+    Breadcrumbs
+   ----------------------------------------------------- */
+
+.topbar__breadcrumbs ol {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
     margin: 0;
 }
 
-.topbar__actions a {
-    margin-left: var(--space-4);
-    font-size: var(--text-sm);
+.topbar__breadcrumbs li {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+}
+
+.topbar__breadcrumbs li::after {
+    content: "/";
+    margin-left: var(--space-2);
+    color: var(--color-border);
+}
+
+.topbar__breadcrumbs li:last-child::after {
+    content: "";
+}
+
+.topbar__breadcrumbs a {
+    color: var(--color-muted);
+    text-decoration: none;
+}
+
+.topbar__breadcrumbs a:hover {
+    color: var(--color-text);
+    text-decoration: underline;
+}
+
+/* -----------------------------------------------------
+    Search
+   ----------------------------------------------------- */
+
+.topbar__search {
+    width: min(480px, 100%);
+}
+
+.topbar__search-input {
+    width: 100%;
+    height: 40px;
+
+    padding: 0 var(--space-4);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+
+    background: var(--color-surface);
+    color: var(--color-text);
+}
+
+.topbar__search-input::placeholder {
+    color: var(--color-muted);
+}
+
+.topbar__search-input:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* -----------------------------------------------------
+    Notifications
+   ----------------------------------------------------- */
+
+.topbar__badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+
+    border-radius: 999px;
+    background: var(--color-danger);
+    color: #fff;
+
+    font-size: 0.6875rem;
+    font-weight: 600;
+
+    display: grid;
+    place-items: center;
+}
+
+/* -----------------------------------------------------
+    User
+   ----------------------------------------------------- */
+
+.topbar__user {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-lg);
+
+    text-decoration: none;
+    color: var(--color-text);
+}
+
+.topbar__user:hover {
+    background: var(--color-surface-hover);
+}
+
+.topbar__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+
+    background: linear-gradient(135deg,
+            var(--color-primary),
+            var(--color-secondary));
+}
+
+.topbar__user-meta {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.topbar__user-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.topbar__user-role {
+    font-size: 0.6875rem;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* -----------------------------------------------------
+    User Actions
+   ----------------------------------------------------- */
+
+.topbar__user-actions {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.topbar__user-action {
+    text-align: center;
+    padding: var(--space-1) var(--space-2);
+
+    border-radius: var(--radius-lg);
+    border: none;
+    background: transparent;
+
+    color: var(--color-muted);
+    cursor: pointer;
+
+    transition:
+        background-color 120ms ease,
+        color 120ms ease;
+}
+
+.topbar__user-action:hover {
+    background: var(--color-surface-hover);
+    color: currentColor;
+}
+
+.topbar__user-action--logout {
+    color: var(--color-danger) !important;
 }
 
 /* -----------------------------------------------------
@@ -443,5 +673,13 @@ nav.sidebar {
 
     .app-content {
         padding: var(--space-4);
+    }
+
+    .topbar__center {
+        display: none;
+    }
+
+    .topbar__breadcrumbs {
+        display: none;
     }
 }
