@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import * as logger from "../core/logger.js";
 
 /**
  * Central error handling middleware
@@ -7,9 +8,6 @@ import crypto from "crypto";
  *   app.use(errorMiddleware);
  */
 export function errorMiddleware(err, req, res, next) {
-    // -------------------------------------------------
-    // 1. Environment & safety guards
-    // -------------------------------------------------
     const env = process.env.NODE_ENV || "production";
     const isDev = env === "development" || env === "staging";
 
@@ -18,8 +16,9 @@ export function errorMiddleware(err, req, res, next) {
     }
 
     // -------------------------------------------------
-    // 2. Normalize error shape
+    // 1. Normalize status + severity
     // -------------------------------------------------
+
     const statusCode =
         typeof err.statusCode === "number" && err.statusCode >= 400
             ? err.statusCode
@@ -27,22 +26,25 @@ export function errorMiddleware(err, req, res, next) {
                 ? err.status
                 : 500;
 
+    const severity =
+        statusCode >= 500 ? "error"
+            : statusCode >= 400 ? "warn"
+                : "info";
+
     const message =
         typeof err.message === "string" && err.message.length > 0
             ? err.message
-            : "An unexpected system error occurred.";
+            : "Unexpected application error";
 
     // -------------------------------------------------
-    // 3. Request correlation
+    // 2. Correlation & context
     // -------------------------------------------------
+
     const requestId =
         req && req.id
             ? req.id
             : crypto.randomUUID();
 
-    // -------------------------------------------------
-    // 4. User / role context
-    // -------------------------------------------------
     const role =
         req && req.user && typeof req.user.role === "string"
             ? req.user.role
@@ -54,32 +56,45 @@ export function errorMiddleware(err, req, res, next) {
             : null;
 
     // -------------------------------------------------
-    // 5. Logging (structured, backend only)
+    // 3. Structured log payload
     // -------------------------------------------------
+
     const logPayload = {
+        level: severity,
         requestId,
         statusCode,
         message,
+        errorName: err.name || "Error",
         method: req && req.method ? req.method : "n/a",
         path: req && req.originalUrl ? req.originalUrl : "n/a",
         role,
         userId,
+        stack: isDev && err.stack ? err.stack : undefined,
         timestamp: new Date().toISOString()
     };
 
-    if (isDev) {
-        console.error("[ERROR]", logPayload);
-        if (err.stack) {
-            console.error(err.stack);
-        }
+    // -------------------------------------------------
+    // 4. Logging (NO silent fallback)
+    // -------------------------------------------------
+
+    if (typeof logger[severity] === "function") {
+        logger[severity](logPayload);
+    } else if (typeof logger.error === "function") {
+        // hard fallback, never lose an error
+        logger.error({
+            ...logPayload,
+            level: "error",
+            note: "Logger level fallback triggered"
+        });
     } else {
-        // Hook for real logger (winston / pino / sentry / etc.)
-        console.error("[ERROR]", logPayload);
+        // absolute last resort
+        console.error("[LOGGER FAILURE]", logPayload);
     }
 
     // -------------------------------------------------
-    // 6. Response safety
+    // 5. Response safety
     // -------------------------------------------------
+
     if (res.headersSent) {
         return next(err);
     }
@@ -87,8 +102,9 @@ export function errorMiddleware(err, req, res, next) {
     res.status(statusCode);
 
     // -------------------------------------------------
-    // 7. Render error page
+    // 6. Render error page
     // -------------------------------------------------
+
     return res.render("errors/error", {
         statusCode,
         message,

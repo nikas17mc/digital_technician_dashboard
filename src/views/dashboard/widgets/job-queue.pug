@@ -1,2 +1,78 @@
-mixin jobQueue()
-    // hi
+//- ./src/views/dashboard/widgets/job-queue.pug
+
+mixin jobQueue(jobs)
+    if !jobs || jobs.length === 0
+        div.job-queue-empty(
+            role="status"
+            aria-live="polite"
+        )
+            p Keine offenen Jobs in der Warteschlange.
+            small Entweder perfekte Planung – oder alle sind im Feierabendmodus.
+
+    else
+        section.job-queue(
+            role="region"
+            aria-label="Job-Warteschlange"
+        )
+            ul.job-queue-list(role="list")
+                each job in jobs
+                    -
+                        const priority = job.priority || 'normal';
+                        const status = job.status || 'pending';
+                        const slaState = job.sla || 'ok';
+
+                        const priorityLabel = {
+                            low: 'Niedrig',
+                            normal: 'Normal',
+                            high: 'Hoch',
+                            critical: 'Kritisch'
+                        };
+
+                        const statusLabel = {
+                            pending: 'Wartend',
+                            active: 'In Arbeit',
+                            blocked: 'Blockiert',
+                            done: 'Abgeschlossen'
+                        };
+
+                    li.job-item(
+                        role="listitem"
+                        data-priority=priority
+                        data-status=status
+                        data-sla=slaState
+                        aria-label=`Job ${statusLabel[status]} mit Priorität ${priorityLabel[priority]}`
+                    )
+                        // ===== Job Header =====
+                        div.job-header
+                            span.job-title= job.title || 'Unbenannter Job'
+                            span.job-priority(class=`priority-${priority}`)
+                                = priorityLabel[priority]
+
+                        // ===== Job Meta =====
+                        div.job-meta
+                            if job.deviceId
+                                span.meta-item
+                                    strong Gerät:
+                                    |  #{job.deviceId}
+                            if job.technician
+                                span.meta-item
+                                    strong Techniker:
+                                    |  #{job.technician}
+
+                        // ===== Job Status & SLA =====
+                        div.job-footer
+                            span.job-status(class=`status-${status}`)
+                                = statusLabel[status]
+
+                            if job.slaDue
+                                time.job-sla(
+                                    datetime=job.slaDue
+                                    class=`sla-${slaState}`
+                                )
+                                    | SLA: #{job.slaFormatted || job.slaDue}
+
+                        // ===== Optional Action =====
+                        if job.action
+                            div.job-action
+                                a.button.button-small(href=job.action.url)
+                                    = job.action.label || 'Öffnen'

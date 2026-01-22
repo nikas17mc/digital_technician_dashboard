@@ -1,0 +1,243 @@
+/* -------------------------------------------------------------------------- */
+/* Dashboard Index                                                             */
+/* -------------------------------------------------------------------------- */
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    color: var(--color-text);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Header                                                                      */
+/* -------------------------------------------------------------------------- */
+
+.dashboard-header h1 {
+    font-size: 1.75rem;
+    line-height: 1.2;
+}
+
+.dashboard-subtitle {
+    color: var(--color-muted);
+    max-width: 75ch;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Status Strip                                                                */
+/* -------------------------------------------------------------------------- */
+
+.dashboard-status-strip {
+    background: var(--color-surface);
+    border-radius: 1rem;
+    padding: 0.75rem 1.25rem;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.status-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    font-size: 0.75rem;
+}
+
+.status-list .label {
+    color: var(--color-muted);
+    margin-right: 0.25rem;
+}
+
+.status-list .value {
+    font-weight: 600;
+}
+
+.status-list .value.ok {
+    color: var(--color-secondary);
+}
+
+.status-list .value.warning {
+    color: var(--color-warning);
+}
+
+.status-list .value.error {
+    color: var(--color-danger);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Dashboard Grid                                                              */
+/* -------------------------------------------------------------------------- */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    gap: 1.25rem;
+}
+
+.dashboard-grid.is-virtualized {
+    contain: layout style;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Generic Widget                                                              */
+/* -------------------------------------------------------------------------- */
+
+.widget {
+    background: var(--color-surface);
+    border-radius: 1.25rem;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.widget h2 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Device Stats                                                                */
+/* -------------------------------------------------------------------------- */
+
+.device-stats-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    gap: 0.75rem;
+}
+
+.stat-item {
+    background: var(--color-bg);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    color: var(--color-muted);
+}
+
+.stat-item.blocked {
+    box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.4);
+}
+
+.device-stats-indicators {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--color-muted);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Job Queue                                                                   */
+/* -------------------------------------------------------------------------- */
+
+.job-queue {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.job-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-bg);
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+}
+
+.job-item[data-priority="high"] {
+    box-shadow: inset 0 0 0 1px rgba(239, 68, 68, 0.4);
+}
+
+.job-status {
+    color: var(--color-muted);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Alerts                                                                      */
+/* -------------------------------------------------------------------------- */
+
+.alerts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.alert-item {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    background: var(--color-bg);
+    font-size: 0.75rem;
+}
+
+.alert-info {
+    box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.35);
+}
+
+.alert-warning {
+    box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.35);
+}
+
+.alert-error,
+.alert-critical {
+    box-shadow: inset 0 0 0 1px rgba(239, 68, 68, 0.45);
+}
+
+.alert-title {
+    font-weight: 600;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Plenty Blocker                                                              */
+/* -------------------------------------------------------------------------- */
+
+.plenty-blocker-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.plenty-blocker-item {
+    background: var(--color-bg);
+    border-radius: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.plenty-blocker-item.pending {
+    box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.4);
+}
+
+.plenty-blocker-item.done {
+    opacity: 0.6;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Extended Content                                                            */
+/* -------------------------------------------------------------------------- */
+
+.dashboard-extended details {
+    background: var(--color-surface);
+    border-radius: 1rem;
+    padding: 0.75rem 1rem;
+}
+
+.dashboard-extended summary {
+    cursor: pointer;
+    font-weight: 600;
+}

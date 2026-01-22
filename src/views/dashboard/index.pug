@@ -5,6 +5,9 @@ include widgets/job-queue.pug
 include widgets/alerts.pug
 include widgets/plenty-blocker.pug
 
+block head
+    link(rel="stylesheet", href="/css/index.css")
+
 block content
     main.dashboard(
         role="main"
@@ -54,7 +57,7 @@ block content
                 aria-labelledby="widget-device-stats-title"
             )
                 h2#widget-device-stats-title Geräteübersicht
-                +deviceStats(devices)
+                +deviceStats(deviceStats)
 
             // --- Job Queue ---
             article.widget.widget-job-queue(
@@ -62,7 +65,7 @@ block content
                 aria-labelledby="widget-job-queue-title"
             )
                 h2#widget-job-queue-title Aktive Jobs
-                +jobQueue(jobs)
+                +jobQueue(jobQueue)
 
             // --- Alerts & Warnings ---
             article.widget.widget-alerts(
@@ -78,7 +81,7 @@ block content
                 aria-labelledby="widget-plenty-blocker-title"
             )
                 h2#widget-plenty-blocker-title Plenty Blocker
-                +plentyBlocker(plenty)
+                +plentyBlocker(plentyBlocker)
 
         // ===== Large / Extended Content (Accessible & Scroll-safe) =====
         section.dashboard-extended(

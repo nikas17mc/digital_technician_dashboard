@@ -80,7 +80,7 @@ ensureDirSync(path.join(path.dirname('./'), 'logs'));
 
 initLogger({
     appName: process.env.APP_NAME,
-    level: "info",
+    level: process.env.NODE_ENV === "production" ? "warn" : "info",
     logToFile: process.env.LOG_TO_FILE
 });
 // initDatabase();
@@ -185,7 +185,82 @@ app.get('/dashboard', (req, res) => {
             name: "Mamamia",
             role: "admin",
             email: "test@gmx.de"
+        },
+        deviceStats: {
+            total: 128,
+            inRepair: 34,
+            inQC: 12,
+            blocked: 7,
+            done: 75
+        },
+        jobQueue: [
+            {
+                title: 'Displaytausch',
+                deviceId: 'IMEI-356789112233445',
+                technician: 'Nikolai',
+                priority: 'high',        // low | normal | high | critical
+                status: 'active',        // pending | active | blocked | done
+                sla: 'warning',          // ok | warning | overdue
+                slaDue: '2026-01-22T14:30:00Z',
+                slaFormatted: 'in 2h',
+                action: {
+                    label: 'Job öffnen',
+                    url: '/devices/123'
+                }
+            },
+            {
+                title: 'Diagnose – Bootloop',
+                deviceId: 'SN-A1B2C3D4',
+                technician: 'Alex',
+                priority: 'normal',
+                status: 'pending',
+                sla: 'ok'
+            }
+        ],
+        alerts: [
+            {
+                level: 'warning',        // info | warning | error | critical
+                title: 'Plenty Sync offen',
+                message: '5 Geräte sind im Dashboard erfasst, aber nicht in Plenty verbucht.',
+                source: 'Plenty-Service',
+                code: 'PLENTY_SYNC_PENDING',
+                timestamp: '2026-01-22T09:12:00Z',
+                timeFormatted: 'vor 15 Minuten',
+                action: {
+                    label: 'Zu den Blockern',
+                    url: '/dashboard'
+                }
+            },
+            {
+                level: 'critical',
+                title: 'QC-Rework erkannt',
+                message: 'Gerät IMEI-9988776655 ist erneut aus der QC zurückgekommen.',
+                source: 'QC-Engine',
+                code: 'REWORK_DETECTED'
+            }
+        ],
+        plentyBlocker: [
+    {
+        deviceId: 'IMEI-445566778899001',
+        reason: 'Kein Lagertransfer in Plenty möglich',
+        technician: 'Nikolai',
+        state: 'overdue',        // pending | reminded | overdue | resolved
+        reminder: 'hard',        // none | soft | hard
+        createdAt: '2026-01-20T08:45:00Z',
+        createdFormatted: 'vor 2 Tagen',
+        action: {
+            label: 'In Plenty prüfen',
+            url: 'https://plenty.one/app'
         }
+    },
+    {
+        deviceId: 'SN-ZXCV-1122',
+        reason: 'Manuelle Buchung ausstehend',
+        state: 'pending',
+        reminder: 'soft'
+    }
+]
+
     });
 });
 app.get('/activity', (req, res) => {
@@ -264,7 +339,7 @@ const server = app.listen(PORT, async () => {
     
     ✅ Bereit für Verbindungen...
             `);
-                if(process.env.AUTO_OPEN == true){ await open(`http://localhost:${PORT}`, { app: { name: 'firefox' } })};
+            if (process.env.AUTO_OPEN == true) { await open(`http://localhost:${PORT}`, { app: { name: 'firefox' } }) };
             break;
         default:
 

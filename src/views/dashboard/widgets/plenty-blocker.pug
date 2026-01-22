@@ -1,2 +1,90 @@
-mixin plentyBlocker()
-    // hi
+//- ./src/views/dashboard/widgets/plenty-blocker.pug
+
+mixin plentyBlocker(blockers)
+    if !blockers || blockers.length === 0
+        div.plenty-blocker-empty(
+            role="status"
+            aria-live="polite"
+        )
+            p Keine offenen Plenty-Blocker.
+            small Für einen kurzen Moment ist Plenty nicht das Problem.
+
+    else
+        section.plenty-blocker(
+            role="region"
+            aria-label="Plenty Blocker und manuelle Nachpflege"
+        )
+            p.plenty-blocker-hint
+                | Diese Geräte sind im Dashboard erfasst, konnten aber noch nicht vollständig
+                | in Plenty One verbucht werden und erfordern manuelle Nachpflege.
+
+            ul.plenty-blocker-list(role="list")
+                each item in blockers
+                    -
+                        const state = item.state || 'pending';
+                        const reminder = item.reminder || 'none';
+
+                        const stateLabel = {
+                            pending: 'Ausstehend',
+                            reminded: 'Erinnert',
+                            overdue: 'Überfällig',
+                            resolved: 'Erledigt'
+                        };
+
+                        const reminderLabel = {
+                            none: '—',
+                            soft: 'Hinweis',
+                            hard: 'Dringend'
+                        };
+
+                    li.plenty-blocker-item(
+                        role="listitem"
+                        class=`${state}`
+                        data-state=state
+                        data-reminder=reminder
+                        aria-label=`Plenty Blocker ${stateLabel[state]}`
+                    )
+                        // ===== Main Info =====
+                        div.blocker-main
+                            span.blocker-device
+                                strong Gerät:
+                                |  #{item.deviceId || '—'}
+
+                            span.blocker-reason
+                                strong Grund:
+                                |  #{item.reason || 'Nicht spezifiziert'}
+
+                        // ===== Meta =====
+                        div.blocker-meta
+                            if item.technician
+                                span.meta-item
+                                    strong Verantwortlich:
+                                    |  #{item.technician}
+
+                            if item.createdAt
+                                span.meta-item
+                                    strong Erfasst:
+                                    time(datetime=item.createdAt)
+                                        = item.createdFormatted || item.createdAt
+
+                        // ===== State / Reminder =====
+                        div.blocker-status
+                            span.blocker-state(class=`state-${state}`)
+                                = stateLabel[state]
+
+                            span.blocker-reminder(class=`reminder-${reminder}`)
+                                | Erinnerung: #{reminderLabel[reminder]}
+
+                        // ===== Actions =====
+                        div.blocker-actions
+                            if item.action
+                                a.button.button-small(href=item.action.url)
+                                    = item.action.label || 'In Plenty prüfen'
+
+                            if state !== 'resolved'
+                                button.button.button-ghost.button-small(
+                                    type="button"
+                                    data-action="mark-resolved"
+                                    data-device-id=item.deviceId
+                                )
+                                    | Als erledigt markieren
