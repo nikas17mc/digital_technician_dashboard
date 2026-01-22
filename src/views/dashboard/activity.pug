@@ -3,6 +3,9 @@ extends ../layout/app.pug
 include widgets/activity-feed.pug
 include widgets/realtime-status.pug
 
+block head
+    link(rel="stylesheet", href="/css/activity.css" type="text/css")
+
 block content
     main.activity-dashboard(
         role="main"
