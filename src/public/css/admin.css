@@ -1,0 +1,198 @@
+/* =====================================================
+   src/public/css/admin.css
+   Admin Panel Styling
+   basiert vollständig auf app.css Variablen
+   ===================================================== */
+
+/* -----------------------------------------------------
+   Layout
+----------------------------------------------------- */
+.page.admin-config {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.page-header {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+}
+
+.page-header h1 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.5rem;
+    color: var(--color-text);
+}
+
+.page-description {
+    margin: 0;
+    color: var(--color-muted);
+    max-width: 70ch;
+}
+
+/* -----------------------------------------------------
+   Admin Grid / Cards
+----------------------------------------------------- */
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 1.25rem;
+}
+
+.admin-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 1.25rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.card-header h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--color-text);
+}
+
+.card-hint {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+}
+
+.card-content {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* -----------------------------------------------------
+   Tables (shared)
+----------------------------------------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+thead th {
+    text-align: left;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    color: var(--color-muted);
+    border-bottom: 1px solid var(--color-border);
+}
+
+tbody td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+}
+
+tbody tr:hover {
+    background: var(--color-bg-hover);
+}
+
+/* -----------------------------------------------------
+   State Graph
+----------------------------------------------------- */
+.state-graph {
+    background: var(--color-bg);
+    border: 1px dashed var(--color-border);
+    border-radius: 0.75rem;
+    padding: 1rem;
+}
+
+.state-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+}
+
+.state {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+}
+
+.state-entry {
+    border-left: 4px solid var(--color-primary);
+}
+
+.state-terminal {
+    border-left: 4px solid var(--color-secondary);
+}
+
+.transitions {
+    margin: 0.5rem 0 0 1rem;
+    padding: 0;
+    list-style: none;
+    color: var(--color-muted);
+}
+
+/* -----------------------------------------------------
+   Diff Preview
+----------------------------------------------------- */
+.diff-preview {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    padding: 1rem;
+}
+
+.diff-box {
+    background: var(--color-surface);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-family: monospace;
+    font-size: 0.75rem;
+    overflow-x: auto;
+}
+
+.diff-warning {
+    margin-top: 0.5rem;
+    color: var(--color-warning);
+    font-size: 0.8rem;
+}
+
+/* -----------------------------------------------------
+   Danger Zone
+----------------------------------------------------- */
+.admin-danger {
+    border: 1px solid var(--color-danger);
+    background: color-mix(in srgb, var(--color-danger) 10%, var(--color-surface));
+    border-radius: 1rem;
+    padding: 1.25rem;
+}
+
+.admin-danger h2 {
+    margin-top: 0;
+    color: var(--color-danger);
+}
+
+.danger-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+/* -----------------------------------------------------
+   Responsive
+----------------------------------------------------- */
+@media (max-width: 640px) {
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+}
