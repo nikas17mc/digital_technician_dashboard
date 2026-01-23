@@ -1,0 +1,59 @@
+//- =====================================================
+//- src/views/admin/status-map.pug
+//- Internal Device Status Map
+//- =====================================================
+
+mixin statusMap()
+    .status-map
+        p.description
+            | Zentrale Abbildung aller internen Gerätestatus.
+            | Diese Map definiert Semantik, Farbe, Kategorie
+            | und technische Bedeutung je Status.
+
+        table.status-table
+            thead
+                tr
+                    th Status
+                    th Kategorie
+                    th Bedeutung
+                    th Farbe
+            tbody
+                tr
+                    td Wareneingang
+                    td Eingang
+                    td Gerät physisch angekommen, noch unbearbeitet
+                    td info
+                tr
+                    td Diagnose
+                    td Analyse
+                    td Fehleranalyse läuft
+                    td primary
+                tr
+                    td Ersatzteilbestellung
+                    td Blockierend
+                    td Wartet auf Teile
+                    td warning
+                tr
+                    td Reparatur
+                    td Aktiv
+                    td Technische Reparatur
+                    td secondary
+                tr
+                    td QC
+                    td Prüfung
+                    td Qualitätskontrolle
+                    td primary
+                tr
+                    td Rework
+                    td Eskalation
+                    td Wiederholungsreparatur
+                    td danger
+                tr
+                    td Abschluss
+                    td Terminal
+                    td Prozess abgeschlossen
+                    td success
+
+        .status-note
+            | Diese Statusmap wird verwendet für Dashboard-Farben,
+            | Filterlogik, Reports und Plenty-Synchronisation.

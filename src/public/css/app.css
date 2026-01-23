@@ -240,9 +240,12 @@ a:hover {
 }
 
 nav.sidebar {
+    position: sticky;
+    top: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
+    height: fit-content;
 }
 
 .app-sidebar.is-collapsed {
@@ -254,24 +257,34 @@ nav.sidebar {
     height: 50%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     padding: var(--space-4) var(--space-6);
+
+    .app-sidebar.is-collapsed & {
+        justify-content: center;
+    }
 }
 
-.app-sidebar.is-collapsed .sidebar__logo {
-    display: none;
+.sidebar__logo {
+    width: 36px;
+    height: 36px;
+
+    .app-sidebar.is-collapsed & {
+        display: none;
+    }
 }
 
 .sidebar__resizer {
     background: none;
+    height: 36px;
     border: none;
     cursor: pointer;
     padding: var(--space-2);
     color: var(--color-text-muted);
-}
 
-.sidebar__resizer:hover {
-    color: var(--color-text);
+    &:hover {
+        color: var(--color-text);
+    }
 }
 
 .sidebar__resizer-icon {
@@ -280,24 +293,24 @@ nav.sidebar {
     height: 2px;
     background: currentColor;
     position: relative;
-}
 
-.sidebar__resizer-icon::before,
-.sidebar__resizer-icon::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 18px;
-    height: 2px;
-    background: currentColor;
-}
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 18px;
+        height: 2px;
+        background: currentColor;
+    }
 
-.sidebar__resizer-icon::before {
-    top: -6px;
-}
+    &::before {
+        top: -6px;
+    }
 
-.sidebar__resizer-icon::after {
-    top: 6px;
+    &::after {
+        top: 6px;
+    }
 }
 
 .sidebar__nav {
@@ -352,6 +365,8 @@ nav.sidebar {
    ----------------------------------------------------- */
 
 .app-topbar {
+    position: sticky;
+    top: 0;
     display: grid;
     grid-template-columns: auto 1fr auto;
     height: var(--topbar-height);

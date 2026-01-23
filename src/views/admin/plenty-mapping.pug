@@ -1,0 +1,54 @@
+//- =====================================================
+//- src/views/admin/plenty-mapping.pug
+//- Internal Status ↔ Plenty One Mapping
+//- =====================================================
+
+mixin plentyMapping()
+    .plenty-mapping
+        p.description
+            | Zuordnung interner Gerätestatus zu Plenty-One-Status.
+            | Da Plenty keine Lager-zu-Lager-Transfers per API erlaubt,
+            | dient diese Map als verbindliche Referenz für manuelle Überträge.
+
+        table.plenty-table
+            thead
+                tr
+                    th Interner Status
+                    th Plenty Status
+                    th Übertrag nötig
+                    th Hinweis
+            tbody
+                tr
+                    td Wareneingang
+                    td Eingangslager
+                    td Ja
+                    td Manuell in Plenty-App buchen
+                tr
+                    td Diagnose
+                    td In Bearbeitung
+                    td Nein
+                    td Interner Statuswechsel
+                tr
+                    td Ersatzteilbestellung
+                    td Wartet auf Ersatzteil
+                    td Nein
+                    td Kein Lagerwechsel
+                tr
+                    td Reparatur
+                    td In Reparatur
+                    td Nein
+                    td —
+                tr
+                    td QC
+                    td Qualitätsprüfung
+                    td Nein
+                    td —
+                tr
+                    td Abschluss
+                    td Ausgangslager
+                    td Ja
+                    td Versandfreigabe
+
+        .plenty-note
+            | Diese Tabelle treibt das Reminder-Widget für ausstehende
+            | Plenty-Überträge sowie die Report-Differenzen an.

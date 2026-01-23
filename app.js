@@ -240,26 +240,26 @@ app.get('/dashboard', (req, res) => {
             }
         ],
         plentyBlocker: [
-    {
-        deviceId: 'IMEI-445566778899001',
-        reason: 'Kein Lagertransfer in Plenty möglich',
-        technician: 'Nikolai',
-        state: 'overdue',        // pending | reminded | overdue | resolved
-        reminder: 'hard',        // none | soft | hard
-        createdAt: '2026-01-20T08:45:00Z',
-        createdFormatted: 'vor 2 Tagen',
-        action: {
-            label: 'In Plenty prüfen',
-            url: 'https://plenty.one/app'
-        }
-    },
-    {
-        deviceId: 'SN-ZXCV-1122',
-        reason: 'Manuelle Buchung ausstehend',
-        state: 'pending',
-        reminder: 'soft'
-    }
-]
+            {
+                deviceId: 'IMEI-445566778899001',
+                reason: 'Kein Lagertransfer in Plenty möglich',
+                technician: 'Nikolai',
+                state: 'overdue',        // pending | reminded | overdue | resolved
+                reminder: 'hard',        // none | soft | hard
+                createdAt: '2026-01-20T08:45:00Z',
+                createdFormatted: 'vor 2 Tagen',
+                action: {
+                    label: 'In Plenty prüfen',
+                    url: 'https://plenty.one/app'
+                }
+            },
+            {
+                deviceId: 'SN-ZXCV-1122',
+                reason: 'Manuelle Buchung ausstehend',
+                state: 'pending',
+                reminder: 'soft'
+            }
+        ]
 
     });
 });
@@ -285,6 +285,25 @@ app.get('/activity', (req, res) => {
         }
     });
 });
+
+app.get('/admin', (req, res) => {
+    res.render('admin/config', {
+        system: {
+            online: false
+        },
+        realtime: {
+            connected: false
+        },
+        plenty: {
+            pending: 0
+        },
+        user: {
+            name: "Mamamia",
+            role: "admin",
+            email: "test@gmx.de"
+        }
+    })
+})
 
 // app.use('/devices',
 //     rateLimitMiddleware({ max: 300 }),

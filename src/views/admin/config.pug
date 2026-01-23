@@ -1,8 +1,81 @@
-extends ../../layout/app.pug
+//- =====================================================
+//- src/views/admin/config.pug
+//- Admin Configuration Panel
+//- =====================================================
+
+extends ../layout/app.pug
 
 include workflow-rules.pug
 include status-map.pug
 include permissions.pug
 include plenty-mapping.pug
 
-block content 
+block head
+    link(rel="stylesheet", href="/css/admin.css")
+
+block content
+    .page.admin-config
+        .page-header
+            h1 Admin · System Configuration
+            p.page-description
+                | Zentrale Konfigurationsoberfläche für Workflows, Statuslogik,
+                | Berechtigungen und Plenty-Zuordnungen. Änderungen hier wirken
+                | systemweit. Kein Sandbox-Spielplatz.
+
+        .admin-grid
+            //- -------------------------------------------------
+            //- Workflow Rules
+            //- -------------------------------------------------
+            section.admin-card
+                header.card-header
+                    h2 Workflow Engine
+                    span.card-hint Zustandsübergänge & Validierungen
+                .card-content
+                    +workflowRules()
+
+            //- -------------------------------------------------
+            //- Status Map
+            //- -------------------------------------------------
+            section.admin-card
+                header.card-header
+                    h2 Status Map
+                    span.card-hint Device-Status → Systemlogik
+                .card-content
+                    +statusMap()
+
+            //- -------------------------------------------------
+            //- Permissions
+            //- -------------------------------------------------
+            section.admin-card
+                header.card-header
+                    h2 Permissions
+                    span.card-hint Rollen, Rechte, Zugriffsebenen
+                .card-content
+                    +permissions()
+
+            //- -------------------------------------------------
+            //- Plenty Mapping
+            //- -------------------------------------------------
+            section.admin-card
+                header.card-header
+                    h2 Plenty Integration
+                    span.card-hint Interne Status ↔ Plenty One
+                .card-content
+                    +plentyMapping()
+
+        //- -------------------------------------------------
+        //- Danger Zone
+        //- -------------------------------------------------
+        section.admin-danger
+            h2 Danger Zone
+            p
+                | Änderungen in diesem Bereich können bestehende Workflows,
+                | Reports und Gerätehistorien beeinflussen. Kein Undo. 
+                | Du weißt hoffentlich, was du tust.
+
+            .danger-actions
+                button.btn.btn-danger(type="button" disabled)
+                    | Reset Workflow Cache (coming soon)
+
+                button.btn.btn-outline-danger(type="button" disabled)
+                    | Rebuild Status Index (coming soon)

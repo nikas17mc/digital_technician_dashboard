@@ -1,0 +1,86 @@
+//- =====================================================
+//- src/views/admin/permissions.pug
+//- Role-Permission Matrix + Live Diff Preview + JSON Export
+//- =====================================================
+
+mixin permissions()
+    .permissions-config
+        p.description
+            | Steuerung, wer was im Workflow darf. Zusätzlich:
+            | Vorschau auf Regeländerungen vor dem Commit und
+            | Export der Konfiguration für Versionierung & Audit.
+
+        //- -------------------------------------------------
+        //- Role-Permission Matrix
+        //- -------------------------------------------------
+        h3 Role · Permission Matrix
+        table.permission-matrix
+            thead
+                tr
+                    th Rolle
+                    th Wareneingang → Diagnose
+                    th Diagnose → Reparatur
+                    th Reparatur → QC
+                    th QC → Abschluss
+            tbody
+                tr
+                    td Wareneingang
+                    td ✓
+                    td –
+                    td –
+                    td –
+                tr
+                    td Techniker
+                    td –
+                    td ✓
+                    td ✓
+                    td –
+                tr
+                    td QC
+                    td –
+                    td –
+                    td –
+                    td ✓
+                tr
+                    td Admin
+                    td ✓
+                    td ✓
+                    td ✓
+                    td ✓
+
+        p.matrix-note
+            | Diese Matrix wird serverseitig erzwungen.
+            | UI-Aktionen ohne Recht werden gar nicht erst angeboten.
+
+        //- -------------------------------------------------
+        //- Live Diff Preview
+        //- -------------------------------------------------
+        h3 Live Diff Preview
+        .diff-preview
+            p
+                | Vor dem Speichern von Workflow- oder
+                | Berechtigungsänderungen wird ein Diff erzeugt.
+            pre.diff-box
+                | - Reparatur → QC (required: Ersatzteilverbrauch)
+                | + Reparatur → QC (required: Ersatzteilverbrauch, Seriennummer)
+            p.diff-warning
+                | ⚠ Diese Änderung blockiert aktuell 12 Geräte
+                | im Status »Reparatur«.
+
+        //- -------------------------------------------------
+        //- JSON Export
+        //- -------------------------------------------------
+        h3 Configuration Export
+        p
+            | Exportiert die aktuelle Workflow- und Permission-
+            | Konfiguration als versionierbare JSON-Datei.
+
+        .export-actions
+            button.btn.btn-secondary(type="button")
+                | Export als JSON
+            button.btn.btn-outline(type="button" disabled)
+                | Import (coming soon)
+
+        .export-hint
+            | Gedacht für Git, Audits und die Frage:
+            | »Wer hat das wann kaputtkonfiguriert?"

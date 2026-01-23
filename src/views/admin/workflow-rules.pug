@@ -1,0 +1,91 @@
+//- =====================================================
+//- src/views/admin/workflow-rules.pug
+//- Workflow Engine Configuration + State Graph
+//- =====================================================
+
+mixin workflowRules()
+    .workflow-rules
+        p.description
+            | Definition der gültigen Zustandsübergänge innerhalb der
+            | Workflow-Engine. Diese Regeln werden serverseitig validiert
+            | und clientseitig visualisiert. Kein Übergang, kein Mitleid.
+
+        //- -------------------------------------------------
+        //- State Graph (visual representation)
+        //- -------------------------------------------------
+        .state-graph
+            ul.state-list
+                li.state.state-entry
+                    strong Wareneingang
+                    ul.transitions
+                        li → Diagnose
+
+                li.state
+                    strong Diagnose
+                    ul.transitions
+                        li → Ersatzteilbestellung
+                        li → Reparatur
+                        li → Abbruch
+
+                li.state
+                    strong Ersatzteilbestellung
+                    ul.transitions
+                        li → Reparatur
+
+                li.state
+                    strong Reparatur
+                    ul.transitions
+                        li → QC
+                        li → Rework
+
+                li.state
+                    strong QC
+                    ul.transitions
+                        li → Abschluss
+                        li → Rework
+
+                li.state.state-terminal
+                    strong Abschluss
+
+        //- -------------------------------------------------
+        //- Rules Table
+        //- -------------------------------------------------
+        table.rules-table
+            thead
+                tr
+                    th From
+                    th To
+                    th Required Fields
+                    th Blocking
+            tbody
+                tr
+                    td Wareneingang
+                    td Diagnose
+                    td IMEI
+                    td Ja
+
+                tr
+                    td Diagnose
+                    td Reparatur
+                    td Fehlercode
+                    td Ja
+
+                tr
+                    td Reparatur
+                    td QC
+                    td Ersatzteilverbrauch
+                    td Ja
+
+                tr
+                    td QC
+                    td Abschluss
+                    td QC-Resultat
+                    td Ja
+
+        //- -------------------------------------------------
+        //- Meta
+        //- -------------------------------------------------
+        .meta-note
+            | Diese Regeln sind die Quelle der Wahrheit für die
+            | Workflow-Engine. UI, Scheduler und Plenty-Signale
+            | hängen direkt daran.

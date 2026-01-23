@@ -10,7 +10,10 @@ mixin sidebar(options)
     nav.sidebar(role="navigation" aria-label="Hauptnavigation")
         .sidebar__brand
             a.sidebar__logo(href="/dashboard")
-                span.sidebar__logo-text= app.name
+                span.sidebar__logo
+                    picture
+                        img(src="/icons/logo.png", alt=app.name)
+                        source(media="(min-width: 700)", srcset="/icons/logo.png")
             button.sidebar__resizer(type="button" aria-label="Sidebar verkleinern / vergrößern" data-sidebar-resizer)
                 span.sidebar__resizer-icon
 
