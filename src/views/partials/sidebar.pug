@@ -5,7 +5,23 @@
 mixin sidebar(options)
     - options = options || {}
     - var activePath = options.activePath || currentPath || ""
+    - var navigation = [
+        { name: 'Dashboard', href: '/', icon: LayoutDashboard, roles: ['admin', 'goods_receiving', 'technician', 'qc_inspector', 'analyzer', 'default'] },
+        { name: 'Devices', href: '/devices', icon: Smartphone, roles: ['admin', 'goods_receiving', 'technician', 'qc_inspector', 'analyzer'] },
+        { name: 'Repairs', href: '/repairs', icon: Wrench, roles: ['admin', 'technician'] },
+        { name: 'Quality Check', href: '/qc', icon: ClipboardCheck, roles: ['admin', 'qc_inspector'] },
+        { name: 'Rework Analysis', href: '/rework', icon: AlertTriangle, roles: ['admin', 'analyzer'], badge: 'rework' },
+        { name: 'Parts Inventory', href: '/parts', icon: Package, roles: ['admin', 'technician'] },
+        { name: 'Reports', href: '/reports', icon: BarChart3, roles: ['admin', 'analyzer'] },
+        { name: 'Plenty Sync', href: '/sync', icon: RefreshCcw, roles: ['admin', 'goods_receiving'], badge: 'sync' },
+        { name: 'Users', href: '/users', icon: Users, roles: ['admin'] },
+        { name: 'Settings', href: '/settings', icon: Settings, roles: ['admin'] },
+    ];
     - var role = options.role || (user && user.role) || "guest"
+    - var filteredNav = navigation.filter(item => {
+        if (!user) return;
+        return item.roles.includes(user.role);
+    });
 
     nav.sidebar(role="navigation" aria-label="Hauptnavigation")
         .sidebar__brand
@@ -18,6 +34,18 @@ mixin sidebar(options)
                 span.sidebar__resizer-icon
 
         ul.sidebar__nav
+            each name, href in filteredNav
+
+
+
+
+
+
+
+
+
+
+
 
             li(class=activePath.startsWith("/dashboard") ? "is-active" : "")
                 a(href="/dashboard")
