@@ -1,11 +1,5 @@
 mixin topbar(options)
-    - options = options || {}
-    - var title = options.title || pageTitle || null
-    - var showBreadcrumbs = options.showBreadcrumbs || false
-    - var breadcrumbs = options.breadcrumbs || []
-    - var showUser = options.showUser !== false
     - var user = options.user || { firstName: "Default", lastName: "Default" }
-    - var showSearch = options.showSearch !== false
     - var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     - var weekDays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
@@ -22,33 +16,18 @@ mixin topbar(options)
         if currentHeadline
             h1.topbar__header--headline
                 | #{currentHeadline.heading}
-                if options.activePath === "/"
+                if options.activePath === "/dashboard"
                     | #{user.firstName}
 
             p.topbar__header--paragraph
                 | #{currentHeadline.paragraph}
-                if options.activePath === "/"
+                if options.activePath === "/dashboard"
                     |  #{weekday}, #{month} #{dayNumber}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    .topbar__spacer
+    .topbar_search
+        svg 
+        input(type="text")
+    .topbar_sync
 
     //- .topbar__left
     //-     if title
