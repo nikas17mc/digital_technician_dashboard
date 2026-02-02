@@ -8,7 +8,7 @@ mixin topbar(options)
     - var weekday = weekDays[date.getDay()]
     - var dayNumber = date.getDate()
 
-    - var headlineMap = {"/dashboard": {heading: "Welcome back, ",paragraph: "Technician Dashboard •"}}
+    - var headlineMap = {"/dashboard": {heading: "Welcome back, ",paragraph: "Technician Dashboard •"}, "/devices": {heading: "Devices Management",paragraph: "Track and manage all devices in the repair pipeline"}, "/repairs": {heading: "Repairs",paragraph: "Manage your assigned repairs and track progress"}, "/qc": {heading: "Quality Control",paragraph: "Inspect repaired devices and manage QC workflow"}, "/rework": {heading: "Rework Analysis",paragraph: "Identify patterns and reduce repair cycles"},"/parts": {heading: "Parts Inventory",paragraph: "Manage spare parts and track stock levels"},"/reports": {heading: "Report ",paragraph: "Scheduled reports and inventory snapshots"},"/sync": {heading: "Plenty Sync",paragraph: "Manage device and inventory synchronization with Plenty"},"/users": {heading: "User Management",paragraph: "Manage user accounts and permissions"}, "/settings": {heading: "Settings",paragraph: "Configure system preferences and integrations"}}
 
     - var currentHeadline = headlineMap[options.activePath] || null
 
@@ -24,10 +24,21 @@ mixin topbar(options)
                 if options.activePath === "/dashboard"
                     |  #{weekday}, #{month} #{dayNumber}
     .topbar__spacer
-    .topbar_search
-        svg 
-        input(type="text")
-    .topbar_sync
+    .topbar__search
+        i.far.fa-lg.fa-magnifying-glass.topbar__search--icon
+        input(type="text" placeholder="Search devices, IMEI...").topbar__search--input
+    .topbar__sync
+        .topbar__sync--info
+            .topbar__sync__info--indicator
+            span.topbar__sync__info--text#syncSpanText Synced 21:22
+        button(type="button").topbar__sync--button
+            svg.topbar__sync__button--icon
+    button.topbar__notification--button
+        i.far.fa-lg.fa-bell
+        .topbar__notification__button--messageCounter#messageCounter 3
+    button.topbar__themeSwitcher--button
+        i.far.fa-lg.fa-moon
+
 
     //- .topbar__left
     //-     if title

@@ -5,7 +5,7 @@
 mixin sidebar(options)
     - options = options || {}
     - var activePath = options.activePath || currentPath || ""
-    - var navigation = [{ name: 'Dashboard', href: '/', icon: "LayoutDashboard", roles: ['admin', 'goods_receiving', 'technician', 'qc_inspector', 'analyzer', 'default'] },{ name: 'Devices', href: '/devices', icon: "Smartphone", roles: ['admin', 'goods_receiving', 'technician', 'qc_inspector', 'analyzer'] },{ name: 'Repairs', href: '/repairs', icon: "Wrench", roles: ['admin', 'technician'] },{ name: 'Quality Check', href: '/qc', icon: "ClipboardCheck", roles: ['admin', 'qc_inspector'] },{ name: 'Rework Analysis', href: '/rework', icon: "AlertTriangle", roles: ['admin', 'analyzer'], badge: 'rework' },{ name: 'Parts Inventory', href: '/parts', icon: "Package", roles: ['admin', 'technician'] },{ name: 'Reports', href: '/reports', icon: "BarChart3", roles: ['admin', 'analyzer'] },{ name: 'Plenty Sync', href: '/sync', icon: "RefreshCcw", roles: ['admin', 'goods_receiving'], badge: 'sync' },{ name: 'Users', href: '/users', icon: "Users", roles: ['admin'] },{ name: 'Settings', href: '/settings', icon: "Settings", roles: ['admin'] }];
+    - var navigation = [{ name: 'Dashboard', href: '/dashboard', icon: "LayoutDashboard", roles: ['admin', 'goods_receiving', 'technician', 'qc_inspector', 'analyzer', 'default'] },{ name: 'Devices', href: '/devices', icon: "Smartphone", roles: ['admin', 'goods_receiving', 'technician', 'qc_inspector', 'analyzer'] },{ name: 'Repairs', href: '/repairs', icon: "Wrench", roles: ['admin', 'technician'] },{ name: 'Quality Check', href: '/qc', icon: "ClipboardCheck", roles: ['admin', 'qc_inspector'] },{ name: 'Rework Analysis', href: '/rework', icon: "AlertTriangle", roles: ['admin', 'analyzer'], badge: 'rework' },{ name: 'Parts Inventory', href: '/parts', icon: "Package", roles: ['admin', 'technician'] },{ name: 'Reports', href: '/reports', icon: "BarChart3", roles: ['admin', 'analyzer'] },{ name: 'Plenty Sync', href: '/sync', icon: "RefreshCcw", roles: ['admin', 'goods_receiving'], badge: 'sync' },{ name: 'Users', href: '/users', icon: "Users", roles: ['admin'] },{ name: 'Settings', href: '/settings', icon: "Settings", roles: ['admin'] }];
     - var userRole = options.role || (user && user.role) || "guest"
     - var filteredNav = navigation.filter(item => { if (!user) return item.roles.includes('default'); return item.roles.includes(userRole); });
     - var getBadgeCount = (badgeType) => { if (badgeType === "rework" ) return stats.reworkRate; if (badgeType === "sync") return stats.unsyncedDevices; }
@@ -31,50 +31,50 @@ mixin sidebar(options)
 
 
 
-        .sidebar__brand
-            a.sidebar__logo(href="/dashboard")
-                span.sidebar__logo
-                    picture
-                        img(src="/icons/logo.png", alt=app.name)
-                        source(media="(min-width: 700)" srcset="/icons/logo.png")
-            button.sidebar__resizer(type="button" aria-label="Sidebar verkleinern / vergrößern" data-sidebar-resizer)
-                span.sidebar__resizer-icon
+        //- .sidebar__brand
+        //-     a.sidebar__logo(href="/dashboard")
+        //-         span.sidebar__logo
+        //-             picture
+        //-                 img(src="/icons/logo.png", alt=app.name)
+        //-                 source(media="(min-width: 700)" srcset="/icons/logo.png")
+        //-     button.sidebar__resizer(type="button" aria-label="Sidebar verkleinern / vergrößern" data-sidebar-resizer)
+        //-         span.sidebar__resizer-icon
 
-        ul.sidebar__nav
-            li(class=activePath.startsWith("/dashboard") ? "is-active" : "")
-                a(href="/dashboard")
-                    span.sidebar__icon
-                        i.fas.fa-display-code
-                    span.sidebar__label Dashboard
+        //- ul.sidebar__nav
+        //-     li(class=activePath.startsWith("/dashboard") ? "is-active" : "")
+        //-         a(href="/dashboard")
+        //-             span.sidebar__icon
+        //-                 i.fas.fa-display-code
+        //-             span.sidebar__label Dashboard
 
-            li(class=activePath.startsWith("/devices") ? "is-active" : "")
-                a(href="/devices")
-                    span.sidebar__icon
-                        i.fas.fa-mobile
-                    span.sidebar__label Geräte
+        //-     li(class=activePath.startsWith("/devices") ? "is-active" : "")
+        //-         a(href="/devices")
+        //-             span.sidebar__icon
+        //-                 i.fas.fa-mobile
+        //-             span.sidebar__label Geräte
 
-            li(class=activePath.startsWith("/parts") ? "is-active" : "")
-                a(href="/parts")
-                    span.sidebar__icon
-                        i.fas.fa-gears
-                    span.sidebar__label Ersatzteile
+        //-     li(class=activePath.startsWith("/parts") ? "is-active" : "")
+        //-         a(href="/parts")
+        //-             span.sidebar__icon
+        //-                 i.fas.fa-gears
+        //-             span.sidebar__label Ersatzteile
 
-            if role === "admin" || role === "manager"
-                li(class=activePath.startsWith("/reports") ? "is-active" : "")
-                    a(href="/reports")
-                        span.sidebar__icon
-                            i.fas.fa-bug
-                        span.sidebar__label Reports
+        //-     if role === "admin" || role === "manager"
+        //-         li(class=activePath.startsWith("/reports") ? "is-active" : "")
+        //-             a(href="/reports")
+        //-                 span.sidebar__icon
+        //-                     i.fas.fa-bug
+        //-                 span.sidebar__label Reports
 
-            if role === "admin"
-                li(class=activePath.startsWith("/admin") ? "is-active" : "")
-                    a(href="/admin")
-                        span.sidebar__icon
-                            i.fas.fa-user-tie
-                        span.sidebar__label Administration
+        //-     if role === "admin"
+        //-         li(class=activePath.startsWith("/admin") ? "is-active" : "")
+        //-             a(href="/admin")
+        //-                 span.sidebar__icon
+        //-                     i.fas.fa-user-tie
+        //-                 span.sidebar__label Administration
 
-        .sidebar__footer
-            if user
-                span.sidebar__user-name= user.name || user.email
-            if user
-                a.sidebar__logout(href="/logout") Logout
+        //- .sidebar__footer
+        //-     if user
+        //-         span.sidebar__user-name= user.name || user.email
+        //-     if user
+        //-         a.sidebar__logout(href="/logout") Logout
