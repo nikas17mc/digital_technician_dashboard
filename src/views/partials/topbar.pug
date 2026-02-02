@@ -4,46 +4,89 @@ mixin topbar(options)
     - var showBreadcrumbs = options.showBreadcrumbs || false
     - var breadcrumbs = options.breadcrumbs || []
     - var showUser = options.showUser !== false
+    - var user = options.user || { firstName: "Default", lastName: "Default" }
     - var showSearch = options.showSearch !== false
+    - var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    - var weekDays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+
+    - var date = new Date()
+    - var month = months[date.getMonth()]
+    - var weekday = weekDays[date.getDay()]
+    - var dayNumber = date.getDate()
+
+    - var headlineMap = {"/dashboard": {heading: "Welcome back, ",paragraph: "Technician Dashboard •"}}
+
+    - var currentHeadline = headlineMap[options.activePath] || null
+
+    .topbar__header
+        if currentHeadline
+            h1.topbar__header--headline
+                | #{currentHeadline.heading}
+                if options.activePath === "/"
+                    | #{user.firstName}
+
+            p.topbar__header--paragraph
+                | #{currentHeadline.paragraph}
+                if options.activePath === "/"
+                    |  #{weekday}, #{month} #{dayNumber}
 
 
-    .topbar__left
-        if title
-            h1.topbar__title= title
-        if showBreadcrumbs && breadcrumbs.length
-            nav.topbar__breadcrumbs(aria-label="Breadcrumb")
-                ol
-                    each crumb, index in breadcrumbs
-                        li
-                            if crumb.href
-                                a(href=crumb.href)= crumb.label
-                            else
-                                span= crumb.label
-    if showSearch
-        .topbar__center
-            form.topbar__search(action="/search" method="get" role="search")
-                input.topbar__search-input(
-                    type="search"
-                    name="q"
-                    placeholder="Suchen…"
-                    autocomplete="off"
-                    aria-label="Suche"
-                )
-    .topbar__right
-        button.topbar__action(
-            type="button"
-            aria-label="Benachrichtigungen"
-            data-notifications-toggle
-        )
-            span.topbar__badge 3
-            span.fas.fa-bell.fa-2x
-        if showUser && user
-            .topbar__user
-                span.topbar__avatar
-                .topbar__user-meta
-                    span.topbar__user-name= user.name || user.email
-                    if user.role
-                        span.topbar__user-role= user.role
-            .topbar__user-actions
-                a.topbar__user-action(href="/profile") Profil
-                a.topbar__user-action.topbar__user-action--logout(href="/logout") Logout
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //- .topbar__left
+    //-     if title
+    //-         h1.topbar__title= title
+    //-     if showBreadcrumbs && breadcrumbs.length
+    //-         nav.topbar__breadcrumbs(aria-label="Breadcrumb")
+    //-             ol
+    //-                 each crumb, index in breadcrumbs
+    //-                     li
+    //-                         if crumb.href
+    //-                             a(href=crumb.href)= crumb.label
+    //-                         else
+    //-                             span= crumb.label
+    //- if showSearch
+    //-     .topbar__center
+    //-         form.topbar__search(action="/search" method="get" role="search")
+    //-             input.topbar__search-input(
+    //-                 type="search"
+    //-                 name="q"
+    //-                 placeholder="Suchen…"
+    //-                 autocomplete="off"
+    //-                 aria-label="Suche"
+    //-             )
+    //- .topbar__right
+    //-     button.topbar__action(
+    //-         type="button"
+    //-         aria-label="Benachrichtigungen"
+    //-         data-notifications-toggle
+    //-     )
+    //-         span.topbar__badge 3
+    //-         span.fas.fa-bell.fa-2x
+    //-     if showUser && user
+    //-         .topbar__user
+    //-             span.topbar__avatar
+    //-             .topbar__user-meta
+    //-                 span.topbar__user-name= user.name || user.email
+    //-                 if user.role
+    //-                     span.topbar__user-role= user.role
+    //-         .topbar__user-actions
+    //-             a.topbar__user-action(href="/profile") Profil
+    //-             a.topbar__user-action.topbar__user-action--logout(href="/logout") Logout
