@@ -246,10 +246,14 @@
 }
 
 html,
-body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
+:host {
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    -moz-tab-size: 4;
+    tab-size: 4;
+    font-family: Inter, system-ui, sans-serif;
+    font-feature-settings: normal;
+    font-variation-settings: normal;
 }
 
 body {
@@ -266,8 +270,8 @@ img {
 }
 
 a {
-    color: var(--color-primary);
-    text-decoration: none;
+    color: inherit;
+    text-decoration: inherit;
 }
 
 a:hover {
@@ -462,7 +466,145 @@ object {
 /* -----------------------------------------------------
     Sidebar
    ----------------------------------------------------- */
-.app-sidebar {
+.sidebar__header {
+    display: flex;
+    height: 4rem;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom-width: 1px;
+    border-color: hsl(var(--border));
+    padding-inline: 1rem;
+}
+
+.sidebar__header--logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.25rem;
+    width: 2.25rem;
+    border-radius: var(--radius);
+    background: var(--gradient-primary);
+
+    &>i {
+        color: hsl(var(--primary-foreground));
+    }
+}
+
+.sidebar__header--box {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar__header__box--headline {
+    color: hsl(var(--foreground));
+    font-size: 0.875;
+    line-height: 1.25rem;
+    font-weight: 700;
+}
+
+.sidebar__header__box--paragraph {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+.sidebar__nav {
+    flex: 1 1 0%;
+    overflow-y: auto;
+    padding: 0.75rem;
+}
+
+.sidebar__nav--link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: hsl(var(--sidebar-foreground));
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    padding-block: 0.625rem;
+    padding-inline: 0.75rem;
+    border-radius: var(--radius);
+    --tw-space-y-reverse: 0;
+    margin-top: calc(.25rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(.25rem * var(--tw-space-y-reverse));
+
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 0.15s;
+
+    &:hover {
+        background-color: hsl(var(--sidebar-accent));
+        color: hsl(var(--sidebar-accent-foreground));
+    }
+
+    &.active {
+        color: hsl(var(--primary));
+        background-color: hsl(var(--primary) / 0.1);
+        box-shadow: var(--shadow-glow);
+    }
+}
+
+.sidebar__footer {
+    border-top-width: 1px;
+    border-color: hsl(var(--border));
+    padding: 0.75rem;
+}
+
+.sidebar__footer--user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: var(--radius);
+    background-color: hsl(var(--sidebar-accent));
+    padding: 0.75rem;
+}
+
+.sidebar__footer__user--logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius);
+    background-color: hsl(var(--primary) / 0.2);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    color: hsl(var(--primary));
+}
+
+.sidebar__footer__user--info {
+    flex: 1 1 0%;
+    min-width: 0px;
+}
+
+.sidebar__footer__user__info--name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    color: hsl(var(--foreground));
+}
+
+.sidebar__footer__user__info--role {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: .75rem;
+    line-height: 1rem;
+    font-weight: 500;
+    color: hsl(var(--muted-foreground));
+}
+
+
+
+
+
+
+/* .app-sidebar {
     width: var(--sidebar-width);
     transition: width var(--sidebar-transition);
     overflow: hidden;
@@ -571,11 +713,11 @@ nav.sidebar {
     display: inline-flex;
     justify-content: space-between;
     padding: var(--space-2);
-    /* gap: var(--space-4); */
+    gap: var(--space-4);
 }
 
 .sidebar__nav span {
-    /* margin: auto; */
+    margin: auto; 
     width: 100%;
 }
 
@@ -587,7 +729,7 @@ nav.sidebar {
 
 .app-sidebar.is-collapsed .sidebar__label {
     display: none;
-}
+} */
 
 
 /* -----------------------------------------------------

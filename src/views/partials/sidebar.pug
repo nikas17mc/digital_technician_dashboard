@@ -5,14 +5,14 @@
 mixin sidebar(options)
     - options = options || {}
     - var activePath = options.activePath || currentPath || ""
-    - var navigation = [{ name: 'Dashboard', href: '/dashboard', icon: "LayoutDashboard", roles: ['admin', 'goods_receiving', 'technician', 'qc_inspector', 'analyzer', 'default'] },{ name: 'Devices', href: '/devices', icon: "Smartphone", roles: ['admin', 'goods_receiving', 'technician', 'qc_inspector', 'analyzer'] },{ name: 'Repairs', href: '/repairs', icon: "Wrench", roles: ['admin', 'technician'] },{ name: 'Quality Check', href: '/qc', icon: "ClipboardCheck", roles: ['admin', 'qc_inspector'] },{ name: 'Rework Analysis', href: '/rework', icon: "AlertTriangle", roles: ['admin', 'analyzer'], badge: 'rework' },{ name: 'Parts Inventory', href: '/parts', icon: "Package", roles: ['admin', 'technician'] },{ name: 'Reports', href: '/reports', icon: "BarChart3", roles: ['admin', 'analyzer'] },{ name: 'Plenty Sync', href: '/sync', icon: "RefreshCcw", roles: ['admin', 'goods_receiving'], badge: 'sync' },{ name: 'Users', href: '/users', icon: "Users", roles: ['admin'] },{ name: 'Settings', href: '/settings', icon: "Settings", roles: ['admin'] }];
+    - var navigation = [{ name: 'Dashboard', href: '/dashboard', icon: "far fa-cubes fa-lg", roles: ['admin', 'goods_receiving', 'technician', 'qc_inspector', 'analyzer', 'default'] },{ name: 'Devices', href: '/devices', icon: "far fa-mobile fa-lg", roles: ['admin', 'goods_receiving', 'technician', 'qc_inspector', 'analyzer'] },{ name: 'Repairs', href: '/repairs', icon: "far fa-wrench fa-lg", roles: ['admin', 'technician'] },{ name: 'Quality Check', href: '/qc', icon: "far fa-clipboard fa-lg", roles: ['admin', 'qc_inspector'] },{ name: 'Rework Analysis', href: '/rework', icon: "far fa-triangle-exclamation fa-lg", roles: ['admin', 'analyzer'], badge: 'rework' },{ name: 'Parts Inventory', href: '/parts', icon: "far fa-box fa-lg", roles: ['admin', 'technician'] },{ name: 'Reports', href: '/reports', icon: "far fa-chart-column fa-lg", roles: ['admin', 'analyzer'] },{ name: 'Plenty Sync', href: '/sync', icon: "far fa-arrows-rotate fa-lg", roles: ['admin', 'goods_receiving'], badge: 'sync' },{ name: 'Users', href: '/users', icon: "far fa-users fa-lg", roles: ['admin'] },{ name: 'Settings', href: '/settings', icon: "far fa-gear fa-lg", roles: ['admin'] }];
     - var userRole = options.role || (user && user.role) || "guest"
     - var filteredNav = navigation.filter(item => { if (!user) return item.roles.includes('default'); return item.roles.includes(userRole); });
     - var getBadgeCount = (badgeType) => { if (badgeType === "rework" ) return stats.reworkRate; if (badgeType === "sync") return stats.unsyncedDevices; }
 
     .sidebar__header
         .sidebar__header--logo
-            .sidebar__header__logo--img
+            i.far.fa-wrench.fa-lg
         .sidebar__header--box
             .sidebar__header__box--headline RepairTech
             .sidebar__header__box--paragraph Dashboard

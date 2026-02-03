@@ -26,6 +26,7 @@ block body
                 aside.app-sidebar
                     +sidebar({
                         activePath: currentPath,
+                        user
                     })
 
                 //- Content-Bereich
@@ -35,13 +36,7 @@ block body
                     header.app-topbar(role="banner")
                         +topbar({
                             activePath: currentPath,
-                            title: "Geräteübersicht",
-                            showBreadcrumbs: true,
-                            breadcrumbs: [
-                                { label: "Dashboard", href: "/dashboard" },
-                                { label: "Activity", href: "/activity" },
-                                { label: "Geräte" , href: "/devices" }
-                            ]
+                            user
                         })
 
                     //- Seiteninhalt
