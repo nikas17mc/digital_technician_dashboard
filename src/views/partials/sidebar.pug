@@ -10,6 +10,12 @@ mixin sidebar(options)
     - var filteredNav = navigation.filter(item => { if (!user) return item.roles.includes('default'); return item.roles.includes(userRole); });
     - var getBadgeCount = (badgeType) => { if (badgeType === "rework" ) return stats.reworkRate; if (badgeType === "sync") return stats.unsyncedDevices; }
 
+    .sidebar__header
+        .sidebar__header--logo
+            .sidebar__header__logo--img
+        .sidebar__header--box
+            .sidebar__header__box--headline RepairTech
+            .sidebar__header__box--paragraph Dashboard
     nav.sidebar__nav(role="navigation" aria-label="Hauptnavigation")
         each item in filteredNav
             - var isActive = activePath === item.href;
@@ -20,14 +26,14 @@ mixin sidebar(options)
                 span.sidebar__nav__link--name= item.name
                 if (badgeCount == !null)
                     div.sidebar__nav__link--badge(class=(item.badge === "rework") ? "--desctructive" : "--secondary")= badgeCount
+    .sidebar__footer
+        .sidebar__footer--user
+            .sidebar__footer__user--logo
 
-
-
-
-
-
-
-
+            .sidebar__footer__user--info
+                .sidebar__footer__user__info--name
+                .sidebar__footer__user__info--role
+            button.sidebar__footer__user--logout
 
 
 

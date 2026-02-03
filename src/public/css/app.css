@@ -420,9 +420,13 @@ object {
 }
 
 .app-sidebar {
-    width: var(--sidebar-width);
-    background: var(--color-surface);
-    border-right: 1px solid var(--color-border);
+    display: flex;
+    height: 100vh;
+    width: 16rem;
+    flex-direction: column;
+    background: var(--gradient-sidebar);
+    border-right-width: 1px;
+    border-color: hsl(var(--border));
 }
 
 .app-main {
@@ -451,6 +455,8 @@ object {
 
 .app-footer {
     border-top: 1px solid var(--color-border);
+    position: sticky;
+    bottom: 0%;
 }
 
 /* -----------------------------------------------------
@@ -626,6 +632,8 @@ nav.sidebar {
     flex: 1 1 0%;
 }
 
+/* ============= Search ============== */
+
 .topbar__search {
     width: 18rem;
     position: relative;
@@ -657,6 +665,8 @@ nav.sidebar {
     display: flex;
 }
 
+/* ============= Sync Indicator ============== */
+
 .topbar__sync {
     display: flex;
     align-items: center;
@@ -677,7 +687,8 @@ nav.sidebar {
     animation: pulse 2s cubic-bezier(.4, 0, .6, 1) infinite;
     width: .5rem;
     height: .5rem;
-
+    background-color: hsl(var(--muted-foreground));
+    border-color: var(--color-border);
 
     &.-statusCompleted {
         background-color: hsl(var(--status-completed));
@@ -708,6 +719,8 @@ nav.sidebar {
     height: 2rem;
 }
 
+/* ============= Notifications ============== */
+
 .topbar__notification--button {
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
     transition-timing-function: cubic-bezier(.4, 0, .2, 1);
@@ -730,7 +743,7 @@ nav.sidebar {
     &:hover {
         color: hsl(var(--background));
         background-color: hsl(var(--status-completed));
-        border-color: hsl(var(--color-border));
+        border-color: var(--color-border);
     }
 }
 
@@ -757,6 +770,8 @@ nav.sidebar {
     inset: -0.25rem -0.25rem 0 0;
 }
 
+/* ============= Theme Switcher ============== */
+
 .topbar__themeSwitcher--button {
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
     transition-timing-function: cubic-bezier(.4, 0, .2, 1);
@@ -779,235 +794,9 @@ nav.sidebar {
     &:hover {
         color: hsl(var(--background));
         background-color: hsl(var(--status-completed));
-        border-color: hsl(var(--color-border));
+        border-color: var(--color-border);
     }
 }
-
-
-/* 
-.topbar__left,
-.topbar__center,
-.topbar__right {
-    display: flex;
-    align-items: center;
-    gap: var(--space-4);
-}
-
-.topbar__center {
-    justify-content: center;
-} */
-
-/* -----------------------------------------------------
-    Sidebar Toggle / Actions
-   ----------------------------------------------------- */
-/* 
-.topbar__action {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-lg);
-    border: 0.1em var(--color-surface-alt);
-    background: transparent;
-
-    color: var(--color-muted);
-    cursor: pointer;
-
-    transition:
-        background-color 120ms ease,
-        color 120ms ease;
-}
-
-.topbar__action:hover {
-    background: var(--color-surface-hover);
-    color: var(--color-text);
-} */
-
-
-/* -----------------------------------------------------
-    Title
-   ----------------------------------------------------- */
-/* 
-.topbar__title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--color-text);
-    white-space: nowrap;
-} */
-
-/* -----------------------------------------------------
-    Breadcrumbs
-   ----------------------------------------------------- */
-/* 
-.topbar__breadcrumbs ol {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.topbar__breadcrumbs li {
-    font-size: 0.75rem;
-    color: var(--color-muted);
-}
-
-.topbar__breadcrumbs li::after {
-    content: "/";
-    margin-left: var(--space-2);
-    color: var(--color-border);
-}
-
-.topbar__breadcrumbs li:last-child::after {
-    content: "";
-}
-
-.topbar__breadcrumbs a {
-    color: var(--color-muted);
-    text-decoration: none;
-}
-
-.topbar__breadcrumbs a:hover {
-    color: var(--color-text);
-    text-decoration: underline;
-} */
-
-/* -----------------------------------------------------
-    Search
-   ----------------------------------------------------- */
-/* 
-.topbar__search {
-    width: min(480px, 100%);
-}
-
-.topbar__search-input {
-    width: 100%;
-    height: 40px;
-
-    padding: 0 var(--space-4);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border);
-
-    background: var(--color-surface);
-    color: var(--color-text);
-}
-
-.topbar__search-input::placeholder {
-    color: var(--color-muted);
-}
-
-.topbar__search-input:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-} */
-
-/* -----------------------------------------------------
-    Notifications
-   ----------------------------------------------------- */
-/* 
-.topbar__badge {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-
-    min-width: 16px;
-    height: 16px;
-    padding: 0 4px;
-
-    border-radius: 999px;
-    background: var(--color-danger);
-    color: #fff;
-
-    font-size: 0.6875rem;
-    font-weight: 600;
-
-    display: grid;
-    place-items: center;
-} */
-
-/* -----------------------------------------------------
-    User
-   ----------------------------------------------------- */
-/* 
-.topbar__user {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-lg);
-
-    text-decoration: none;
-    color: var(--color-text);
-}
-
-.topbar__user:hover {
-    background: var(--color-surface-hover);
-}
-
-.topbar__avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-
-    background: linear-gradient(135deg,
-            var(--color-primary),
-            var(--color-secondary));
-}
-
-.topbar__user-meta {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
-}
-
-.topbar__user-name {
-    font-size: 0.875rem;
-    font-weight: 500;
-}
-
-.topbar__user-role {
-    font-size: 0.6875rem;
-    color: var(--color-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-} */
-
-/* -----------------------------------------------------
-    User Actions
-   ----------------------------------------------------- */
-/* 
-.topbar__user-actions {
-    display: flex;
-    gap: var(--space-2);
-}
-
-.topbar__user-action {
-    text-align: center;
-    padding: var(--space-1) var(--space-2);
-
-    border-radius: var(--radius-lg);
-    border: none;
-    background: transparent;
-
-    color: var(--color-muted);
-    cursor: pointer;
-
-    transition:
-        background-color 120ms ease,
-        color 120ms ease;
-}
-
-.topbar__user-action:hover {
-    background: var(--color-surface-hover);
-    color: currentColor;
-}
-
-.topbar__user-action--logout {
-    color: var(--color-danger) !important;
-} */
 
 /* -----------------------------------------------------
     Flash Messages
