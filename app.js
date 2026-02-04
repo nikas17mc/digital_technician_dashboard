@@ -377,7 +377,7 @@ const server = app.listen(PORT, async () => {
 const shutdown = (signal) => {
     warn(`Shutdown: ${signal}`);
     // _shutdown();
-    close();
+    // close();
     server.close(() => process.exit(0));
 };
 

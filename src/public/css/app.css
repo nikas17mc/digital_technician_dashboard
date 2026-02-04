@@ -274,10 +274,6 @@ a {
     text-decoration: inherit;
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
 /* -------------------------------------------------------------------------- */
 /* Buttons – Global                                                            */
 /* -------------------------------------------------------------------------- */
@@ -538,7 +534,7 @@ object {
         color: hsl(var(--sidebar-accent-foreground));
     }
 
-    &.active {
+    &.--is-active {
         color: hsl(var(--primary));
         background-color: hsl(var(--primary) / 0.1);
         box-shadow: var(--shadow-glow);
@@ -599,7 +595,30 @@ object {
     color: hsl(var(--muted-foreground));
 }
 
+.sidebar__footer__user--logout {
+    display: inline-flex;
+    height: 2rem;
+    width: 2rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    border-radius: calc(var(--radius) - 2px);
+    font-size: .875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    color: hsl(var(--muted-foreground));
+    --tw-ring-offset-color: hsl(var(--background));
 
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+    transition-duration: .15s;
+
+    &:hover {
+        background-color: hsl(var(--accent));
+        color: hsl(var(--destructive));
+    }
+}
 
 
 
