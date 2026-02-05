@@ -1,5 +1,5 @@
 mixin topbar(options)
-    - var user = options.user || { firstName: "Default", lastName: "Default" }
+    - var user = options.user || { firstName: "Default", lastName: "Default" };
     - var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     - var weekDays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
@@ -36,5 +36,6 @@ mixin topbar(options)
     button.topbar__notification--button
         i.far.fa-lg.fa-bell
         .topbar__notification__button--messageCounter#messageCounter 3
-    button.topbar__themeSwitcher--button
-        i.far.fa-lg.fa-moon
+    button.topbar__themeSwitcher--button(data-theme-switcher)
+        i.far.fa-sun.fa-lg
+        span.topbar__themeSwitcher__button--potter Nox!
