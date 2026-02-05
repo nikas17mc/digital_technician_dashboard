@@ -13,41 +13,35 @@ include ../partials/footer.pug
 //- BODY / APP WRAPPER
 //- =====================================================
 block body
-    body.app-layout(data-layout="app")
-        #root 
-            //- Notifications (global, overlayfähig)
-            block notifications
-                +notifications()
+    body.app-layout(data-layout="app")#root
+        //- Notifications (global, overlayfähig)
+        block notifications
+            +notifications()
 
-            //- Hauptcontainer
-            .app-container
-
-                //- Sidebar (Navigation / Rollenabhängig)
-                aside.app-sidebar
-                    +sidebar({
+        //- Hauptcontainer
+        .app-container
+            //- Sidebar (Navigation / Rollenabhängig)
+            aside.app-sidebar
+                +sidebar({
+                    activePath: currentPath,
+                    user
+                })
+            //- Content-Bereich
+            .app-main
+                //- Topbar (User, Breadcrumbs, Actions)
+                header.app-topbar(role="banner")
+                    +topbar({
                         activePath: currentPath,
                         user
                     })
-
-                //- Content-Bereich
-                .app-main
-
-                    //- Topbar (User, Breadcrumbs, Actions)
-                    header.app-topbar(role="banner")
-                        +topbar({
-                            activePath: currentPath,
-                            user
-                        })
-
-                    //- Seiteninhalt
-                    main.app-content
-                        block content
-                            //- Default Fallback
-                            p App-Content nicht definiert.
-
-                    //- Footer
-                    footer.app-footer
-                        +footer({showVersion: true, showEnv: true, showLinks: true})
+                //- Seiteninhalt
+                main.app-content
+                    block content
+                        //- Default Fallback
+                        p App-Content nicht definiert.
+                //- Footer
+                footer.app-footer
+                    +footer({showVersion: true, showEnv: true, showLinks: true})
 
         //- Modals (global gesammelt, damit z-index nicht eskaliert)
         block modals

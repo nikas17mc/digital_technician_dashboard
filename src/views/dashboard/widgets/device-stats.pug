@@ -1,58 +1,19 @@
 //- ./src/views/dashboard/widgets/device-stats.pug
 
 mixin deviceStats(stats)
-    -
-        const data = stats || {};
-        const total = data.total || 0;
-        const inRepair = data.inRepair || 0;
-        const inQC = data.inQC || 0;
-        const blocked = data.blocked || 0;
-        const done = data.done || 0;
 
-    section.device-stats-container(
-        role="region"
-        aria-label="Gerätestatistiken"
-    )
-        // ===== Summary =====
-        ul.device-stats-summary(role="list")
-            li.stat-item.total
-                strong.stat-value= total
-                span.stat-label Gesamtgeräte
 
-            li.stat-item.repair
-                strong.stat-value= inRepair
-                span.stat-label In Reparatur
 
-            li.stat-item.qc
-                strong.stat-value= inQC
-                span.stat-label In QC
 
-            li.stat-item.blocked
-                strong.stat-value= blocked
-                span.stat-label Blockiert
-
-            li.stat-item.done
-                strong.stat-value= done
-                span.stat-label Abgeschlossen
-
-        // ===== Derived Indicators =====
-        -
-            const active = inRepair + inQC;
-            const completionRate = total > 0 ? Math.round((done / total) * 100) : 0;
-
-        div.device-stats-indicators
-            div.indicator
-                span.indicator-label Aktiv
-                span.indicator-value= active
-
-            div.indicator
-                span.indicator-label Abschlussquote
-                span.indicator-value #{completionRate}%
-
-        // ===== Accessibility / Explanation =====
-        details.device-stats-details
-            summary Erklärung
-            p
-                | Diese Kennzahlen aggregieren den aktuellen Gerätestatus aus dem Workflow-
-                | und Device-History-Modell. Blockierte Geräte beinhalten manuelle Plenty-
-                | Übertragungen oder fehlende Pflichtdaten.
+    .dashboard__header--container
+        - for (var i=0; i<4; i++) 
+            .dashboard__header__container--widgetCard
+                .dashboard__header__container__widgetCard--info
+                    .left
+                        p.left--title Total Repared
+                        p.left--counter 12
+                        .left--extraInfo
+                            i(class="far fa-arrow-up-right")
+                            span.left__extraInfo--chartShow 12% from yesterday 
+                    .right
+                        i(class="far fa-mobile fa-lg")

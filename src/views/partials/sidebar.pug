@@ -16,6 +16,9 @@ mixin sidebar(options)
         .sidebar__header--box
             .sidebar__header__box--headline RepairTech
             .sidebar__header__box--paragraph Dashboard
+        button.sidebar__header--resizer(data-sidebar-resizer)
+            i.far.fa-sidebar.fa-lg
+
     nav.sidebar__nav(role="navigation" aria-label="Hauptnavigation")
         each item in filteredNav
             - var isActive = activePath === item.href;
@@ -35,53 +38,3 @@ mixin sidebar(options)
                 .sidebar__footer__user__info--role Administrator
             button.sidebar__footer__user--logout
                 i.far.fa-arrow-right-from-bracket.fa-lg
-
-
-
-        //- .sidebar__brand
-        //-     a.sidebar__logo(href="/dashboard")
-        //-         span.sidebar__logo
-        //-             picture
-        //-                 img(src="/icons/logo.png", alt=app.name)
-        //-                 source(media="(min-width: 700)" srcset="/icons/logo.png")
-        //-     button.sidebar__resizer(type="button" aria-label="Sidebar verkleinern / vergrößern" data-sidebar-resizer)
-        //-         span.sidebar__resizer-icon
-
-        //- ul.sidebar__nav
-        //-     li(class=activePath.startsWith("/dashboard") ? "is-active" : "")
-        //-         a(href="/dashboard")
-        //-             span.sidebar__icon
-        //-                 i.fas.fa-display-code
-        //-             span.sidebar__label Dashboard
-
-        //-     li(class=activePath.startsWith("/devices") ? "is-active" : "")
-        //-         a(href="/devices")
-        //-             span.sidebar__icon
-        //-                 i.fas.fa-mobile
-        //-             span.sidebar__label Geräte
-
-        //-     li(class=activePath.startsWith("/parts") ? "is-active" : "")
-        //-         a(href="/parts")
-        //-             span.sidebar__icon
-        //-                 i.fas.fa-gears
-        //-             span.sidebar__label Ersatzteile
-
-        //-     if role === "admin" || role === "manager"
-        //-         li(class=activePath.startsWith("/reports") ? "is-active" : "")
-        //-             a(href="/reports")
-        //-                 span.sidebar__icon
-        //-                     i.fas.fa-bug
-        //-                 span.sidebar__label Reports
-
-        //-     if role === "admin"
-        //-         li(class=activePath.startsWith("/admin") ? "is-active" : "")
-        //-             a(href="/admin")
-        //-                 span.sidebar__icon
-        //-                     i.fas.fa-user-tie
-        //-                 span.sidebar__label Administration
-
-        //- .sidebar__footer
-        //-     if user
-        //-         span.sidebar__user-name= user.name || user.email
-        //-     if user
-        //-         a.sidebar__logout(href="/logout") Logout
