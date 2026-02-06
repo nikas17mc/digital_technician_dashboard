@@ -2,13 +2,14 @@
 
 mixin deviceStats(stats)
 
-
+    - var default = {class: "primary" };
+    -var config = {...default, ...stats};
 
 
 
 
     .dashboard__header--container
-        - for (var i=0; i<4; i++) 
+        each class, 
             .dashboard__header__container--widgetCard(class="")
                 .dashboard__header__container__widgetCard--info
                     .left
