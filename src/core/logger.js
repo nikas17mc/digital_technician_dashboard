@@ -21,7 +21,7 @@ function initLogger(userConfig = {}) {
         throw new Error(`Invalid log level: ${config.level}`);
     }
 
-    if (config.logToFile) {
+    if (!config.logToFile === false) {
         if (!fs.existsSync(config.logDir)) {
             fs.mkdirSync(config.logDir, { recursive: true });
         }

@@ -1,105 +1,12 @@
 /* -------------------------------------------------------------------------- */
-/* Job Queue                                                                   */
-/* -------------------------------------------------------------------------- */
-
-.job-queue {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.job-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--color-bg);
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.5rem;
-    font-size: 0.75rem;
-}
-
-.job-item[data-priority="high"] {
-    box-shadow: inset 0 0 0 1px rgba(239, 68, 68, 0.4);
-}
-
-.job-status {
-    color: var(--color-muted);
-}
-
-/* -------------------------------------------------------------------------- */
-/* Alerts                                                                      */
-/* -------------------------------------------------------------------------- */
-
-.alerts-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.alert-item {
-    display: grid;
-    grid-template-columns: 2rem 1fr;
-    gap: 0.75rem;
-    padding: 0.75rem;
-    border-radius: 0.75rem;
-    background: var(--color-bg);
-    font-size: 0.75rem;
-}
-
-.alert-info {
-    box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.35);
-}
-
-.alert-warning {
-    box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.35);
-}
-
-.alert-error,
-.alert-critical {
-    box-shadow: inset 0 0 0 1px rgba(239, 68, 68, 0.45);
-}
-
-.alert-title {
-    font-weight: 600;
-}
-
-/* -------------------------------------------------------------------------- */
-/* Plenty Blocker                                                              */
-/* -------------------------------------------------------------------------- */
-
-.plenty-blocker-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.plenty-blocker-item {
-    background: var(--color-bg);
-    border-radius: 0.5rem;
-    padding: 0.6rem 0.75rem;
-    font-size: 0.75rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.plenty-blocker-item.pending {
-    box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.4);
-}
-
-.plenty-blocker-item.done {
-    opacity: 0.6;
-}
-
-/* -------------------------------------------------------------------------- */
 /* Dashboard Index                                                             */
 /* -------------------------------------------------------------------------- */
 
-.dashboard {
-    /* --tw-space-y-reverse: 0;
+/* .dashboard { */
+/* --tw-space-y-reverse: 0;
     margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
     margin-bottom: calc(1.5rem * var(--tw-space-y-reverse)) */
-}
+/* } */
 
 .dashboard__header--container {
     display: grid;
@@ -118,10 +25,58 @@
 
     --tw-shadow: var(--shadow-md);
     --tw-shadow-colored: var(--shadow-md);
-    --tw-gradient-from: hsl(var(--primary) / .2) var(--tw-gradient-from-position);
-    --tw-gradient-to: hsl(var(--primary) / 0) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-    --tw-gradient-to: hsl(var(--primary) / .05) var(--tw-gradient-to-position);
+
+    &.is-primary {
+        background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+        --tw-gradient-from: hsl(var(--primary) / .2) var(--tw-gradient-from-position);
+        --tw-gradient-to: hsl(var(--primary) / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+        --tw-gradient-to: hsl(var(--primary) / .05) var(--tw-gradient-to-position);
+
+        & .right {
+            background-color: hsl(var(--primary) / .2);
+            color: hsl(var(--primary));
+        }
+    }
+
+    &.is-pending {
+        background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+        --tw-gradient-from: hsl(var(--status-pending) / .2) var(--tw-gradient-from-position);
+        --tw-gradient-to: hsl(var(--status-pending) / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+        --tw-gradient-to: hsl(var(--status-pending) / .05) var(--tw-gradient-to-position);
+
+        & .right {
+            background-color: hsl(var(--status-pending) / .2);
+            color: hsl(var(--status-pending));
+        }
+    }
+
+    &.is-quickCheck {
+        background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+        --tw-gradient-from: hsl(var(--card)) var(--tw-gradient-from-position);
+        --tw-gradient-to: hsl(var(--card) / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+        --tw-gradient-to: hsl(var(--card)) var(--tw-gradient-to-position);
+
+        & .right {
+            background-color: hsl(var(--muted));
+            color: hsl(var(--muted-foreground));
+        }
+    }
+
+    &.is-reworkRate {
+        background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+        --tw-gradient-from: hsl(var(--destructive) / .2) var(--tw-gradient-from-position);
+        --tw-gradient-to: hsl(var(--destructive) / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+        --tw-gradient-to: hsl(var(--destructive) / .05) var(--tw-gradient-to-position);
+
+        & .right {
+            background-color: hsl(var(--destructive) / .2);
+            color: hsl(var(--destructive));
+        }
+    }
 }
 
 .dashboard__header__container__widgetCard--info {
@@ -157,6 +112,10 @@
         display: flex;
         align-items: center;
         gap: .25rem;
+
+        &.is-negative {
+            color: hsl(var(--destructive)) !important;
+        }
     }
 
     & .right {
@@ -190,6 +149,48 @@
     border-color: hsl(var(--status-pending) / .5);
     background-color: hsl(var(--status-pending) / .05);
     color: hsl(var(--card-foreground));
+
+    &.is-pending {
+        border-color: hsl(var(--status-pending) / .5);
+        background-color: hsl(var(--status-pending) / .05);
+
+        & .left {
+            background-color: hsl(var(--status-pending) / .2);
+            color: hsl(var(--status-pending)) !important;
+        }
+
+        & .middle .title {
+            color: hsl(var(--status-pending)) !important;
+        }
+    }
+
+    &.is-destructive {
+        border-color: hsl(var(--destructive) / .5);
+        background-color: hsl(var(--destructive) / .05);
+
+        & .left {
+            background-color: hsl(var(--destructive) / .2);
+            color: hsl(var(--destructive)) !important;
+        }
+
+        & .middle .title {
+            color: hsl(var(--destructive)) !important;
+        }
+    }
+
+    &.is-secondary {
+        border-color: hsl(var(--secondary) / .5);
+        background-color: hsl(var(--secondary) / .05);
+
+        & .left {
+            background-color: hsl(var(--secondary) / .2);
+            color: hsl(var(--secondary)) !important;
+        }
+
+        & .middle .title {
+            color: hsl(var(--secondary)) !important;
+        }
+    }
 }
 
 .dashboard__extraHeader__container__widgetCard--info {
@@ -205,11 +206,11 @@
         height: 2.25rem;
         width: 2.25rem;
         border-radius: var(--radius);
-        background-color: hsl(var(--status-pending) / .2);
     }
 
     & .middle {
         flex: 1 1 0%;
+        color: hsl(var(--muted-foreground));
     }
 
     & .right {
@@ -244,8 +245,13 @@
     }
 } */
 
-/* @media (min-width: 768px) {
-.dashboard__header--container {
+@media (max-width: 1280px) {
+    .dashboard__header--container {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-} */
+
+    .dashboard__extraHeader--container {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+}

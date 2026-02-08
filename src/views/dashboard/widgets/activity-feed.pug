@@ -1,82 +1,151 @@
 //- =====================================================
 //- ./src/views/dashboard/widgets/activity-feed.pug
 //- =====================================================
-mixin activityFeed(activities)
-    if !activities || activities.length === 0
-        div.activity-feed-empty(
-            role="status"
-            aria-live="polite"
-        )
-            p Keine Aktivitäten vorhanden.
-            small Das System ist aktuell ruhig. Verdächtig ruhig.
+mixin activity(activities)
 
-    else
-        ul.activity-feed(
-            role="list"
-        )
-            each event in activities
-                -
-                    const type = event.type || 'system';
-                    const severity = event.severity || 'info';
 
-                    const icons = {
-                        device: '📱',
-                        workflow: '🔁',
-                        qc: '🧪',
-                        system: '⚙️',
-                        user: '👤',
-                        part: '🧩'
-                    };
+    .dashboard__main--container
+        .dashboard__main__container--left
+            .header
+                h3
+                button(type="button")
+            .main--activityContainer
+                //- each item in activity
+                .activity--article
+                    .activity__article--iconBox
+                        i.far.fa-mobile.fa-lg
+                    .activity__article--deviceInfo
+                        p iPhone 14 Pro 
+                        p 353456789012345
+                    .activity__article--badgeInfo Repair
+                    .activity__article--timeInfo 
+                        i.far.fa-clock
+                        | 08/01/2026
 
-                    const severityLabels = {
-                        info: 'Info',
-                        success: 'Erfolg',
-                        warning: 'Warnung',
-                        error: 'Fehler',
-                        critical: 'Kritisch'
-                    };
+        .dashboard__main__container--right
+            .widgetCard--first 
+                .header
+                    h3.title Workflow Status
+                .main
+                    .section--first
+                        //- each item in workflow
+                        .workflow--article
+                            .workflow__article--badgeInfo Goods Receipt 
+                            .workflow__article--counter
+                    .section--second
+                        p.subtitle Completed Today
+                        p.title 0
+            .widgetCard--second
+                .header
+                    h3.title
+                        i.far.fa-users.fa-lg
+                        | Technician Workload
+                .main
+                    .workload--article
+                        //- each item in workload
+                        .workload__article--userInfo
+                            .user--icon SW
+                            .user--extraInfo
+                                p.user__extraInfo--name Sam Williams
+                                .user__extraInfo--activity 
+                                    span
+                                        i.far.fa-wrench.fa-sm
+                                        | 1
+                                        | active
+                                    span
+                                        i.far.fa-circle-check.fa-sm
+                                        | 0
+                                        | today
+                        .workload__article--progress
+                            .progress-bar#progress
 
-                li.activity-event(
-                    role="listitem"
-                    class=`type-${type} severity-${severity}`
-                    aria-label=`${severityLabels[severity]} Ereignis`
-                )
-                    // ===== Event Icon =====
-                    div.event-icon(
-                        aria-hidden="true"
-                    )
-                        span= icons[type] || '•'
 
-                    // ===== Event Body =====
-                    div.event-body
-                        // --- Header ---
-                        div.event-header
-                            span.event-type= type.toUpperCase()
-                            span.event-severity(
-                                class=`sev-${severity}`
-                            )= severityLabels[severity]
 
-                        // --- Message ---
-                        p.event-message
-                            = event.message || 'Keine Beschreibung verfügbar.'
 
-                        // --- Meta Information ---
-                        div.event-meta
-                            if event.deviceId
-                                span.meta-item
-                                    strong Gerät:
-                                    |  #{event.deviceId}
-                            if event.technician
-                                span.meta-item
-                                    strong Techniker:
-                                    |  #{event.technician}
-                            if event.part
-                                span.meta-item
-                                    strong Teil:
-                                    |  #{event.part}
 
-                        // --- Timestamp ---
-                        time.event-time(
-                            datetime=event.timestamp
-                        )
-                            = event.timeFormatted || event.timestamp
+
+
+
+
+
+
+
+
+    //- if !activities || activities.length === 0
+    //-     div.activity-feed-empty(
+    //-         role="status"
+    //-         aria-live="polite"
+    //-     )
+    //-         p Keine Aktivitäten vorhanden.
+    //-         small Das System ist aktuell ruhig. Verdächtig ruhig.
+
+    //- else
+    //-     ul.activity-feed(
+    //-         role="list"
+    //-     )
+    //-         each event in activities
+    //-             -
+    //-                 const type = event.type || 'system';
+    //-                 const severity = event.severity || 'info';
+
+    //-                 const icons = {
+    //-                     device: '📱',
+    //-                     workflow: '🔁',
+    //-                     qc: '🧪',
+    //-                     system: '⚙️',
+    //-                     user: '👤',
+    //-                     part: '🧩'
+    //-                 };
+
+    //-                 const severityLabels = {
+    //-                     info: 'Info',
+    //-                     success: 'Erfolg',
+    //-                     warning: 'Warnung',
+    //-                     error: 'Fehler',
+    //-                     critical: 'Kritisch'
+    //-                 };
+
+    //-             li.activity-event(
+    //-                 role="listitem"
+    //-                 class=`type-${type} severity-${severity}`
+    //-                 aria-label=`${severityLabels[severity]} Ereignis`
+    //-             )
+    //-                 // ===== Event Icon =====
+    //-                 div.event-icon(
+    //-                     aria-hidden="true"
+    //-                 )
+    //-                     span= icons[type] || '•'
+
+    //-                 // ===== Event Body =====
+    //-                 div.event-body
+    //-                     // --- Header ---
+    //-                     div.event-header
+    //-                         span.event-type= type.toUpperCase()
+    //-                         span.event-severity(
+    //-                             class=`sev-${severity}`
+    //-                         )= severityLabels[severity]
+
+    //-                     // --- Message ---
+    //-                     p.event-message
+    //-                         = event.message || 'Keine Beschreibung verfügbar.'
+
+    //-                     // --- Meta Information ---
+    //-                     div.event-meta
+    //-                         if event.deviceId
+    //-                             span.meta-item
+    //-                                 strong Gerät:
+    //-                                 |  #{event.deviceId}
+    //-                         if event.technician
+    //-                             span.meta-item
+    //-                                 strong Techniker:
+    //-                                 |  #{event.technician}
+    //-                         if event.part
+    //-                             span.meta-item
+    //-                                 strong Teil:
+    //-                                 |  #{event.part}
+
+    //-                     // --- Timestamp ---
+    //-                     time.event-time(
+    //-                         datetime=event.timestamp
+    //-                     )
+    //-                         = event.timeFormatted || event.timestamp

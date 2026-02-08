@@ -1,18 +1,18 @@
 extends ../layout/app.pug
 
-include widgets/device-stats.pug
-include widgets/job-queue.pug
-include widgets/alerts.pug
-include widgets/plenty-blocker.pug
+include widgets/stats.pug
+include widgets/activity-feed.pug
+//- include widgets/job-queue.pug
+//- include widgets/alerts.pug
+//- include widgets/plenty-blocker.pug
 
 block head
     link(rel="stylesheet", href="/css/index.css")
 
 block content
     .dashboard(role="main", aria-label="RepairTech")
-        +deviceStats(deviceStats)
-        +jobQueue()
-        
+        +stats(stats, jobQueue)
+        +activity(activities)
 
 
 

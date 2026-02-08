@@ -186,37 +186,59 @@ app.get('/dashboard', (req, res) => {
             role: "admin", // admin | goods_receiving | technician | qc_inspector | analyzer | default
             email: "test@gmx.de"
         },
-        deviceStats: {
-            total: 128,
-            inRepair: 34,
-            inQC: 12,
-            blocked: 7,
-            done: 75
-        },
-        jobQueue: [
-            {
-                title: 'Displaytausch',
-                deviceId: 'IMEI-356789112233445',
-                technician: 'Nikolai',
-                priority: 'high',        // low | normal | high | critical
-                status: 'active',        // pending | active | blocked | done
-                sla: 'warning',          // ok | warning | overdue
-                slaDue: '2026-01-22T14:30:00Z',
-                slaFormatted: 'in 2h',
-                action: {
-                    label: 'Job öffnen',
-                    url: '/devices/123'
-                }
+        stats: {
+            devices: {
+                total: 183
             },
-            {
-                title: 'Diagnose – Bootloop',
-                deviceId: 'SN-A1B2C3D4',
-                technician: 'Alex',
-                priority: 'normal',
-                status: 'pending',
-                sla: 'ok'
+            repair: {
+                total: 14,
+                progress: "negative",
+                percent: 3
+            },
+            quickCheck: {
+                total: 7
+            },
+            reworkRate: {
+                total: 2,
+                percent: 1,
+                progress: "negative"
             }
-        ],
+        },
+        jobQueue: {
+            unsynced: {
+                total: 4
+            },
+            lowStock: {
+                total: 3
+            },
+            discrepancies: {
+                total: 0
+            }
+        },
+        // jobQueue: [
+        //     {
+        //         title: 'Displaytausch',
+        //         deviceId: 'IMEI-356789112233445',
+        //         technician: 'Nikolai',
+        //         priority: 'high',        // low | normal | high | critical
+        //         status: 'active',        // pending | active | blocked | done
+        //         sla: 'warning',          // ok | warning | overdue
+        //         slaDue: '2026-01-22T14:30:00Z',
+        //         slaFormatted: 'in 2h',
+        //         action: {
+        //             label: 'Job öffnen',
+        //             url: '/devices/123'
+        //         }
+        //     },
+        //     {
+        //         title: 'Diagnose – Bootloop',
+        //         deviceId: 'SN-A1B2C3D4',
+        //         technician: 'Alex',
+        //         priority: 'normal',
+        //         status: 'pending',
+        //         sla: 'ok'
+        //     }
+        // ],
         alerts: [
             {
                 level: 'warning',        // info | warning | error | critical
@@ -282,7 +304,71 @@ app.get('/activity', (req, res) => {
         user: {
             name: "Mamamia",
             role: "admin"
-        }
+        },
+        activities: [
+            {
+                type: "device",
+                severity: "info",
+                message: "Gerät wurde im Wareneingang erfasst.",
+                deviceId: "IMEI 356938035643809",
+                technician: "Alex",
+                timestamp: "2026-02-08T18:12:43.000Z",
+                timeFormatted: "vor 5 Minuten"
+            },
+            {
+                type: "workflow",
+                severity: "success",
+                message: "Statuswechsel von Diagnose zu Reparatur durchgeführt.",
+                deviceId: "IMEI 356938035643809",
+                technician: "Alex",
+                timestamp: "2026-02-08T17:55:10.000Z",
+                timeFormatted: "vor 22 Minuten"
+            },
+            {
+                type: "part",
+                severity: "warning",
+                message: "Ersatzteil wurde verbaut, passt nicht zum Gerätemodell.",
+                deviceId: "IMEI 352099001234567",
+                technician: "Murat",
+                part: "Display iPhone 11",
+                timestamp: "2026-02-08T16:41:02.000Z",
+                timeFormatted: "vor 1 Stunde"
+            },
+            {
+                type: "qc",
+                severity: "error",
+                message: "QC fehlgeschlagen: Touch reagiert nicht im unteren Bereich.",
+                deviceId: "IMEI 352099001234567",
+                technician: "Murat",
+                timestamp: "2026-02-08T15:18:27.000Z",
+                timeFormatted: "vor 2 Stunden"
+            },
+            {
+                type: "workflow",
+                severity: "critical",
+                message: "Gerät erneut in Reparatur zurückgeführt (Rework erkannt).",
+                deviceId: "IMEI 352099001234567",
+                technician: "Murat",
+                timestamp: "2026-02-08T15:20:01.000Z",
+                timeFormatted: "vor 2 Stunden"
+            },
+            {
+                type: "system",
+                severity: "info",
+                message: "Plenty-Sync ausstehend: Gerät lokal erfasst, aber nicht übertragen.",
+                deviceId: "IMEI 359881234567890",
+                timestamp: "2026-02-08T14:03:55.000Z",
+                timeFormatted: "heute 14:03"
+            },
+            {
+                type: "user",
+                severity: "success",
+                message: "Techniker erfolgreich am Dashboard angemeldet.",
+                technician: "Nikolai",
+                timestamp: "2026-02-08T07:58:12.000Z",
+                timeFormatted: "heute 07:58"
+            }
+        ]
     });
 });
 
