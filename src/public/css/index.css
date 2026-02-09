@@ -234,7 +234,34 @@
     }
 }
 
+.dashboard__main--container {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
 
+}
+
+.dashboard__main__container--left {
+    border-radius: var(--radius);
+    border-width: 1px;
+    background-color: hsl(var(--card));
+    color: hsl(var(--card-foreground));
+
+    --tw-shadow: var(--shadow-sm);
+    --tw-shadow-colored: var(--shadow-sm);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+
+    & .header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.5rem;
+    }
+}
 
 
 
