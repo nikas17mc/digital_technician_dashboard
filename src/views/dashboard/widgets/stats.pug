@@ -5,25 +5,26 @@ mixin stats(stats, jobQueue)
     - var defaultJobQueue = {unsynced: {key: 'pending', icon: "fa-arrows-rotate", total: 2, title: "Unsynced", subTitle: "Device need Plenty Sync", url: "/sync"}, lowStock: {key: 'destructive', icon: "fa-box", total: 1, title: "Low Stock", subTitle: "Parts need recorder", url: "/parts"}, discrepancies: {key: 'secondary', icon: "fa-arrow-up-right", total: 2, title: "Discrepancies", subTitle: "Inventory mismatches", url: "/reports"}}
     - var deepMerge = (d, s) => {for(var p in s) {try {if (s[p].constructor == Object){d[p] = deepMerge(d[p], s[p]);} else {d[p] = s[p];};} catch(e) {d[p] = s[p];}}return d;};
 
-    .dashboard__header--container
+    .dashboard-header
         each item in deepMerge(defaultStats, stats)
-            .dashboard__header__container--widgetCard(class=`is-${item.key}`)
-                .dashboard__header__container__widgetCard--info
-                    .left
-                        p.left--title= item.title
-                        p.left--counter(data-animation-counter)= item.total
-                        .left--extraInfo(class=`is-${item.progress}`)
+            .dashboard-header__widget(class=`is-${item.key}`)
+                .dashboard-header__widget-content
+                    .widget-metric
+                        p.widget-metric__title= item.title
+                        p.widget-metric__value(data-animation-counter)= item.total
+                        .widget-metric__trend(class=`is-${item.progress}`)
                             i(class=`far fa-arrow-${item.progress === 'positive' ? 'up' : 'down'}-right fa-lg`)
-                            span.left__extraInfo--chartShow(class=`is-${item.progress}`) #{item.percent}% from yesterday
-                    .right
+                            span(class=`is-${item.progress}`).widget-metric__trend-label
+                                | #{item.percent}% from yesterday
+                    .widget-icon
                         i(class=`far ${item.icon} fa-lg`)
-    .dashboard__extraHeader--container
+    .dashboard-subheader
         each item in deepMerge(defaultJobQueue, jobQueue)
-            .dashboard__extraHeader__container--widgetCard(class=`is-${item.key}`)
-                .dashboard__extraHeader__container__widgetCard--info
-                    .left
+            .dashboard-subheader__widget(class=`is-${item.key}`)
+                .dashboard-subheader__widget-content
+                    .widget-icon
                         i(class=`far ${item.icon} fa-lg`)
-                    .middle 
-                        p.title= `${item.total+" "+item.title}`
-                        p.subtitle= `${item.subTitle}`
-                    button.right(type="submit" formaction=`${item.url}` disabled=`${item.total !== 0 ? 'false' : 'true'}`) View
+                    .widget-summary
+                        p.widget-summary__title= `${item.total + " " + item.title}`
+                        p.widget-summary__subtitle= `${item.subTitle}`
+                    button.widget-action(type="submit" formaction=`${item.url}` disabled=`${item.total !== 0 ? 'false' : 'true'}`) View

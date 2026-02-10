@@ -4,61 +4,71 @@
 mixin activity(activities)
 
 
-    .dashboard__main--container
-        .dashboard__main__container--left
-            .header
-                h3.title Recent Device Activity
-                button(type="button") View All
+    .dashboard-main
+        .dashboard-main__column--left
+            .section-header
+                h3.section-header__title Recent Device Activity
+                button.section-header__action(type="button" data-open-link="/devices")
+                    | View All
                     i.far.fa-arrow-right.fa-lg
-            .main--activityContainer
+            .activity-list
                 //- each item in activity
-                .activity--article
-                    .activity__article--iconBox
+                .activity-item(data-open-url=``)
+                    .activity-item__icon
                         i.far.fa-mobile.fa-lg
-                    .activity__article--deviceInfo
-                        p iPhone 14 Pro 
-                        p 353456789012345
-                    .activity__article--badgeInfo Repair
-                    .activity__article--timeInfo 
+                    .activity-item__device
+                        p.activity-item__device-title iPhone 14 Pro 
+                        p.activity-item__device-subtitle 353456789012345
+                    .activity-item__status Repair
+                    .activity-item__timestamp
                         i.far.fa-clock.fa-sm
                         | 08/01/2026
-
-        .dashboard__main__container--right
-            .widgetCard--first 
-                .header
-                    h3.title Workflow Status
-                .main
-                    .section--first
-                        //- each item in workflow
-                        .workflow--article
-                            .workflow__article--badgeInfo Goods Receipt 
-                            .workflow__article--counter
-                    .section--second
-                        p.subtitle Completed Today
-                        p.title 0
-            .widgetCard--second
-                .header
-                    h3.title
+                .activity-item(data-open-url=``)
+                    .activity-item__icon
+                        i.far.fa-mobile.fa-lg
+                    .activity-item__device
+                        p.activity-item__device-title iPhone 14 Pro 
+                        p.activity-item__device-subtitle 353456789012345
+                    .activity-item__status Repair
+                    .activity-item__timestamp
+                        i.far.fa-clock.fa-sm
+                        | 08/01/2026
+        .dashboard-main__column--right
+            .widget.widget--workflow
+                .section-header
+                    h3.section-header__title Workflow Status
+                .workflow-list
+                    //- each item in workflow
+                    .workflow-item
+                        .workflow-item__status Goods Receipt
+                        .workflow-item__count
+                .workflow-summary
+                    p.workflow-summary__label Completed Today
+                    p.workflow-summary__value 0
+            .widget.widget--workload
+                .section-header
+                    h3.section-header__title
                         i.far.fa-users.fa-lg
                         | Technician Workload
-                .main
-                    .workload--article
-                        //- each item in workload
-                        .workload__article--userInfo
-                            .user--icon SW
-                            .user--extraInfo
-                                p.user__extraInfo--name Sam Williams
-                                .user__extraInfo--activity 
-                                    span
-                                        i.far.fa-wrench.fa-sm
-                                        | 1
-                                        | active
-                                    span
-                                        i.far.fa-circle-check.fa-sm
-                                        | 0
-                                        | today
-                        .workload__article--progress
-                            .progress-bar#progress
+                .workload-item
+                    //- each item in workload
+                    .workload-item__user
+                        .user-avatar SW
+                        .user-meta
+                            p.user-meta__name Sam Williams
+                            .user-meta__stats
+                                span
+                                    i.far.fa-wrench.fa-sm
+                                    | 1
+                                    | active
+                                span
+                                    i.far.fa-circle-check.fa-sm
+                                    | 0
+                                    | today
+
+                    .workload-item__progress
+                        .progress-bar#workload-progress
+
 
 
 
