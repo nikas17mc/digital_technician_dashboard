@@ -11,30 +11,29 @@ mixin sidebar(options)
     - var getBadgeCount = (badgeType) => { if (badgeType === "rework" ) return stats.reworkRate; if (badgeType === "sync") return stats.unsyncedDevices; }
 
     .sidebar__header
-        .sidebar__header--logo
+        .sidebar__logo
             i.far.fa-wrench.fa-lg
-        .sidebar__header--box
-            .sidebar__header__box--headline RepairTech
-            .sidebar__header__box--paragraph Dashboard
-        button.sidebar__header--resizer(data-sidebar-resizer)
+        .sidebar__brand
+            .sidebar__brand-title RepairTech
+            .sidebar__brand-subtitle Dashboard
+        button.sidebar__resizer(data-sidebar-resizer)
             i.far.fa-sidebar.fa-lg
 
     nav.sidebar__nav(role="navigation" aria-label="Hauptnavigation")
         each item in filteredNav
             - var isActive = activePath === item.href;
             //- - var badgeCount = getBadgeCount(item.badge);
-            a.sidebar__nav--link(href=item.href class=isActive ? "--is-active" : "")
-                span.sidebar__nav__link--icon
+            a.sidebar__nav-link(href=item.href class=isActive ? "is-active" : "")
+                span.sidebar__nav-icon
                     i(class=item.icon)
-                span.sidebar__nav__link--name= item.name
+                span.sidebar__nav-label= item.name
                 if (badgeCount == !null)
-                    div.sidebar__nav__link--badge(class=(item.badge === "rework") ? "--desctructive" : "--secondary")= badgeCount
+                    div.sidebar__nav-badge(class=(item.badge === "rework") ? "is-destructive" : "is-secondary")= badgeCount
     .sidebar__footer
-        .sidebar__footer--user
-            .sidebar__footer__user--logo DE
-
-            .sidebar__footer__user--info
-                .sidebar__footer__user__info--name Default User
-                .sidebar__footer__user__info--role Administrator
-            button.sidebar__footer__user--logout
+        .sidebar__user
+            .sidebar__user-avatar DE
+            .sidebar__user-info
+                .sidebar__user-name Default User
+                .sidebar__user-role Administrator
+            button.sidebar__logout
                 i.far.fa-arrow-right-from-bracket.fa-lg

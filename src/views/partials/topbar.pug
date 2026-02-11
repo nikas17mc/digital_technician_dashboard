@@ -14,28 +14,29 @@ mixin topbar(options)
 
     .topbar__header
         if currentHeadline
-            h1.topbar__header--headline
+            h1.topbar__title
                 | #{currentHeadline.heading}
                 if options.activePath === "/dashboard"
                     | #{user.firstName}
-
-            p.topbar__header--paragraph
+            p.topbar__subtitle
                 | #{currentHeadline.paragraph}
                 if options.activePath === "/dashboard"
                     |  #{weekday}, #{month} #{dayNumber}
     .topbar__spacer
     .topbar__search
-        i.far.fa-lg.fa-magnifying-glass.topbar__search--icon
-        input(type="text" placeholder="Search devices, IMEI...").topbar__search--input
+        i.far.fa-lg.fa-magnifying-glass.topbar__search-icon
+        input(type="text" placeholder="Search devices, IMEI...").topbar__search-input
     .topbar__sync
-        .topbar__sync--info
-            .topbar__sync__info--indicator
-            span.topbar__sync__info--text#syncSpanText Synced 21:22
-        button(type="button").topbar__sync--button
+        .topbar__sync-status
+            .topbar__sync-indicator
+            span.topbar__sync-text#syncSpanText Synced 21:22
+        button(type="button").topbar__sync-button
             i.far.fa-arrows-rotate.fa-lg
-    button.topbar__notification--button
+
+    button.topbar__notification-button
         i.far.fa-lg.fa-bell
-        .topbar__notification__button--messageCounter#messageCounter 3
-    button.topbar__themeSwitcher--button(data-theme-switcher)
+        .topbar__notification-badge#messageCounter 3
+
+    button.topbar__theme-toggle(data-theme-switcher)
         i.far.fa-sun.fa-lg
-        span.topbar__themeSwitcher__button--potter Nox!
+        span.topbar__theme-label Nox!
