@@ -8,7 +8,7 @@ mixin sidebar(options)
     - var navigation = [{ name: 'Dashboard', href: '/dashboard', icon: "far fa-cubes fa-lg", roles: ['admin', 'goods_receiving', 'technician', 'qc_inspector', 'analyzer', 'default'] },{ name: 'Devices', href: '/devices', icon: "far fa-mobile fa-lg", roles: ['admin', 'goods_receiving', 'technician', 'qc_inspector', 'analyzer'] },{ name: 'Repairs', href: '/repairs', icon: "far fa-wrench fa-lg", roles: ['admin', 'technician'] },{ name: 'Quality Check', href: '/qc', icon: "far fa-clipboard fa-lg", roles: ['admin', 'qc_inspector'] },{ name: 'Rework Analysis', href: '/rework', icon: "far fa-triangle-exclamation fa-lg", roles: ['admin', 'analyzer'], badge: 'rework' },{ name: 'Parts Inventory', href: '/parts', icon: "far fa-box fa-lg", roles: ['admin', 'technician'] },{ name: 'Reports', href: '/reports', icon: "far fa-chart-column fa-lg", roles: ['admin', 'analyzer'] },{ name: 'Plenty Sync', href: '/sync', icon: "far fa-arrows-rotate fa-lg", roles: ['admin', 'goods_receiving'], badge: 'sync' },{ name: 'Users', href: '/users', icon: "far fa-users fa-lg", roles: ['admin'] },{ name: 'Settings', href: '/settings', icon: "far fa-gear fa-lg", roles: ['admin'] }];
     - var userRole = options.role || (user && user.role) || "guest"
     - var filteredNav = navigation.filter(item => { if (!user) return item.roles.includes('default'); return item.roles.includes(userRole); });
-    - var getBadgeCount = (badgeType) => { if (badgeType === "rework" ) return stats.reworkRate; if (badgeType === "sync") return stats.unsyncedDevices; }
+    - var getBadgeCount = (badgeType) => { if (badgeType === "rework" ) return stats.reworkRate.total; if (badgeType === "sync") return jobQueue.unsynced.total; }
 
     .sidebar__header
         .sidebar__logo
@@ -22,12 +22,12 @@ mixin sidebar(options)
     nav.sidebar__nav(role="navigation" aria-label="Hauptnavigation")
         each item in filteredNav
             - var isActive = activePath === item.href;
-            //- - var badgeCount = getBadgeCount(item.badge);
-            a.sidebar__nav-link(href=item.href class=isActive ? "is-active" : "")
+            - var badgeCount = getBadgeCount(item.badge);
+            a.sidebar__nav-link(href=item.href hx-get=item.href hx-target="#app-content" hx-push-url="true" hx-swap="innerHTML" class=isActive ? "is-active" : "")
                 span.sidebar__nav-icon
                     i(class=item.icon)
                 span.sidebar__nav-label= item.name
-                if (badgeCount == !null)
+                if (badgeCount > 0)
                     div.sidebar__nav-badge(class=(item.badge === "rework") ? "is-destructive" : "is-secondary")= badgeCount
     .sidebar__footer
         .sidebar__user

@@ -1,7 +1,7 @@
 //- ./src/views/dashboard/widgets/device-stats.pug
 
 mixin stats(stats, jobQueue)
-    - var defaultStats = {devices: {key: 'primary',title: 'Total Devices',total: 0,progress: 'positive',percent: 12,icon: 'fa-mobile'},repair: {key: 'pending',title: 'In Repair',total: 0,progress: 'negative',percent: 5,icon: 'fa-wrench'},quickCheck: {key: 'quickCheck',title: 'Awaiting QC',total: 0,progress: 'positive',percent: 8,icon: 'fa-clipboard-check'},reworkRate: {key: 'reworkRate',title: 'Rework Rate',total: 0,progress: 'negative',percent: 2,icon: 'fa-triangle-exclamation'}};
+    - var defaultStats = {devices: {key: 'primary',title: 'Total Devices',total: 0,progress: 'positive',percent: 12,icon: 'fa-mobile'},repair: {key: 'pending',title: 'In Repair',total: 0,progress: 'negative',percent: 5,icon: 'fa-wrench'},quickCheck: {key: 'quickCheck',title: 'Awaiting QC',total: 0,progress: 'positive',percent: 8,icon: 'fa-clipboard-check'},reworkRate: {key: 'reworkRate',title: 'Rework Rate',total: "0.0%",progress: 'negative',percent: 2,icon: 'fa-triangle-exclamation'}};
     - var defaultJobQueue = {unsynced: {key: 'pending', icon: "fa-arrows-rotate", total: 2, title: "Unsynced", subTitle: "Device need Plenty Sync", url: "/sync"}, lowStock: {key: 'destructive', icon: "fa-box", total: 1, title: "Low Stock", subTitle: "Parts need recorder", url: "/parts"}, discrepancies: {key: 'secondary', icon: "fa-arrow-up-right", total: 2, title: "Discrepancies", subTitle: "Inventory mismatches", url: "/reports"}}
     - var deepMerge = (d, s) => {for(var p in s) {try {if (s[p].constructor == Object){d[p] = deepMerge(d[p], s[p]);} else {d[p] = s[p];};} catch(e) {d[p] = s[p];}}return d;};
 
@@ -26,5 +26,5 @@ mixin stats(stats, jobQueue)
                         i(class=`far ${item.icon} fa-lg`)
                     .widget-summary
                         p.widget-summary__title= `${item.total + " " + item.title}`
-                        p.widget-summary__subtitle= `${item.subTitle}`
-                    button.widget-action(type="submit" formaction=`${item.url}` disabled=`${item.total !== 0 ? 'false' : 'true'}`) View
+                        p.widget-summary__subtitle= item.subTitle
+                    button.widget-action(type="submit" data-open-url=item.url disabled=item.total === 0) View

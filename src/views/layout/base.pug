@@ -66,8 +66,10 @@ html(lang=locale || "de")
 
         link(rel="preload" href="/css/style.css" as="style")
         link(rel="preload" href="/css/app.css" as="style")
+        //- script(src="/script/vendor/htmx@1-9-12.js" defer)
 
         // optional: App-Script nur vorladen, nicht erzwingen
+        //- script(rel="preload" src="/script/vendor/htmx@1-9-12.js" as="script")
         block preloadScripts
 
         // -------------------------------------------------
@@ -99,6 +101,7 @@ html(lang=locale || "de")
     // =====================================================
     block body
         body(class=bodyClass || "")
+            div#progress-bar.progress-bar
 
             // -------------------------------------------------
             // App Root

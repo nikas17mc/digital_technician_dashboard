@@ -13,6 +13,9 @@ include ../partials/footer.pug
 //- BODY / APP WRAPPER
 //- =====================================================
 block body
+    //- if isHX
+    //-     block content
+    //- else
     body.app-layout(data-layout="app")#root
         //- Notifications (global, overlayfähig)
         block notifications
@@ -35,7 +38,7 @@ block body
                         user
                     })
                 //- Seiteninhalt
-                main.app-content
+                main.app-content#app-content
                     block content
                         //- Default Fallback
                         p App-Content nicht definiert.

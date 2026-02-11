@@ -150,6 +150,7 @@ app.use((req, res, next) => {
     res.locals.env = process.env.NODE_ENV || 'development';
     res.locals.year = new Date().getFullYear();
     res.locals.user = req.session && req.session.user ? req.session.user : null;
+    // res.locals.isHX = req.headers["hx-request"] === "true";
     next();
 });
 
@@ -199,7 +200,7 @@ app.get('/dashboard', (req, res) => {
                 total: 7
             },
             reworkRate: {
-                total: 2,
+                total: 25.0,
                 percent: 1,
                 progress: "negative"
             }

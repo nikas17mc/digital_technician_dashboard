@@ -429,6 +429,24 @@ pre {
 }
 
 /* -----------------------------------------------------
+    Progress Bar for HTMX Preload Function
+   ----------------------------------------------------- */
+.progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: var(--color-primary);
+    transition: width 0.2s ease;
+    z-index: 9999;
+}
+
+.htmx-request .progress-bar {
+    width: 70%;
+}
+
+/* -----------------------------------------------------
     App Layout (app.pug)
    ----------------------------------------------------- */
 .app-layout .app-container {
@@ -625,7 +643,7 @@ pre {
         color: hsl(var(--sidebar-accent-foreground));
     }
 
-    &.--is-active {
+    &.is-active {
         color: hsl(var(--primary));
         background-color: hsl(var(--primary) / 0.1);
         box-shadow: var(--shadow-glow);
@@ -639,6 +657,37 @@ pre {
 
 .sidebar__nav-label {
     flex: 1 1 0%;
+}
+
+.sidebar__nav-badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 9999px;
+    padding: 0.125rem 0.625rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 600;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+    transition-duration: .15s;
+
+    &.is-destructive {
+        background-color: hsl(var(--destructive));
+        color: hsl(var(--destructive-foreground));
+
+        &:hover {
+            background-color: hsl(var(--destructive) / 0.8);
+        }
+    }
+
+    &.is-secondary {
+        background-color: hsl(var(--secondary));
+        color: hsl(var(--secondary-foreground));
+
+        &:hover {
+            background-color: hsl(var(--secondary) / 0.8);
+        }
+    }
 }
 
 .sidebar__footer {
