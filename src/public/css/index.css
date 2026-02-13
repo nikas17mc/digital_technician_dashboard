@@ -419,6 +419,42 @@
     }
 }
 
+.dashboard-main__column--right {
+
+    & .widget.widget--workflow {
+        border-radius: var(--radius);
+        border-width: 1px;
+        background-color: hsl(var(--card));
+        color: hsl(var(--card-foreground));
+        --tw-shadow: var(--shadow-sm);
+        --tw-shadow-colored: var(--shadow-sm);
+        box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+
+        & .section-header {
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+
+            & .section-header__title {
+                font-size: 1rem;
+                line-height: 1.5rem;
+                font-weight: 600;
+                letter-spacing: -0.025em;
+            }
+        }
+
+        & .workflow-list {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+
+            & .workflow-item:not(:first-child) {
+                
+            }
+        }
+    }
+
+    & .widget.widget--workload {}
+}
+
 
 
 
@@ -433,13 +469,17 @@
     }
 
     .dashboard-subheader {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(1, minmax(0, 1fr));
     }
 }
 
 @media (min-width: 1024px) {
     .dashboard-header {
         grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .dashboard-subheader {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .dashboard-main {

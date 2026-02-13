@@ -483,6 +483,10 @@ pre {
             display: none;
         }
 
+        .sidebar__nav {
+            overflow-x: hidden;
+        }
+
         .sidebar__nav-label {
             display: none;
         }
